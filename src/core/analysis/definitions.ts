@@ -104,7 +104,9 @@ const BOLD_TERM_BONUS = 0.05
 const BAD_TERM_START = new Set([
   'this', 'that', 'these', 'those', 'it', 'its', 'they', 'there', 'here', 'such', 'each', 'every', 'another',
   'other', 'some', 'many', 'most', 'which', 'what', 'who', 'our', 'your', 'their', 'his', 'her', 'my', 'both',
-  'all', 'one', 'first', 'second', 'next', 'last', 'following', 'above', 'below', 'example', 'note', 'however'
+  'all', 'one', 'first', 'second', 'next', 'last', 'following', 'above', 'below', 'example', 'note', 'however',
+  // Quantities and labels: "The majority of articulations are ...", "The term oblique is ..."
+  'majority', 'minority', 'number', 'amount', 'percentage', 'portion', 'remainder', 'rest', 'term', 'terms', 'word'
 ])
 /** Words that show the "term" is really a clause: "Testing cannot prove that software". */
 const CLAUSE_WORDS = new Set([
@@ -114,7 +116,8 @@ const CLAUSE_WORDS = new Set([
 /** Heads too generic to quiz on: "The goal is a ...", "The result is a ...". */
 const GENERIC_TERMS = new Set([
   'goal', 'result', 'purpose', 'idea', 'answer', 'reason', 'problem', 'solution', 'thing', 'way', 'aim', 'point',
-  'difference', 'advantage', 'disadvantage', 'benefit', 'output', 'outcome', 'focus', 'key', 'main', 'rule'
+  'difference', 'advantage', 'disadvantage', 'benefit', 'output', 'outcome', 'focus', 'key', 'main', 'rule',
+  'use', 'uses', 'function', 'role', 'part', 'type', 'kind', 'form', 'time', 'example', 'case', 'step', 'stage'
 ])
 
 /** A definition starting with these refers to something outside itself: "It is important to ...". */

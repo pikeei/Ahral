@@ -8,7 +8,8 @@ const WORDS = new Set([
   'this', 'book', 'a', 'is', 'used', 'for', 'determination', 'pulse', 'rate', 'arteries', 'patient', 'ten',
   'flow', 'file', 'trial', 'rial', 'in', 'and', 'with', 'fib', 'deep', 'veins', 'if', 'femoral', 'fi', 'wonder',
   'you', 'are', 'how', 'little', 'time', 'was', 'left', 'one', 'which', 'figure', 'shows', 'it', 'done',
-  'head', 'lead', 'read', 'here'
+  'head', 'lead', 'read', 'here', 'arti', 'acts', 'artifacts', 'image', 'ore', 'be', 'all', 'befall', 'will',
+  'right', 'so', 'befit', 'calculate', 'add', 'to'
 ])
 const repair = createRepairer({ missingLetters: ['f'], isWord: (w) => WORDS.has(w) })
 const fixed = (text: string) => repair(text).text
@@ -33,7 +34,8 @@ describe('repair: missing f and ligatures', () => {
     ['turns a lone "i" into "if" (not "fi", which is also a word)', 'wonder i you are', 'wonder if you are'],
     ['restores "ft" that came out as a bare "f"', 'how little time was lef.', 'how little time was left.'],
     ['restores a lost first letter when only one letter fits', 'the one hich is used', 'the one which is used'],
-    ['capitalizes a restored first letter at a sentence start', 'Done. igure 3 shows it.', 'Done. Figure 3 shows it.']
+    ['capitalizes a restored first letter at a sentence start', 'Done. igure 3 shows it.', 'Done. Figure 3 shows it.'],
+    ['joins two real words that are halves of one long word', 'image arti acts and be ore', 'image artifacts and before']
   ])('%s', (_name, input, expected) => {
     expect(fixed(input)).toBe(expected)
   })
@@ -47,6 +49,10 @@ describe('repair: leaves good text alone', () => {
     ['short fragments are not given a leading T', 'rial'],
     ['answer-option letters ("fib" is a word, but "(B)" must stay)', '(B) Deep arteries (D) Deep veins'],
     ['a lost first letter that several letters could fill', 'the ead is here'],
+    ['two function words side by side ("be all" is not "befall")', 'it will be all right'],
+    ['two real words whose join would be short ("be it" is not "befit")', 'so be it'],
+    ['a lone "o" at a sentence start (could be "To" or "Of")', 'Done. o calculate it, add.'],
+    ['abbreviations with single letters', 'add it (i.e., e.g. this) to the book'],
     ['text without letters', '1, 2, and 3 (A)']
   ])('%s', (_name, input) => {
     expect(fixed(input)).toBe(input)

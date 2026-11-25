@@ -5,7 +5,7 @@ import wordListPath from 'word-list'
 import { extractDocument, type ExtractedDocument } from '../../src/core/extract'
 
 /** Loads the offline English word list (about 274k lowercase words) into a Set. */
-async function loadDictionary(): Promise<Set<string>> {
+export async function loadDictionary(): Promise<Set<string>> {
   const text = await readFile(wordListPath, 'utf8')
   return new Set(text.split(/\r?\n/))
 }

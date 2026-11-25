@@ -246,8 +246,10 @@ export function nounPhrases(tokens: Token[]): { key: string; text: string }[] {
   return phrases
 }
 
+/** "PACS", "MRI", "CT". Not roman numerals, and not ordinary words from ALL-CAPS headings ("TO", "AND"). */
 function isAcronym(token: Token): boolean {
-  return /^[\p{Lu}][\p{Lu}\d&]{1,7}s?$/u.test(token.text) && !/^[IVXLCDM]+$/.test(token.text)
+  if (!/^[\p{Lu}][\p{Lu}\d&]{1,7}s?$/u.test(token.text) || /^[IVXLCDM]+$/.test(token.text)) return false
+  return !STOPWORDS.has(token.text.toLowerCase())
 }
 
 /** Short bold fragments from body text. Bold sentences or headings are not terms. */

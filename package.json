@@ -16,7 +16,8 @@
     "dist": "electron-vite build && electron-builder --win",
     "extract": "tsx scripts/extract.mts",
     "sample-pdf": "tsx scripts/make-sample-pdf.mts",
-    "analyze": "tsx scripts/analyze.mts"
+    "analyze": "tsx scripts/analyze.mts",
+    "generate": "tsx scripts/generate.mts"
   },
   "devDependencies": {
     "@playwright/test": "^1.65.1",

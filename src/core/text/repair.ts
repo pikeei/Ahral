@@ -42,6 +42,17 @@ const MIN_LENGTH_FOR_LEADING_T = 4
 /** Shortest fragment that may get a lost first letter back ("hich" -> "which"). */
 const MIN_LENGTH_FOR_INITIAL = 3
 const SINGLE_LETTER_REPAIRS: Record<string, string> = { o: 'of', i: 'if' }
+/** Joining two known words is only trusted when the result is at least this long. */
+const MIN_JOINED_LENGTH = 6
+/** Short function words: two of them side by side are a normal phrase ("be all"), not a split word. */
+const FUNCTION_WORDS = new Set([
+  'a', 'an', 'the', 'be', 'is', 'it', 'in', 'on', 'at', 'to', 'of', 'or', 'and', 'as', 'by', 'for', 'all',
+  'out', 'up', 'so', 'no', 'not', 'we', 'he', 'she', 'you', 'they', 'his', 'her', 'its', 'our', 'can', 'may'
+])
+
+function bothFunctionWords(a: string, b: string): boolean {
+  return FUNCTION_WORDS.has(a.toLowerCase()) && FUNCTION_WORDS.has(b.toLowerCase())
+}
 
 export type Repairer = (text: string, context?: { startsSentence?: boolean }) => RepairResult
 
@@ -55,7 +66,8 @@ export function createRepairer(options: RepairOptions): Repairer {
 
   const repairWord = (word: string, sentenceStart: boolean): string | undefined => {
     // A lone letter is a fixed case: "o" -> "of", "i" -> "if" (never "fi", which is also a word).
-    if (word.length === 1) return brokenLigatures ? SINGLE_LETTER_REPAIRS[word] : undefined
+    // At a sentence start "o" is more likely "To" with a lost T, so it is left for the filter to catch.
+    if (word.length === 1) return brokenLigatures && !sentenceStart ? SINGLE_LETTER_REPAIRS[word] : undefined
 
     const lower = word.toLowerCase()
     const candidates: Candidate[] = []
@@ -118,9 +130,13 @@ export function createRepairer(options: RepairOptions): Repairer {
 
       const gap = pieces[i + 1]
       const next = pieces[i + 2]
-      if (gap === ' ' && next && isWordPiece(next) && (!isKnown(piece) || !isKnown(next))) {
+      if (gap === ' ' && next && isWordPiece(next)) {
+        const bothKnown = isKnown(piece) && isKnown(next)
         const joined = joinWords(piece, next)
-        if (joined) {
+        // Two real words can still be halves of one ("arti acts" -> "artifacts", "be ore" -> "before"),
+        // but only trust that for a long result and not for pairs like "be all" -> "befall".
+        const trustworthy = !bothKnown || (joined !== undefined && joined.length >= MIN_JOINED_LENGTH && !bothFunctionWords(piece, next))
+        if (joined && trustworthy) {
           out.push(joined)
           repairs++
           i += 2
@@ -128,7 +144,9 @@ export function createRepairer(options: RepairOptions): Repairer {
         }
       }
 
-      if (!isKnown(piece) && isRepairable(piece)) {
+      // A single letter followed by a period is an abbreviation or initial ("i.e.", "J. Smith").
+      const abbreviation = piece.length === 1 && gap?.startsWith('.')
+      if (!isKnown(piece) && isRepairable(piece) && !abbreviation) {
         const sentenceStart = isSentenceStart(out, startsSentence)
         const fixed = repairWord(piece, sentenceStart)
         if (fixed) {
