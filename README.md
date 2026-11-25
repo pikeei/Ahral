@@ -3,7 +3,21 @@
 An offline Windows desktop app that turns PDF reading material into practice exams
 using rule-based text analysis. No generative AI, no cloud, no paid services.
 
-> Status: Stage 5 (local database: imported documents, exams, attempts and history). Command line only; no exam UI yet.
+> Status: Stage 6 (desktop exam UI: import PDFs, take exams with feedback, results and history).
+> Not yet packaged as an installer; run it with `npm run dev`.
+
+## Using the app
+
+1. **Import PDF**: pick a PDF with selectable text. A long book takes about a minute, once;
+   the work runs in a background thread so the window stays responsive.
+2. **New exam**: choose the number of questions, the question types, optionally sections, and
+   whether near-miss spellings count.
+3. **Answer** each question: type the missing words, or pick an option (keys A–D or 1–4, Enter to
+   check). Feedback explains the answer with the sentence and page it comes from, and for a wrong
+   pick, what the option you chose actually describes.
+4. **Results** show your score by type and section, the sections to review, and every answer.
+   *Retake these questions* replays the same exam; the document page keeps your past attempts and
+   your weak sections across all of them.
 
 ## Stack
 
@@ -14,10 +28,12 @@ Vitest · Playwright · Biome · electron-builder
 
 ```
 src/
-  main/        Electron main process: database (db/), PDF import, IPC handlers
+  main/        Electron main process: database (db/), PDF import (in a worker thread),
+               exam service (grading happens here), IPC handlers with input checks
   preload/     Typed bridge that exposes `window.api` to the UI
-  renderer/    React UI (no Node access)
-  shared/      Types shared by main and renderer (the IPC contract)
+  renderer/    React UI (no Node access): library, exam setup, exam, results
+  shared/      Types shared by main and renderer (the IPC contract); answers never reach
+               the UI before the user has answered
   core/        Pure TypeScript logic, no Electron or DOM:
     pdf/         PDF.js adapter and layout analysis (lines, columns, headers, blocks, sections)
     text/        Normalization, sentence splitting, answer comparison, missing-letter repair
@@ -26,7 +42,7 @@ src/
     exam/        Seeded exam assembly, grading with explanations, scoring and weak sections
 tests/
   integration/ Golden-file test of the whole pipeline (see below)
-  e2e/         Playwright tests that launch the real desktop app
+  e2e/         Playwright tests that launch the real desktop app and run the full study loop
   fixtures/    Builders for test PDFs (generated, never committed as binaries)
 ```
 

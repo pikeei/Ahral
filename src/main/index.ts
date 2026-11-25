@@ -1,9 +1,9 @@
 import { join } from 'node:path'
 import type { DatabaseSync } from 'node:sqlite'
-import { app, BrowserWindow, ipcMain } from 'electron'
-import { type AppInfo, IpcChannels } from '../shared/api'
-import { getSqliteVersion, openDatabase } from './db/connection'
+import { app, BrowserWindow } from 'electron'
+import { openDatabase } from './db/connection'
 import { migrate } from './db/migrations'
+import { registerIpcHandlers } from './ipc'
 
 // Lets E2E tests run against a throwaway data folder instead of your real one.
 // Must be set before the app is ready.
@@ -43,19 +43,6 @@ function createWindow(): void {
   } else {
     void win.loadFile(join(__dirname, '../renderer/index.html'))
   }
-}
-
-function registerIpcHandlers(database: DatabaseSync): void {
-  ipcMain.handle(
-    IpcChannels.getAppInfo,
-    (): AppInfo => ({
-      appVersion: app.getVersion(),
-      electron: process.versions.electron,
-      node: process.versions.node,
-      chrome: process.versions.chrome,
-      sqlite: getSqliteVersion(database)
-    })
-  )
 }
 
 void app.whenReady().then(() => {

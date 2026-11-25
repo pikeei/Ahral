@@ -1,11 +1,8 @@
 import { createHash } from 'node:crypto'
 import type { DatabaseSync } from 'node:sqlite'
-import { analyzeDocument } from '../core/analysis/analyze'
-import { buildGlossary } from '../core/exam/grade'
-import { type ExtractOptions, extractDocument } from '../core/extract'
-import { generateQuestions } from '../core/generation/generate'
 import { PIPELINE_VERSION } from '../core/version'
 import { type DocumentContent, findDocumentBySha, insertDocument, replaceDocumentContent } from './db/documents'
+import { type PipelineOptions, runPipeline } from './pipeline'
 
 /*
  * Import: PDF bytes -> extraction -> analysis -> questions -> database.
@@ -20,9 +17,14 @@ export interface ImportSource {
   sourcePath?: string
 }
 
-export interface ImportOptions extends ExtractOptions {
+/** Runs the pipeline somewhere: in this thread by default, or in a worker (the desktop app). */
+export type Pipeline = (data: Uint8Array) => Promise<DocumentContent>
+
+export interface ImportOptions extends PipelineOptions {
   /** Regenerate even when the stored copy is up to date. */
   force?: boolean
+  /** Replaces the in-thread pipeline; `PipelineOptions` are then ignored. */
+  pipeline?: Pipeline
 }
 
 export type ImportStatus = 'imported' | 'regenerated' | 'unchanged'
@@ -51,8 +53,8 @@ export async function importPdf(
     }
   }
 
-  const { force: _force, ...extractOptions } = options
-  const content = await runPipeline(source.data.slice(), extractOptions)
+  const { force: _force, pipeline, ...pipelineOptions } = options
+  const content = await (pipeline ?? ((data) => runPipeline(data, pipelineOptions)))(source.data.slice())
   if (existing) {
     replaceDocumentContent(db, existing.id, PIPELINE_VERSION, content)
     return {
@@ -68,17 +70,4 @@ export async function importPdf(
     content
   )
   return { documentId, status: 'imported', questionCount: content.questions.length, warnings: content.warnings }
-}
-
-async function runPipeline(data: Uint8Array, options: ExtractOptions): Promise<DocumentContent> {
-  const doc = await extractDocument(data, options)
-  const analysis = analyzeDocument(doc)
-  const { questions } = generateQuestions(doc, analysis, options.isWord ? { isWord: options.isWord } : {})
-  return {
-    pageCount: doc.pageCount,
-    warnings: doc.warnings,
-    sections: doc.sections,
-    glossary: buildGlossary(analysis.definitions),
-    questions
-  }
 }

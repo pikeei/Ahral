@@ -1,49 +1,112 @@
 import { useEffect, useState } from 'react'
-import type { AppInfo } from '../../shared/api'
+import type { AppInfo, ExamSettings, ExamSummary, ExamView } from '../../shared/api'
+import { DocumentView } from './DocumentView'
+import { ExamRunner } from './ExamRunner'
+import { Library } from './Library'
+import { Results } from './Results'
 
-type State = { status: 'loading' } | { status: 'ready'; info: AppInfo } | { status: 'error'; message: string }
+type Screen =
+  | { name: 'library' }
+  | { name: 'document'; documentId: number }
+  | { name: 'exam'; exam: ExamView; settings: ExamSettings }
+  | { name: 'results'; summary: ExamSummary; settings: ExamSettings }
 
 export function App() {
-  const [state, setState] = useState<State>({ status: 'loading' })
+  const [screen, setScreen] = useState<Screen>({ name: 'library' })
+  const [info, setInfo] = useState<AppInfo | null>(null)
+  const [backendError, setBackendError] = useState<string | null>(null)
 
   useEffect(() => {
     window.api
       .getAppInfo()
-      .then((info) => setState({ status: 'ready', info }))
-      .catch((err: unknown) => setState({ status: 'error', message: String(err) }))
+      .then(setInfo)
+      .catch((err: unknown) => setBackendError(String(err)))
   }, [])
 
+  async function startExam(documentId: number, settings: ExamSettings) {
+    const exam = await window.api.startExam(documentId, settings)
+    setScreen({ name: 'exam', exam, settings })
+  }
+
+  const inExam = screen.name === 'exam'
+
   return (
-    <main className="min-h-screen bg-slate-50 p-8 text-slate-900">
-      <h1 className="text-3xl font-bold">Ahral</h1>
-      <p className="mt-1 text-slate-600">Turn PDF reading material into practice exams — offline, no AI.</p>
+    <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900">
+      <header className="border-b border-slate-200 bg-white">
+        <div className="mx-auto flex max-w-3xl items-center gap-4 px-6 py-3">
+          <h1 className="text-xl font-bold tracking-tight">
+            {inExam ? (
+              'Ahral'
+            ) : (
+              <button type="button" onClick={() => setScreen({ name: 'library' })} className="hover:text-indigo-700">
+                Ahral
+              </button>
+            )}
+          </h1>
+          <span className="text-sm text-slate-500">Practice exams from your PDFs, offline</span>
+        </div>
+      </header>
 
-      <section className="mt-8 max-w-md rounded-lg border border-slate-200 bg-white p-4" aria-labelledby="system-check">
-        <h2 id="system-check" className="font-semibold">
-          System check
-        </h2>
-
-        {state.status === 'loading' && <p className="mt-2 text-slate-500">Checking…</p>}
-
-        {state.status === 'error' && (
-          <p role="alert" className="mt-2 text-red-700">
-            Could not reach the app backend: {state.message}
+      <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-8">
+        {backendError && (
+          <p role="alert" className="mb-6 rounded-md bg-red-50 p-3 text-sm text-red-800">
+            Could not reach the app backend: {backendError}
           </p>
         )}
 
-        {state.status === 'ready' && (
-          <dl className="mt-2 grid grid-cols-2 gap-y-1 text-sm">
-            <dt className="text-slate-500">App</dt>
-            <dd data-testid="app-version">{state.info.appVersion}</dd>
-            <dt className="text-slate-500">Electron</dt>
-            <dd>{state.info.electron}</dd>
-            <dt className="text-slate-500">Node</dt>
-            <dd>{state.info.node}</dd>
-            <dt className="text-slate-500">SQLite</dt>
-            <dd data-testid="sqlite-version">{state.info.sqlite}</dd>
-          </dl>
+        {screen.name === 'library' && <Library onOpen={(documentId) => setScreen({ name: 'document', documentId })} />}
+
+        {screen.name === 'document' && (
+          <>
+            <BackLink onClick={() => setScreen({ name: 'library' })}>All documents</BackLink>
+            <DocumentView
+              key={screen.documentId}
+              documentId={screen.documentId}
+              onStart={(settings) => startExam(screen.documentId, settings)}
+              onDeleted={() => setScreen({ name: 'library' })}
+            />
+          </>
         )}
-      </section>
-    </main>
+
+        {screen.name === 'exam' && (
+          <ExamRunner
+            key={screen.exam.examId}
+            exam={screen.exam}
+            onFinish={async () => {
+              const summary = await window.api.finishExam(screen.exam.examId)
+              setScreen({ name: 'results', summary, settings: screen.settings })
+            }}
+            onQuit={() => setScreen({ name: 'document', documentId: screen.exam.documentId })}
+          />
+        )}
+
+        {screen.name === 'results' && (
+          <Results
+            summary={screen.summary}
+            onRetake={() =>
+              void startExam(screen.summary.documentId, { ...screen.settings, seed: screen.summary.seed })
+            }
+            onDone={() => setScreen({ name: 'document', documentId: screen.summary.documentId })}
+          />
+        )}
+      </main>
+
+      <footer className="border-t border-slate-200 py-2 text-center text-xs text-slate-400">
+        {info && (
+          <>
+            Ahral <span data-testid="app-version">{info.appVersion}</span> · Electron {info.electron} · SQLite{' '}
+            <span data-testid="sqlite-version">{info.sqlite}</span> · everything stays on this computer
+          </>
+        )}
+      </footer>
+    </div>
+  )
+}
+
+function BackLink({ onClick, children }: { onClick: () => void; children: string }) {
+  return (
+    <button type="button" onClick={onClick} className="mb-4 text-sm text-indigo-700 hover:underline">
+      ← {children}
+    </button>
   )
 }
