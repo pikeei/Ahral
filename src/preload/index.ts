@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import { IpcChannels, type AhralApi } from '../shared/api'
+import { type AhralApi, IpcChannels } from '../shared/api'
 
 // Expose a narrow, typed API instead of ipcRenderer itself,
 // so the UI can only call the operations we explicitly allow.

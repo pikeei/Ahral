@@ -52,7 +52,7 @@ async function main(): Promise<void> {
   }
 
   if (args.includes('--json')) {
-    const out = path.replace(/\.pdf$/i, '') + '.questions.json'
+    const out = `${path.replace(/\.pdf$/i, '')}.questions.json`
     await writeFile(out, JSON.stringify({ stats, questions }, null, 2))
     console.log(`\nWrote ${out}`)
   }
@@ -60,14 +60,22 @@ async function main(): Promise<void> {
 
 function printQuestion(q: Question): void {
   console.log(`\n[p${q.page} · quality ${q.quality}] ${q.prompt}`)
-  if (q.options) q.options.forEach((o, i) => console.log(`   ${o === q.answer ? '*' : ' '} ${String.fromCharCode(65 + i)}. ${o}`))
-  else console.log(`   answer: ${q.answer}${q.acceptedAnswers.length > 1 ? `  (also: ${q.acceptedAnswers.filter((a) => a !== q.answer).join(', ')})` : ''}`)
+  if (q.options) {
+    for (const [i, option] of q.options.entries()) {
+      console.log(`   ${option === q.answer ? '*' : ' '} ${String.fromCharCode(65 + i)}. ${option}`)
+    }
+    return
+  }
+  const others = q.acceptedAnswers.filter((a) => a !== q.answer)
+  console.log(`   answer: ${q.answer}${others.length > 0 ? `  (also: ${others.join(', ')})` : ''}`)
 }
 
 /** Evenly spaced picks across the ranked list, so the sample shows best, middle and worst. */
 function spread<T>(items: T[], count: number): T[] {
   if (items.length <= count) return items
-  return Array.from({ length: count }, (_, i) => items[Math.floor((i * (items.length - 1)) / (count - 1))]!)
+  return Array.from({ length: count }, (_, i) => items[Math.floor((i * (items.length - 1)) / (count - 1))]).filter(
+    (item): item is T => item !== undefined
+  )
 }
 
 function formatCounts(counts: Partial<Record<string, number>>): string {

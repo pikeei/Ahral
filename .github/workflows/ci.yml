@@ -17,15 +17,19 @@ jobs:
       # Print versions so a lockfile mismatch between npm releases is easy to spot.
       - run: node --version && npm --version
       - run: npm ci
+      - name: Lint and format check
+        run: npx biome ci .
       - run: npm run typecheck
-      - run: npm test
+      # Unit + integration tests, including the golden-file pipeline test; fails below coverage thresholds.
+      - run: npm run test:coverage
       - run: npm run test:e2e
-      - name: Upload Playwright report
+      - name: Upload reports
         if: failure()
         uses: actions/upload-artifact@v7
         with:
-          name: playwright-report
+          name: test-reports
           path: |
             playwright-report/
             test-results/
+            coverage/
           if-no-files-found: ignore

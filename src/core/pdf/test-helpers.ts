@@ -27,7 +27,12 @@ export function page(pageNumber: number, items: RawTextItem[]): RawPage {
 }
 
 /** Lines of body text stacked from `top` downward with normal line spacing. */
-export function paragraph(lines: string[], x: number, top: number, opts: { size?: number; spacing?: number } = {}): RawTextItem[] {
+export function paragraph(
+  lines: string[],
+  x: number,
+  top: number,
+  opts: { size?: number; spacing?: number } = {}
+): RawTextItem[] {
   const size = opts.size ?? 11
   const spacing = opts.spacing ?? size * 1.3
   return lines.map((text, i) => item(text, x, top - i * spacing, { size }))

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { generateCloze, type ClozeRejection } from './cloze'
+import { type ClozeRejection, generateCloze } from './cloze'
 import { source, term } from './test-helpers'
 import { BLANK } from './types'
 
@@ -13,7 +13,10 @@ describe('generateCloze', () => {
   it('blanks the highest-scoring key term in the sentence', () => {
     const { questions } = run(
       [source(1, 'Selenium is an open-source framework used to automate web browsers.')],
-      [term('web browser', { key: 'web browser', score: 4, sentenceIds: [1] }), term('Selenium', { score: 9, sentenceIds: [1] })]
+      [
+        term('web browser', { key: 'web browser', score: 4, sentenceIds: [1] }),
+        term('Selenium', { score: 9, sentenceIds: [1] })
+      ]
     )
     expect(questions[0]).toMatchObject({
       type: 'cloze',
@@ -67,7 +70,9 @@ describe('generateCloze', () => {
       [source(1, 'The cr value differs, but CR imaging uses a photostimulable plate for each exposure.')],
       [term('CR', { key: 'cr', sentenceIds: [1], sources: ['acronym'] })]
     )
-    expect(questions[0]?.prompt).toBe(`The cr value differs, but ${BLANK} imaging uses a photostimulable plate for each exposure.`)
+    expect(questions[0]?.prompt).toBe(
+      `The cr value differs, but ${BLANK} imaging uses a photostimulable plate for each exposure.`
+    )
   })
 
   it('reports sentences with no key term', () => {

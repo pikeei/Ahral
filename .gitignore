@@ -12,3 +12,4 @@ playwright-report/
 
 # Your study PDFs and extraction output stay local
 samples/
+coverage/

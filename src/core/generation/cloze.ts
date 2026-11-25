@@ -70,11 +70,15 @@ export function generateCloze(
         continue
       }
 
-      const match = matches[0]!
+      const [match] = matches
+      if (!match) continue
       const start = match.index
       const end = start + match[0].length
       const prompt = source.text.slice(0, start) + BLANK + source.text.slice(end)
-      const contextWords = prompt.replace(BLANK, ' ').split(/\s+/).filter((w) => /\p{L}/u.test(w)).length
+      const contextWords = prompt
+        .replace(BLANK, ' ')
+        .split(/\s+/)
+        .filter((w) => /\p{L}/u.test(w)).length
       if (contextWords < MIN_CONTEXT_WORDS) {
         lastProblem = 'too-little-context'
         continue

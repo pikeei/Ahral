@@ -1,5 +1,5 @@
 import type { ExtractedDocument } from '../pdf/layout'
-import { detectAliases, detectDefinitions, type Alias, type Definition } from './definitions'
+import { type Alias, type Definition, detectAliases, detectDefinitions } from './definitions'
 import { extractTerms, type Term } from './terms'
 
 export interface DocumentAnalysis {

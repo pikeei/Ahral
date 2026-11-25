@@ -1,7 +1,7 @@
 import type { DocumentAnalysis } from '../analysis/analyze'
 import type { Term } from '../analysis/terms'
 import type { ExtractedDocument } from '../pdf/layout'
-import { generateCloze, type ClozeRejection, type ClozeSource } from './cloze'
+import { type ClozeRejection, type ClozeSource, generateCloze } from './cloze'
 import { dedupeQuestions } from './dedupe'
 import { generateDefinitionMcq, generateTermMcq, type McqRejection } from './mcq'
 import { checkSentence, type SentenceRejection } from './sentence-filter'
@@ -50,7 +50,8 @@ export function generateQuestions(
   const settings = { ...DEFAULTS, maxAnswerTerms: defaultMaxAnswerTerms(doc.sentences.length), ...options }
   const rejectedSentences: GenerationStats['rejectedSentences'] = {}
   const rejectedQuestions: GenerationStats['rejectedQuestions'] = {}
-  const countSentence = (reason: SentenceRejection) => (rejectedSentences[reason] = (rejectedSentences[reason] ?? 0) + 1)
+  const countSentence = (reason: SentenceRejection) =>
+    (rejectedSentences[reason] = (rejectedSentences[reason] ?? 0) + 1)
   const countQuestion = (reason: keyof GenerationStats['rejectedQuestions']) =>
     (rejectedQuestions[reason] = (rejectedQuestions[reason] ?? 0) + 1)
 
@@ -73,9 +74,10 @@ export function generateQuestions(
   const definitions = analysis.definitions.filter(
     (d) => d.confidence >= settings.minDefinitionConfidence && usable.has(d.sentenceId)
   )
-  const mcq = [...generateTermMcq(definitions, countQuestion), ...generateDefinitionMcq(definitions, countQuestion)].map(
-    (q) => ({ ...q, explanation: sentenceText.get(q.sentenceId) ?? q.explanation })
-  )
+  const mcq = [
+    ...generateTermMcq(definitions, countQuestion),
+    ...generateDefinitionMcq(definitions, countQuestion)
+  ].map((q) => ({ ...q, explanation: sentenceText.get(q.sentenceId) ?? q.explanation }))
 
   const all = [...cloze, ...mcq]
   const questions = dedupeQuestions(all, settings.maxPerTerm, settings.maxPerTermAndType)

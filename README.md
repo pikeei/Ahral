@@ -8,18 +8,25 @@ using rule-based text analysis. No generative AI, no cloud, no paid services.
 ## Stack
 
 Electron · React · TypeScript · Tailwind CSS · SQLite (Node's built-in `node:sqlite`) ·
-Vitest · Playwright · electron-builder
+Vitest · Playwright · Biome · electron-builder
 
 ## Project layout
 
 ```
 src/
-  main/       Electron main process: database, file system, IPC handlers
-  preload/    Typed bridge that exposes `window.api` to the UI
-  renderer/   React UI (no Node access)
-  shared/     Types shared by main and renderer (the IPC contract)
-  core/       Pure TypeScript logic: PDF layout, analysis, question generation (from Stage 1)
-tests/e2e/    Playwright tests that launch the real desktop app
+  main/        Electron main process: database, file system, IPC handlers
+  preload/     Typed bridge that exposes `window.api` to the UI
+  renderer/    React UI (no Node access)
+  shared/      Types shared by main and renderer (the IPC contract)
+  core/        Pure TypeScript logic, no Electron or DOM:
+    pdf/         PDF.js adapter and layout analysis (lines, columns, headers, blocks, sections)
+    text/        Normalization, sentence splitting, answer comparison, missing-letter repair
+    analysis/    Definitions, acronyms, key terms (TF-IDF)
+    generation/  Sentence filter, fill-in-the-blank and multiple-choice questions, dedupe
+tests/
+  integration/ Golden-file test of the whole pipeline (see below)
+  e2e/         Playwright tests that launch the real desktop app
+  fixtures/    Builders for test PDFs (generated, never committed as binaries)
 ```
 
 ## Scripts
@@ -27,8 +34,11 @@ tests/e2e/    Playwright tests that launch the real desktop app
 | Command | What it does |
 |---|---|
 | `npm run dev` | Run the app with hot reload |
+| `npm run lint` | Lint and format check (Biome) |
+| `npm run lint:fix` | Apply safe lint fixes and formatting |
 | `npm run typecheck` | Type-check main/preload and renderer separately |
 | `npm test` | Unit and integration tests (Vitest) |
+| `npm run test:coverage` | Tests with a coverage report and minimum thresholds |
 | `npm run test:e2e` | Build, then launch the app and run Playwright tests |
 | `npm run dist` | Build a Windows installer into `dist/` |
 | `npm run extract -- <file.pdf> [--all] [--json]` | Print the sections and sentences extracted from a PDF |
@@ -37,6 +47,17 @@ tests/e2e/    Playwright tests that launch the real desktop app
 | `npm run sample-pdf` | Generate `samples/demo-reviewer.pdf` to try extraction on |
 
 `samples/` is git-ignored: put your own study PDFs there to test extraction locally.
+
+## Quality checks
+
+CI runs on every push and pull request (Windows): Biome lint and format check, type check,
+unit and integration tests with coverage thresholds, and Playwright E2E tests on the built app.
+
+**Golden-file test.** `tests/integration/golden.test.ts` builds a PDF that reproduces the problems
+found in real books (missing letters, two columns, running headers, Q&A layout), runs the full
+pipeline, and compares the result with `tests/integration/__golden__/pipeline.txt`. A change in
+extraction or question quality therefore shows up as a readable diff. After an intentional change,
+review the diff and update the file with `npx vitest run -u`.
 
 ## Requirements
 

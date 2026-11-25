@@ -46,8 +46,39 @@ const SINGLE_LETTER_REPAIRS: Record<string, string> = { o: 'of', i: 'if' }
 const MIN_JOINED_LENGTH = 6
 /** Short function words: two of them side by side are a normal phrase ("be all"), not a split word. */
 const FUNCTION_WORDS = new Set([
-  'a', 'an', 'the', 'be', 'is', 'it', 'in', 'on', 'at', 'to', 'of', 'or', 'and', 'as', 'by', 'for', 'all',
-  'out', 'up', 'so', 'no', 'not', 'we', 'he', 'she', 'you', 'they', 'his', 'her', 'its', 'our', 'can', 'may'
+  'a',
+  'an',
+  'the',
+  'be',
+  'is',
+  'it',
+  'in',
+  'on',
+  'at',
+  'to',
+  'of',
+  'or',
+  'and',
+  'as',
+  'by',
+  'for',
+  'all',
+  'out',
+  'up',
+  'so',
+  'no',
+  'not',
+  'we',
+  'he',
+  'she',
+  'you',
+  'they',
+  'his',
+  'her',
+  'its',
+  'our',
+  'can',
+  'may'
 ])
 
 function bothFunctionWords(a: string, b: string): boolean {
@@ -83,8 +114,8 @@ export function createRepairer(options: RepairOptions): Repairer {
 
     // "lef" -> "left": an "ft" ligature that came out as a bare "f".
     for (let at = lower.indexOf('f'); at >= 0; at = lower.indexOf('f', at + 1)) {
-      if (isTarget(lower.slice(0, at + 1) + 't' + lower.slice(at + 1))) {
-        return word.slice(0, at + 1) + 't' + word.slice(at + 1)
+      if (isTarget(`${lower.slice(0, at + 1)}t${lower.slice(at + 1)}`)) {
+        return `${word.slice(0, at + 1)}t${word.slice(at + 1)}`
       }
     }
     if (word.length >= MIN_LENGTH_FOR_LEADING_T) {
@@ -97,10 +128,8 @@ export function createRepairer(options: RepairOptions): Repairer {
       // "hich" -> "which", "igure" -> "Figure": a first letter was lost. Only when exactly one
       // letter makes a known word ("ead" could be head, lead, read... so it is left alone).
       const fits = [...'abcdefghijklmnopqrstuvwxyz'].filter((letter) => isTarget(letter + lower))
-      if (fits.length === 1) {
-        const letter = sentenceStart ? fits[0]!.toUpperCase() : fits[0]!
-        return letter + word
-      }
+      const [only] = fits
+      if (fits.length === 1 && only) return (sentenceStart ? only.toUpperCase() : only) + word
     }
     return undefined
   }
@@ -122,7 +151,8 @@ export function createRepairer(options: RepairOptions): Repairer {
     let repairs = 0
 
     for (let i = 0; i < pieces.length; i++) {
-      const piece = pieces[i]!
+      const piece = pieces[i]
+      if (piece === undefined) break
       if (!isWordPiece(piece)) {
         out.push(piece)
         continue
@@ -135,7 +165,8 @@ export function createRepairer(options: RepairOptions): Repairer {
         const joined = joinWords(piece, next)
         // Two real words can still be halves of one ("arti acts" -> "artifacts", "be ore" -> "before"),
         // but only trust that for a long result and not for pairs like "be all" -> "befall".
-        const trustworthy = !bothKnown || (joined !== undefined && joined.length >= MIN_JOINED_LENGTH && !bothFunctionWords(piece, next))
+        const trustworthy =
+          !bothKnown || (joined !== undefined && joined.length >= MIN_JOINED_LENGTH && !bothFunctionWords(piece, next))
         if (joined && trustworthy) {
           out.push(joined)
           repairs++
@@ -151,8 +182,8 @@ export function createRepairer(options: RepairOptions): Repairer {
         const fixed = repairWord(piece, sentenceStart)
         if (fixed) {
           // Letters restored in front of a word at a sentence start are capitalized ("igure" -> "Figure").
-          const restoredInFront = !fixed.endsWith(piece) ? false : fixed.length > piece.length
-          out.push(sentenceStart && restoredInFront ? fixed[0]!.toUpperCase() + fixed.slice(1) : fixed)
+          const restoredInFront = fixed.endsWith(piece) && fixed.length > piece.length
+          out.push(sentenceStart && restoredInFront ? fixed.charAt(0).toUpperCase() + fixed.slice(1) : fixed)
           repairs++
           continue
         }
@@ -178,11 +209,13 @@ interface Candidate {
  */
 function pickCandidate(candidates: Candidate[], frequency: ((word: string) => number) | undefined): string | undefined {
   const distinct = [...new Map(candidates.map((c) => [c.text.toLowerCase(), c])).values()]
-  if (distinct.length === 1) return distinct[0]!.text
+  const [onlyDistinct] = distinct
+  if (distinct.length === 1 && onlyDistinct) return onlyDistinct.text
 
   const minCost = Math.min(...distinct.map((c) => c.cost))
   const cheapest = distinct.filter((c) => c.cost === minCost)
-  if (cheapest.length === 1) return cheapest[0]!.text
+  const [onlyCheapest] = cheapest
+  if (cheapest.length === 1 && onlyCheapest) return onlyCheapest.text
 
   if (!frequency) return undefined
   const ranked = cheapest

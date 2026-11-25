@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { analyzeLayout, buildLines, isHeadingLine, type Line } from './layout'
-import { item, page, paragraph, PAGE_HEIGHT } from './test-helpers'
+import { item, PAGE_HEIGHT, page, paragraph } from './test-helpers'
 
 const lineTexts = (lines: Line[]) => lines.map((l) => l.text)
 
@@ -60,14 +60,23 @@ describe('narrow column gutters', () => {
     const doc = analyzeLayout([page(1, [...paragraph(left, 72, 700), ...paragraph(right, 259, 700)])])
     const sentences = doc.sentences.map((s) => s.text)
     expect(sentences[0]).toBe('Left column sentence number 1.')
-    expect(sentences.indexOf('Left column sentence number 8.')).toBeLessThan(sentences.indexOf('Right column sentence number 1.'))
+    expect(sentences.indexOf('Left column sentence number 8.')).toBeLessThan(
+      sentences.indexOf('Right column sentence number 1.')
+    )
   })
 })
 
 describe('table of contents', () => {
   it('drops lines with dot leaders', () => {
     const doc = analyzeLayout([
-      page(1, paragraph(['Introduction . . . . . . . . . . 12', 'Test Levels.............. 15', 'Real sentence here.'], 72, 700))
+      page(
+        1,
+        paragraph(
+          ['Introduction . . . . . . . . . . 12', 'Test Levels.............. 15', 'Real sentence here.'],
+          72,
+          700
+        )
+      )
     ])
     expect(doc.sentences.map((s) => s.text)).toEqual(['Real sentence here.'])
   })
@@ -95,14 +104,24 @@ describe('running headers and footers', () => {
   })
 
   it('does not treat a margin line as repeated in a 2-page document', () => {
-    const pages = [1, 2].map((n) => page(n, [item('Course notes', 72, PAGE_HEIGHT - 30), ...paragraph(['Text.'], 72, 600)]))
+    const pages = [1, 2].map((n) =>
+      page(n, [item('Course notes', 72, PAGE_HEIGHT - 30), ...paragraph(['Text.'], 72, 600)])
+    )
     expect(analyzeLayout(pages).blocks.some((b) => b.text === 'Course notes')).toBe(true)
   })
 })
 
 describe('headings and sections', () => {
   const line = (text: string, fontSize: number, bold = false): Line => ({
-    page: 1, text, x: 72, xEnd: 300, y: 700, fontSize, bold, boldRuns: [], column: 0
+    page: 1,
+    text,
+    x: 72,
+    xEnd: 300,
+    y: 700,
+    fontSize,
+    bold,
+    boldRuns: [],
+    column: 0
   })
 
   it.each([
@@ -112,7 +131,11 @@ describe('headings and sections', () => {
     ['bold term at body size', line('Selenium', 11, true), false],
     ['large text ending with a period', line('This is a sentence.', 16), false],
     ['plain body line', line('Testing finds defects', 11), false],
-    ['too many words', line('one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen', 16), false]
+    [
+      'too many words',
+      line('one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen', 16),
+      false
+    ]
   ])('%s → %s', (_name, l, expected) => {
     expect(isHeadingLine(l, 11)).toBe(expected)
   })
@@ -152,7 +175,9 @@ describe('headings and sections', () => {
 
 describe('paragraphs', () => {
   it('joins wrapped lines into one paragraph and removes line-break hyphens', () => {
-    const doc = analyzeLayout([page(1, paragraph(['Selenium is used for browser automa-', 'tion in many teams.'], 72, 700))])
+    const doc = analyzeLayout([
+      page(1, paragraph(['Selenium is used for browser automa-', 'tion in many teams.'], 72, 700))
+    ])
     expect(doc.sentences.map((s) => s.text)).toEqual(['Selenium is used for browser automation in many teams.'])
   })
 
@@ -167,7 +192,9 @@ describe('paragraphs', () => {
   })
 
   it('starts a new paragraph after a large vertical gap', () => {
-    const doc = analyzeLayout([page(1, [...paragraph(['First paragraph'], 72, 700), ...paragraph(['Second paragraph'], 72, 640)])])
+    const doc = analyzeLayout([
+      page(1, [...paragraph(['First paragraph'], 72, 700), ...paragraph(['Second paragraph'], 72, 640)])
+    ])
     expect(doc.blocks.map((b) => b.text)).toEqual(['First paragraph', 'Second paragraph'])
   })
 
@@ -184,13 +211,19 @@ describe('paragraphs', () => {
   })
 
   it('does not continue across a page when the previous text ended a sentence', () => {
-    const doc = analyzeLayout([page(1, paragraph(['Done here.'], 72, 100)), page(2, paragraph(['fresh start'], 72, 740))])
+    const doc = analyzeLayout([
+      page(1, paragraph(['Done here.'], 72, 100)),
+      page(2, paragraph(['fresh start'], 72, 740))
+    ])
     expect(doc.blocks).toHaveLength(2)
   })
 
   it('makes each bullet its own list item and strips the bullet glyph', () => {
     const doc = analyzeLayout([
-      page(1, paragraph(['• Selenium - browser automation', '• Postman - API testing', '1. Install Node first'], 72, 700))
+      page(
+        1,
+        paragraph(['• Selenium - browser automation', '• Postman - API testing', '1. Install Node first'], 72, 700)
+      )
     ])
     expect(doc.blocks.map((b) => [b.kind, b.text])).toEqual([
       ['list-item', 'Selenium - browser automation'],
@@ -202,12 +235,31 @@ describe('paragraphs', () => {
 
 describe('repairing letters missing from the text layer', () => {
   // Enough "f"-less text (over 2000 letters) for the letter-frequency check to trigger.
-  const filler = Array.from({ length: 40 }, () => 'We gauge the radial pulse, the most common pulse point, in adults today.')
-  const dictionary = new Set(['the', 'femoral', 'artery', 'of', 'arm', 'next', 'sentence', 'is', 'here', 'pulse', 'points', 'include'])
+  const filler = Array.from(
+    { length: 40 },
+    () => 'We gauge the radial pulse, the most common pulse point, in adults today.'
+  )
+  const dictionary = new Set([
+    'the',
+    'femoral',
+    'artery',
+    'of',
+    'arm',
+    'next',
+    'sentence',
+    'is',
+    'here',
+    'pulse',
+    'points',
+    'include'
+  ])
   const isWord = (w: string) => dictionary.has(w)
 
   it('repairs a broken word that is hyphenated across two lines', () => {
-    const doc = analyzeLayout([page(1, paragraph([...filler, 'Pulse points include the emo-', 'ral artery.'], 72, 760, { size: 6 }))], { isWord })
+    const doc = analyzeLayout(
+      [page(1, paragraph([...filler, 'Pulse points include the emo-', 'ral artery.'], 72, 760, { size: 6 }))],
+      { isWord }
+    )
     expect(doc.sentences.at(-1)?.text).toBe('Pulse points include the femoral artery.')
     expect(doc.warnings.join(' ')).toMatch(/Repaired \d+ words/)
   })

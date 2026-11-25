@@ -1,5 +1,5 @@
-import { afterEach, describe, expect, it } from 'vitest'
 import type { DatabaseSync } from 'node:sqlite'
+import { afterEach, describe, expect, it } from 'vitest'
 import { getSqliteVersion, openDatabase } from './db'
 
 describe('openDatabase', () => {

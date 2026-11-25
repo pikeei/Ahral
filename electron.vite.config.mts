@@ -1,6 +1,6 @@
-import { defineConfig } from 'electron-vite'
-import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import react from '@vitejs/plugin-react'
+import { defineConfig } from 'electron-vite'
 
 // electron-vite builds three bundles with conventional entry points:
 //   main     → src/main/index.ts       (Node/Electron process: DB, file system)

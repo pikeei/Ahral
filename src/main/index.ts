@@ -1,7 +1,7 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'node:path'
 import type { DatabaseSync } from 'node:sqlite'
-import { IpcChannels, type AppInfo } from '../shared/api'
+import { app, BrowserWindow, ipcMain } from 'electron'
+import { type AppInfo, IpcChannels } from '../shared/api'
 import { getSqliteVersion, openDatabase } from './db'
 
 // Lets E2E tests run against a throwaway data folder instead of your real one.

@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import wordListPath from 'word-list'
-import { extractDocument, type ExtractedDocument } from '../../src/core/extract'
+import { type ExtractedDocument, extractDocument } from '../../src/core/extract'
 
 /** Loads the offline English word list (about 274k lowercase words) into a Set. */
 export async function loadDictionary(): Promise<Set<string>> {

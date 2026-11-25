@@ -14,11 +14,19 @@ describe('checkSentence', () => {
 
   it.each([
     ['question', 'Which tool is commonly used to automate web browsers in testing?', 'question'],
-    ['fragment without final punctuation', 'Selenium is an open-source framework used to automate browsers', 'not-a-statement'],
+    [
+      'fragment without final punctuation',
+      'Selenium is an open-source framework used to automate browsers',
+      'not-a-statement'
+    ],
     ['too short', 'Selenium automates browsers.', 'too-short'],
     ['too long', `${'word '.repeat(45)}end.`, 'too-long'],
     ['starts with a reference', 'This framework is used to automate web browsers in most teams.', 'refers-elsewhere'],
-    ['starts with a connector', 'However, the framework is used to automate web browsers in teams.', 'refers-elsewhere'],
+    [
+      'starts with a connector',
+      'However, the framework is used to automate web browsers in teams.',
+      'refers-elsewhere'
+    ],
     ['mentions a figure', 'The framework shown in Figure 3 automates web browsers for teams.', 'mentions-figure'],
     ['mostly numbers and symbols', '12.5 / 30.1 = 0.41 ; 18.2 / 30.1 = 0.60 ; 22 / 30 = 0.73 ; ok.', 'mostly-symbols'],
     ['all capitals', 'SELENIUM IS AN OPEN-SOURCE FRAMEWORK USED TO AUTOMATE WEB BROWSERS.', 'all-caps']
@@ -29,9 +37,34 @@ describe('checkSentence', () => {
 
 describe('checkSentence with a dictionary', () => {
   const words = new Set([
-    'is', 'an', 'open', 'source', 'framework', 'used', 'to', 'automate', 'web', 'browsers', 'the', 'for', 'of',
-    'tube', 'voltage', 'measured', 'in', 'units', 'and', 'left', 'side', 'marker', 'placed', 'on', 'there',
-    'le', 'function', 'this'
+    'is',
+    'an',
+    'open',
+    'source',
+    'framework',
+    'used',
+    'to',
+    'automate',
+    'web',
+    'browsers',
+    'the',
+    'for',
+    'of',
+    'tube',
+    'voltage',
+    'measured',
+    'in',
+    'units',
+    'and',
+    'left',
+    'side',
+    'marker',
+    'placed',
+    'on',
+    'there',
+    'le',
+    'function',
+    'this'
   ])
   const isWord = (w: string) => words.has(w)
 
@@ -42,7 +75,10 @@ describe('checkSentence with a dictionary', () => {
   it.each([
     ['a broken lowercase word', 'The tube voltage is measured in units o kilovolts or tube.'],
     ['a lone "o" left over from "of"', 'The tube voltage is measured in units o the tube and used.'],
-    ['a rare two-letter word that is usually a fragment ("le" for "left")', 'The le side marker is placed on the tube and used.'],
+    [
+      'a rare two-letter word that is usually a fragment ("le" for "left")',
+      'The le side marker is placed on the tube and used.'
+    ],
     ['a broken first word ("Eedback" for "Feedback")', 'Eedback of the tube voltage is measured in units and used.'],
     ['a capital T cut off by a lost "h"', 'T ere is a side marker placed on the tube and used.']
   ])('rejects %s', (_name, sentence) => {

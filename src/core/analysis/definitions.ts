@@ -1,5 +1,5 @@
 ﻿import type { Block, Sentence } from '../pdf/layout'
-import { STOPWORDS, tokenize, type Token } from './nlp'
+import { STOPWORDS, type Token, tokenize } from './nlp'
 
 /*
  * Definition detection with ordered regex patterns.
@@ -75,7 +75,7 @@ const RULES: Rule[] = [
     // Glossary style: "Selenium - a browser automation framework", "Postman: an API tool".
     pattern: 'glossary',
     confidence: 0.9,
-    regex: new RegExp(String.raw`^${TERM}${SEPARATOR}(.+)$`, 'du'),
+    regex: new RegExp(`^${TERM}${SEPARATOR}(.+)$`, 'du'),
     term: 1,
     definition: 2
   },
@@ -102,26 +102,144 @@ const BOLD_TERM_BONUS = 0.05
 
 /** First words that mean the subject refers to something else (anaphora) or is not a term. */
 const BAD_TERM_START = new Set([
-  'this', 'that', 'these', 'those', 'it', 'its', 'they', 'there', 'here', 'such', 'each', 'every', 'another',
-  'other', 'some', 'many', 'most', 'which', 'what', 'who', 'our', 'your', 'their', 'his', 'her', 'my', 'both',
-  'all', 'one', 'first', 'second', 'next', 'last', 'following', 'above', 'below', 'example', 'note', 'however',
+  'this',
+  'that',
+  'these',
+  'those',
+  'it',
+  'its',
+  'they',
+  'there',
+  'here',
+  'such',
+  'each',
+  'every',
+  'another',
+  'other',
+  'some',
+  'many',
+  'most',
+  'which',
+  'what',
+  'who',
+  'our',
+  'your',
+  'their',
+  'his',
+  'her',
+  'my',
+  'both',
+  'all',
+  'one',
+  'first',
+  'second',
+  'next',
+  'last',
+  'following',
+  'above',
+  'below',
+  'example',
+  'note',
+  'however',
   // Quantities and labels: "The majority of articulations are ...", "The term oblique is ..."
-  'majority', 'minority', 'number', 'amount', 'percentage', 'portion', 'remainder', 'rest', 'term', 'terms', 'word'
+  'majority',
+  'minority',
+  'number',
+  'amount',
+  'percentage',
+  'portion',
+  'remainder',
+  'rest',
+  'term',
+  'terms',
+  'word'
 ])
 /** Words that show the "term" is really a clause: "Testing cannot prove that software". */
 const CLAUSE_WORDS = new Set([
-  'is', 'are', 'was', 'were', 'be', 'been', 'can', 'cannot', 'could', 'will', 'would', 'should', 'may', 'might',
-  'must', 'do', 'does', 'did', 'has', 'have', 'had', 'that', 'which', 'who', 'when', 'where', 'if', 'because', 'not'
+  'is',
+  'are',
+  'was',
+  'were',
+  'be',
+  'been',
+  'can',
+  'cannot',
+  'could',
+  'will',
+  'would',
+  'should',
+  'may',
+  'might',
+  'must',
+  'do',
+  'does',
+  'did',
+  'has',
+  'have',
+  'had',
+  'that',
+  'which',
+  'who',
+  'when',
+  'where',
+  'if',
+  'because',
+  'not'
 ])
 /** Heads too generic to quiz on: "The goal is a ...", "The result is a ...". */
 const GENERIC_TERMS = new Set([
-  'goal', 'result', 'purpose', 'idea', 'answer', 'reason', 'problem', 'solution', 'thing', 'way', 'aim', 'point',
-  'difference', 'advantage', 'disadvantage', 'benefit', 'output', 'outcome', 'focus', 'key', 'main', 'rule',
-  'use', 'uses', 'function', 'role', 'part', 'type', 'kind', 'form', 'time', 'example', 'case', 'step', 'stage'
+  'goal',
+  'result',
+  'purpose',
+  'idea',
+  'answer',
+  'reason',
+  'problem',
+  'solution',
+  'thing',
+  'way',
+  'aim',
+  'point',
+  'difference',
+  'advantage',
+  'disadvantage',
+  'benefit',
+  'output',
+  'outcome',
+  'focus',
+  'key',
+  'main',
+  'rule',
+  'use',
+  'uses',
+  'function',
+  'role',
+  'part',
+  'type',
+  'kind',
+  'form',
+  'time',
+  'example',
+  'case',
+  'step',
+  'stage'
 ])
 
 /** A definition starting with these refers to something outside itself: "It is important to ...". */
-const BAD_DEFINITION_START = new Set(['it', 'this', 'that', 'these', 'those', 'they', 'there', 'he', 'she', 'we', 'you', 'i'])
+const BAD_DEFINITION_START = new Set([
+  'it',
+  'this',
+  'that',
+  'these',
+  'those',
+  'they',
+  'there',
+  'he',
+  'she',
+  'we',
+  'you',
+  'i'
+])
 
 const MIN_DEFINITION_WORDS = 3
 const MAX_DEFINITION_WORDS = 50
@@ -266,7 +384,10 @@ export function isValidDefinition(definition: string, term: string): boolean {
 // --- Helpers ------------------------------------------------------------------
 function cleanTerm(raw: string | undefined): string | undefined {
   if (!raw) return undefined
-  const term = raw.trim().replace(/^(the|a|an)\s+/i, '').replace(/[\s,;:]+$/, '')
+  const term = raw
+    .trim()
+    .replace(/^(the|a|an)\s+/i, '')
+    .replace(/[\s,;:]+$/, '')
   return term === '' ? undefined : term
 }
 

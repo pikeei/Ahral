@@ -43,7 +43,10 @@ export function generateTermMcq(definitions: Definition[], onReject: (reason: Mc
 
     const distractors = defined
       .filter((other) => other !== target && isSafeTermDistractor(other, target))
-      .sort((a, b) => distractorScore(b, target) - distractorScore(a, target) || a.definition.term.localeCompare(b.definition.term))
+      .sort(
+        (a, b) =>
+          distractorScore(b, target) - distractorScore(a, target) || a.definition.term.localeCompare(b.definition.term)
+      )
       .slice(0, DISTRACTOR_COUNT)
     if (distractors.length < DISTRACTOR_COUNT) {
       onReject('not-enough-distractors')
@@ -85,7 +88,10 @@ export function generateDefinitionMcq(definitions: Definition[], onReject: (reas
         const ratio = other.definition.definition.split(/\s+/).length / answerLength
         return ratio <= MAX_LENGTH_RATIO && ratio >= 1 / MAX_LENGTH_RATIO
       })
-      .sort((a, b) => distractorScore(b, target) - distractorScore(a, target) || a.definition.term.localeCompare(b.definition.term))
+      .sort(
+        (a, b) =>
+          distractorScore(b, target) - distractorScore(a, target) || a.definition.term.localeCompare(b.definition.term)
+      )
       .slice(0, DISTRACTOR_COUNT)
     if (distractors.length < DISTRACTOR_COUNT) {
       onReject('not-enough-distractors')

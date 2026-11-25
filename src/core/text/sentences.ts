@@ -14,14 +14,59 @@
 
 /** Abbreviations that never end a sentence. Stored lowercase, without the final period. */
 const ALWAYS_ABBREVIATIONS = new Set([
-  'mr', 'mrs', 'ms', 'dr', 'prof', 'sr', 'jr', 'st', 'vs',
-  'e.g', 'i.e', 'cf', 'al', 'approx', 'inc', 'ltd', 'co', 'corp', 'dept', 'est', 'viz', 'resp'
+  'mr',
+  'mrs',
+  'ms',
+  'dr',
+  'prof',
+  'sr',
+  'jr',
+  'st',
+  'vs',
+  'e.g',
+  'i.e',
+  'cf',
+  'al',
+  'approx',
+  'inc',
+  'ltd',
+  'co',
+  'corp',
+  'dept',
+  'est',
+  'viz',
+  'resp'
 ])
 
 /** Abbreviations that only stay attached when a number follows ("Fig. 3", "p. 45", "Jan. 5"). */
 const NUMBER_ABBREVIATIONS = new Set([
-  'fig', 'figs', 'eq', 'eqs', 'no', 'nos', 'p', 'pp', 'vol', 'ch', 'chap', 'sec', 'ref', 'art', 'tab',
-  'jan', 'feb', 'mar', 'apr', 'jun', 'jul', 'aug', 'sep', 'sept', 'oct', 'nov', 'dec'
+  'fig',
+  'figs',
+  'eq',
+  'eqs',
+  'no',
+  'nos',
+  'p',
+  'pp',
+  'vol',
+  'ch',
+  'chap',
+  'sec',
+  'ref',
+  'art',
+  'tab',
+  'jan',
+  'feb',
+  'mar',
+  'apr',
+  'jun',
+  'jul',
+  'aug',
+  'sep',
+  'sept',
+  'oct',
+  'nov',
+  'dec'
 ])
 
 const BOUNDARY = /([.!?]+)(["'”’)\]]*)(\s+)/g

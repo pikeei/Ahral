@@ -49,11 +49,13 @@ async function main(): Promise<void> {
   console.log(`\nTOP ${Math.min(top, analysis.terms.length)} TERMS  (score · frequency · sources)`)
   for (const t of analysis.terms.slice(0, top)) {
     const alt = t.alternatives.length > 0 ? `  aka ${t.alternatives.join(', ')}` : ''
-    console.log(`  ${t.score.toFixed(2).padStart(6)}  ${String(t.frequency).padStart(3)}×  ${t.text}  [${t.sources.join(', ')}]${alt}`)
+    console.log(
+      `  ${t.score.toFixed(2).padStart(6)}  ${String(t.frequency).padStart(3)}×  ${t.text}  [${t.sources.join(', ')}]${alt}`
+    )
   }
 
   if (args.includes('--json')) {
-    const out = path.replace(/\.pdf$/i, '') + '.analysis.json'
+    const out = `${path.replace(/\.pdf$/i, '')}.analysis.json`
     await writeFile(out, JSON.stringify(analysis, null, 2))
     console.log(`\nWrote ${out}`)
   }

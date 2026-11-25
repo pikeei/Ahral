@@ -28,5 +28,8 @@ export function termPattern(variants: string[]): RegExp {
   const alternatives = clean
     .sort((a, b) => b.length - a.length)
     .map((v) => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+'))
-  return new RegExp(`(?<![\\p{L}\\p{N}])(?:${alternatives.join('|')})(?:e?s)?(?![\\p{L}\\p{N}])`, acronym ? 'gu' : 'giu')
+  return new RegExp(
+    `(?<![\\p{L}\\p{N}])(?:${alternatives.join('|')})(?:e?s)?(?![\\p{L}\\p{N}])`,
+    acronym ? 'gu' : 'giu'
+  )
 }

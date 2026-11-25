@@ -14,7 +14,12 @@ const pdf = await task.promise
 const page = await pdf.getPage(Number(pageArg))
 const content = await page.getTextContent()
 await page.getOperatorList()
-const items = content.items.filter((i) => 'str' in i) as { str: string; transform: number[]; width: number; fontName: string }[]
+const items = content.items.filter((i) => 'str' in i) as {
+  str: string
+  transform: number[]
+  width: number
+  fontName: string
+}[]
 
 const fontName = (id: string) => {
   try {
@@ -31,15 +36,24 @@ for (const item of items) {
   entry.items++
   entry.chars += item.str.length
   if (item.str.trim() === '') entry.empty++
-  if (entry.sample.length < 60 && item.str.trim() !== '') entry.sample += JSON.stringify(item.str) + ' '
+  if (entry.sample.length < 60 && item.str.trim() !== '') entry.sample += `${JSON.stringify(item.str)} `
   byFont.set(name, entry)
 }
 console.log('FONTS')
-for (const [name, e] of byFont) console.log(`  ${name}: ${e.items} items, ${e.chars} chars, ${e.empty} blank  ${e.sample.slice(0, 80)}`)
+for (const [name, e] of byFont)
+  console.log(`  ${name}: ${e.items} items, ${e.chars} chars, ${e.empty} blank  ${e.sample.slice(0, 80)}`)
 
 const hit = items.findIndex((i) => i.str.includes(contains))
 console.log(`\nITEMS around "${contains}"`)
 for (const item of items.slice(Math.max(0, hit - 3), hit + 6)) {
-  console.log(JSON.stringify({ str: item.str, x: Math.round(item.transform[4]!), y: Math.round(item.transform[5]!), w: Math.round(item.width), font: fontName(item.fontName) }))
+  console.log(
+    JSON.stringify({
+      str: item.str,
+      x: Math.round(item.transform[4] ?? 0),
+      y: Math.round(item.transform[5] ?? 0),
+      w: Math.round(item.width),
+      font: fontName(item.fontName)
+    })
+  )
 }
 await task.destroy()

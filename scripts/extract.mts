@@ -39,7 +39,8 @@ async function main(): Promise<void> {
   for (const section of doc.sections) {
     const indent = '  '.repeat(Math.max(0, section.level - 1))
     const sentences = doc.sentences.filter((s) => s.sectionId === section.id)
-    const pages = section.pageStart === section.pageEnd ? `p.${section.pageStart}` : `p.${section.pageStart}-${section.pageEnd}`
+    const pages =
+      section.pageStart === section.pageEnd ? `p.${section.pageStart}` : `p.${section.pageStart}-${section.pageEnd}`
     console.log(`\n${indent}# ${section.title ?? '(before first heading)'}  [${pages}, ${sentences.length} sentences]`)
 
     const shown = showAll ? sentences : sentences.slice(0, SENTENCES_PER_SECTION)
@@ -51,7 +52,7 @@ async function main(): Promise<void> {
   }
 
   if (writeJson) {
-    const out = path.replace(/\.pdf$/i, '') + '.extract.json'
+    const out = `${path.replace(/\.pdf$/i, '')}.extract.json`
     await writeFile(out, JSON.stringify(doc, null, 2))
     console.log(`\nWrote ${out}`)
   }

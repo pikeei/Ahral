@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
+import { analyzeLayout } from '../pdf/layout'
+import { item, page, paragraph } from '../pdf/test-helpers'
 import { analyzeDocument } from './analyze'
 import { tokenize } from './nlp'
 import { dropSubsumed, extractTerms, nounPhrases, scoreTerm, type Term } from './terms'
-import { analyzeLayout } from '../pdf/layout'
-import { item, page, paragraph } from '../pdf/test-helpers'
 import { sentencesAndBlocks } from './test-helpers'
 
 describe('tokenize', () => {
@@ -46,7 +46,14 @@ describe('scoreTerm', () => {
 
 describe('dropSubsumed', () => {
   const term = (key: string, frequency: number, sources: Term['sources'] = ['noun-phrase']): Term => ({
-    key, text: key, score: 1, frequency, sectionIds: [1], sentenceIds: [], sources, alternatives: []
+    key,
+    text: key,
+    score: 1,
+    frequency,
+    sectionIds: [1],
+    sentenceIds: [],
+    sources,
+    alternatives: []
   })
 
   it('drops a word that only appears inside a longer term', () => {
@@ -79,7 +86,14 @@ describe('extractTerms', () => {
       'Every system needs testing.'
     ])
     const analysis = analyzeDocument({
-      pageCount: 1, pages: [], bodyFontSize: 11, sections: [], blocks, sentences, likelyScanned: false, warnings: []
+      pageCount: 1,
+      pages: [],
+      bodyFontSize: 11,
+      sections: [],
+      blocks,
+      sentences,
+      likelyScanned: false,
+      warnings: []
     })
     const keys = analysis.terms.map((t) => t.key)
 

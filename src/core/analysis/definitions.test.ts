@@ -9,16 +9,61 @@ function detectOne(text: string, bold: string[] = []) {
 
 describe('detectDefinitions: patterns that should match', () => {
   it.each([
-    ['is-a', 'Selenium is an open-source framework used to automate web browsers.', 'Selenium', 'open-source framework used to automate web browsers'],
-    ['is-a with leading article', 'A defect is a flaw in a component that can cause it to fail.', 'defect', 'flaw in a component that can cause it to fail'],
-    ['refers-to', 'Test case refers to a set of conditions used to determine whether a feature works.', 'Test case', 'set of conditions used to determine whether a feature works'],
-    ['defined-as', 'Regression testing is defined as re-running tests after every change.', 'Regression testing', 're-running tests after every change'],
+    [
+      'is-a',
+      'Selenium is an open-source framework used to automate web browsers.',
+      'Selenium',
+      'open-source framework used to automate web browsers'
+    ],
+    [
+      'is-a with leading article',
+      'A defect is a flaw in a component that can cause it to fail.',
+      'defect',
+      'flaw in a component that can cause it to fail'
+    ],
+    [
+      'refers-to',
+      'Test case refers to a set of conditions used to determine whether a feature works.',
+      'Test case',
+      'set of conditions used to determine whether a feature works'
+    ],
+    [
+      'defined-as',
+      'Regression testing is defined as re-running tests after every change.',
+      'Regression testing',
+      're-running tests after every change'
+    ],
     ['glossary with spaced hyphen', 'Postman - a tool used for API testing', 'Postman', 'tool used for API testing'],
-    ['glossary with colon', 'JMeter: an open-source tool for performance testing.', 'JMeter', 'open-source tool for performance testing'],
-    ['glossary with em dash', 'Smoke test — a quick check that the build is stable.', 'Smoke test', 'quick check that the build is stable'],
-    ['called (reverse form)', 'A flaw that causes a failure is called a defect.', 'defect', 'flaw that causes a failure'],
-    ['after an answer-option label', '(D) A vector is an animal host that transmits an infection.', 'vector', 'animal host that transmits an infection'],
-    ['glossary with spaced en dash', 'Ampoule – a small container that holds a single dose.', 'Ampoule', 'small container that holds a single dose']
+    [
+      'glossary with colon',
+      'JMeter: an open-source tool for performance testing.',
+      'JMeter',
+      'open-source tool for performance testing'
+    ],
+    [
+      'glossary with em dash',
+      'Smoke test — a quick check that the build is stable.',
+      'Smoke test',
+      'quick check that the build is stable'
+    ],
+    [
+      'called (reverse form)',
+      'A flaw that causes a failure is called a defect.',
+      'defect',
+      'flaw that causes a failure'
+    ],
+    [
+      'after an answer-option label',
+      '(D) A vector is an animal host that transmits an infection.',
+      'vector',
+      'animal host that transmits an infection'
+    ],
+    [
+      'glossary with spaced en dash',
+      'Ampoule – a small container that holds a single dose.',
+      'Ampoule',
+      'small container that holds a single dose'
+    ]
   ])('%s', (_name, text, term, definition) => {
     expect(detectOne(text)).toMatchObject({ term, definition })
   })
@@ -68,7 +113,9 @@ describe('detectDefinitions: across a document', () => {
   })
 
   it('records the page and section of the source sentence', () => {
-    const { sentences, blocks } = sentencesAndBlocks([{ text: 'Postman - a tool used for API testing', page: 7, sectionId: 3 }])
+    const { sentences, blocks } = sentencesAndBlocks([
+      { text: 'Postman - a tool used for API testing', page: 7, sectionId: 3 }
+    ])
     expect(detectDefinitions(sentences, blocks)[0]).toMatchObject({ page: 7, sectionId: 3, sentenceId: 1 })
   })
 })

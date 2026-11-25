@@ -1,6 +1,6 @@
 import type { Block, Sentence } from '../pdf/layout'
 import type { Alias, Definition } from './definitions'
-import { phraseKey, STOPWORDS, tokenize, type Token } from './nlp'
+import { phraseKey, STOPWORDS, type Token, tokenize } from './nlp'
 
 /*
  * Key-term extraction.
@@ -47,9 +47,44 @@ const MIN_FREQUENCY_FOR_NOUN_PHRASE = 2
 
 /** Nouns too vague to be quiz answers on their own (they're fine inside phrases). */
 const GENERIC_NOUNS = new Set([
-  'thing', 'things', 'way', 'ways', 'example', 'part', 'use', 'type', 'kind', 'number', 'lot', 'time', 'something',
-  'one', 'people', 'person', 'case', 'fact', 'point', 'level', 'set', 'step', 'area', 'order', 'form', 'side', 'end',
-  'chapter', 'section', 'page', 'figure', 'table', 'item', 'list', 'value', 'result', 'information', 'data'
+  'thing',
+  'things',
+  'way',
+  'ways',
+  'example',
+  'part',
+  'use',
+  'type',
+  'kind',
+  'number',
+  'lot',
+  'time',
+  'something',
+  'one',
+  'people',
+  'person',
+  'case',
+  'fact',
+  'point',
+  'level',
+  'set',
+  'step',
+  'area',
+  'order',
+  'form',
+  'side',
+  'end',
+  'chapter',
+  'section',
+  'page',
+  'figure',
+  'table',
+  'item',
+  'list',
+  'value',
+  'result',
+  'information',
+  'data'
 ])
 
 interface Occurrences {
@@ -92,9 +127,7 @@ export function extractTerms(
     for (const phrase of nounPhrases(tokens)) add(phrase.text, 'noun-phrase', phrase.key)
   }
 
-  const headingKeys = new Set(
-    blocks.filter((b) => b.kind === 'heading').flatMap((b) => phraseKeysOf(tokenize(b.text)))
-  )
+  const headingKeys = new Set(blocks.filter((b) => b.kind === 'heading').flatMap((b) => phraseKeysOf(tokenize(b.text))))
   const aliasByKey = aliasLookup(aliases)
 
   const terms: Term[] = []
@@ -121,7 +154,9 @@ export function extractTerms(
     })
   }
 
-  return dropSubsumed(terms).sort((a, b) => b.score - a.score || b.frequency - a.frequency || a.key.localeCompare(b.key))
+  return dropSubsumed(terms).sort(
+    (a, b) => b.score - a.score || b.frequency - a.frequency || a.key.localeCompare(b.key)
+  )
 }
 
 /** Sources strong enough that a term is kept even if it mostly appears inside longer terms. */
@@ -170,8 +205,11 @@ function buildPhraseIndex(tokenized: { sentence: Sentence; tokens: Token[] }[]):
         const phrase = tokens.slice(i, i + n)
         // Don't let a phrase run across a comma, bracket or dash.
         if (phrase.slice(0, -1).some((t) => t.breaksAfter)) break
+        const first = phrase[0]
+        const last = phrase[phrase.length - 1]
+        if (!first || !last) break
         const key = phrase.map((t) => t.key).join(' ')
-        const spelling = sentence.text.slice(phrase[0]!.start, phrase[phrase.length - 1]!.end)
+        const spelling = sentence.text.slice(first.start, last.end)
 
         let entry = index.get(key)
         if (!entry) {
@@ -224,8 +262,8 @@ export function nounPhrases(tokens: Token[]): { key: string; text: string }[] {
   let chunk: Token[] = []
 
   const flush = () => {
-    for (let end = 0; end < chunk.length; end++) {
-      if (!isNoun(chunk[end]!)) continue
+    for (const [end, token] of chunk.entries()) {
+      if (!isNoun(token)) continue
       for (let start = Math.max(0, end - 2); start <= end; start++) {
         const words = chunk.slice(start, end + 1)
         phrases.push({ key: words.map((t) => t.key).join(' '), text: words.map((t) => t.text).join(' ') })
@@ -260,7 +298,12 @@ function boldTerms(blocks: Block[]): string[] {
     .map((run) => run.replace(/[\s:,;\-–—]+$/, '').trim())
     .filter((run) => {
       const words = run.split(/\s+/)
-      return words.length <= 5 && /\p{L}/u.test(run) && !/[.!?]$/.test(run) && !words.every((w) => STOPWORDS.has(w.toLowerCase()))
+      return (
+        words.length <= 5 &&
+        /\p{L}/u.test(run) &&
+        !/[.!?]$/.test(run) &&
+        !words.every((w) => STOPWORDS.has(w.toLowerCase()))
+      )
     })
 }
 

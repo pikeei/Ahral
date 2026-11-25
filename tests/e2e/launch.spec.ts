@@ -1,7 +1,7 @@
-import { _electron as electron, expect, test, type ElectronApplication, type Page } from '@playwright/test'
 import { existsSync, mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { type ElectronApplication, _electron as electron, expect, type Page, test } from '@playwright/test'
 
 // Smoke tests against the real built app (out/), launched as a desktop process.
 // Each run gets a fresh, empty data folder so tests never touch your real exams.

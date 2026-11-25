@@ -33,10 +33,46 @@ export const MAX_WORDS = 40
 const OPTION_LABEL = /^\(?[A-Ea-e]\)\s+/
 /** First words that point to something outside the sentence, so it can't stand alone. */
 const REFERS_ELSEWHERE = new Set([
-  'this', 'that', 'these', 'those', 'it', 'its', 'they', 'them', 'their', 'he', 'she', 'his', 'her', 'we', 'you',
-  'however', 'therefore', 'thus', 'hence', 'also', 'such', 'another', 'both', 'then', 'here', 'there', 'so', 'but',
-  'and', 'or', 'because', 'which', 'otherwise', 'instead', 'likewise', 'similarly', 'consequently', 'furthermore',
-  'moreover', 'additionally'
+  'this',
+  'that',
+  'these',
+  'those',
+  'it',
+  'its',
+  'they',
+  'them',
+  'their',
+  'he',
+  'she',
+  'his',
+  'her',
+  'we',
+  'you',
+  'however',
+  'therefore',
+  'thus',
+  'hence',
+  'also',
+  'such',
+  'another',
+  'both',
+  'then',
+  'here',
+  'there',
+  'so',
+  'but',
+  'and',
+  'or',
+  'because',
+  'which',
+  'otherwise',
+  'instead',
+  'likewise',
+  'similarly',
+  'consequently',
+  'furthermore',
+  'moreover',
+  'additionally'
 ])
 const MENTIONS_FIGURE = /\b(figure|fig\.|table|above|below|following|shown|illustrated)\b/i
 /**
@@ -44,8 +80,34 @@ const MENTIONS_FIGURE = /\b(figure|fig\.|table|above|below|following|shown|illus
  * two-letter entries ("le", "ve", "di") that are usually fragments of broken words.
  */
 const TWO_LETTER_WORDS = new Set([
-  'am', 'an', 'as', 'at', 'be', 'by', 'do', 'go', 'he', 'hi', 'if', 'in', 'is', 'it', 'me', 'my', 'no', 'of',
-  'oh', 'ok', 'on', 'or', 'ox', 'so', 'to', 'up', 'us', 'we'
+  'am',
+  'an',
+  'as',
+  'at',
+  'be',
+  'by',
+  'do',
+  'go',
+  'he',
+  'hi',
+  'if',
+  'in',
+  'is',
+  'it',
+  'me',
+  'my',
+  'no',
+  'of',
+  'oh',
+  'ok',
+  'on',
+  'or',
+  'ox',
+  'so',
+  'to',
+  'up',
+  'us',
+  'we'
 ])
 
 export function checkSentence(raw: string, options: SentenceFilterOptions = {}): SentenceCheck {

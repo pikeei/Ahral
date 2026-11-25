@@ -1,5 +1,5 @@
 import { analyzeLayout, type ExtractedDocument, type LayoutOptions } from './pdf/layout'
-import { loadPdfPages, type LoadPdfOptions } from './pdf/pdfjs-adapter'
+import { type LoadPdfOptions, loadPdfPages } from './pdf/pdfjs-adapter'
 
 export type { ExtractedDocument } from './pdf/layout'
 

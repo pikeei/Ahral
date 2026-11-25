@@ -6,7 +6,7 @@
  *   npm run sample-pdf
  */
 import { mkdir, writeFile } from 'node:fs/promises'
-import { buildPdf, textLines, type PdfLine } from '../tests/fixtures/pdf-builder'
+import { buildPdf, type PdfLine, textLines } from '../tests/fixtures/pdf-builder'
 
 const header = (n: number): PdfLine[] => [
   { text: 'Software Testing Reviewer', y: 760, size: 9 },

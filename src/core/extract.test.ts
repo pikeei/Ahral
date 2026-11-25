@@ -5,7 +5,7 @@ import { extractDocument } from './extract'
 import { isBoldFontName } from './pdf/pdfjs-adapter'
 
 // Integration tests: real PDF bytes → PDF.js → layout analysis.
-const standardFontDataUrl = resolve('node_modules/pdfjs-dist/standard_fonts') + '/'
+const standardFontDataUrl = `${resolve('node_modules/pdfjs-dist/standard_fonts')}/`
 
 describe('extractDocument (real PDFs)', () => {
   it('extracts headings, sections, bold terms and sentences with page numbers', async () => {

@@ -61,7 +61,12 @@ describe('selectAnswerTerms', () => {
 
   it('drops single everyday words unless they were defined, bolded or are acronyms', () => {
     const picked = selectAnswerTerms(
-      [term('system'), term('patient', { sources: ['definition'] }), term('kilovoltage'), term('web browser', { key: 'web browser' })],
+      [
+        term('system'),
+        term('patient', { sources: ['definition'] }),
+        term('kilovoltage'),
+        term('web browser', { key: 'web browser' })
+      ],
       10,
       isWord
     ).map((t) => t.text)

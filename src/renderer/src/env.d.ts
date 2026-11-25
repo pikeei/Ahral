@@ -5,5 +5,3 @@ declare global {
     api: AhralApi
   }
 }
-
-export {}
