@@ -126,7 +126,7 @@ export function ExamRunner({ exam, onFinish, onQuit }: Props) {
         <p className="text-xs font-medium tracking-wide text-slate-500 uppercase">
           {TYPE_LABELS[question.type]} · {question.section}
         </p>
-        <h2 className="mt-2 text-lg leading-relaxed" data-testid="question-prompt">
+        <h2 className="mt-2 text-lg leading-relaxed whitespace-pre-line" data-testid="question-prompt">
           {question.prompt}
         </h2>
 

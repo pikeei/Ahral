@@ -55,7 +55,11 @@ export function buildGlossary(definitions: Definition[]): GlossaryEntry[] {
 }
 
 export function gradeAnswer(question: Question, given: string | null, options: GradeOptions = {}): AnswerResult {
-  const feedback: Feedback = { answer: question.answer, explanation: question.explanation, page: question.page }
+  const feedback: Feedback = {
+    answer: question.answer,
+    explanation: question.explanation,
+    page: question.explanationPage ?? question.page
+  }
   const result = (status: AnswerStatus, extra: Partial<Feedback> = {}): AnswerResult => ({
     questionId: question.id,
     status,

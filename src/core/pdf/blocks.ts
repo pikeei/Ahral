@@ -16,11 +16,21 @@ const BULLET_GLYPH = /^[•●○◦▪▫■□‣⁃∙·*\-–—]\s+/
 const LIST_MARKER = /^(\(?\d{1,3}[.)]|\(?[a-z][.)]|\([A-Z]\))\s+/
 const NUMBERED_HEADING = /^((\d+\.)*\d+\.?|[A-Z]\.|chapter|section|part|unit|lesson|module|appendix)\s/i
 const TERMINAL_PUNCTUATION = /[.!?:;]["'”’)\]]*$/
+/**
+ * A line that starts in lowercase or stops on a small connecting word is the middle of
+ * a sentence ("section is followed by answers or by completions of the"), not a title,
+ * even when it is set in a large font, as in a boxed "Directions" paragraph.
+ */
+const STARTS_LOWERCASE = /^\p{Ll}/u
+const ENDS_ON_CONNECTING_WORD = /\b(?:the|a|an|of|and|or|to|by|in|for|with|that|is|are)$/i
 
 export function isHeadingLine(line: Line, bodyFontSize: number): boolean {
   const text = line.text
   const words = text.split(' ')
   if (!/\p{L}/u.test(text) || words.length > MAX_HEADING_WORDS || /[.,;]$/.test(text)) return false
+  if (STARTS_LOWERCASE.test(text) || ENDS_ON_CONNECTING_WORD.test(text)) return false
+  // A lone letter in a large font is a label on an image ("L", "R" side markers), not a title.
+  if (!/\p{L}{2}/u.test(text)) return false
   if (line.fontSize >= bodyFontSize * HEADING_SIZE_RATIO) return true
   // Bold at body size is common for key terms inside a paragraph, so a bold line
   // only counts as a heading when it also looks like one: numbered, or ALL CAPS.

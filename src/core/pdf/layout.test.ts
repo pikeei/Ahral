@@ -115,6 +115,19 @@ describe('running headers and footers', () => {
     expect(doc.sentences.map((s) => s.text)).toEqual([1, 2, 3, 4].map((n) => `Body sentence on page ${n}.`))
   })
 
+  it('removes a header that runs through only one part of the book ("Answers: 1-14")', () => {
+    // 20 pages; the answer pages (the last 4) carry a header whose numbers change on each page.
+    const pages = Array.from({ length: 20 }, (_, i) => {
+      const n = i + 1
+      const header = n > 16 ? [item(`Answers: ${(n - 17) * 14 + 1}-${(n - 16) * 14}`, 72, PAGE_HEIGHT - 30)] : []
+      return page(n, [...header, ...paragraph([`Body sentence on page ${n}.`], 72, 600)])
+    })
+    const all = analyzeLayout(pages)
+      .blocks.map((b) => b.text)
+      .join(' ')
+    expect(all).not.toContain('Answers')
+  })
+
   it('keeps repeated text that is in the body area', () => {
     const pages = [1, 2, 3].map((n) => page(n, paragraph(['Remember this rule.'], 72, 500)))
     expect(analyzeLayout(pages).sentences).toHaveLength(3)
@@ -148,6 +161,11 @@ describe('headings and sections', () => {
     ['bold term at body size', line('Selenium', 11, true), false],
     ['large text ending with a period', line('This is a sentence.', 16), false],
     ['plain body line', line('Testing finds defects', 11), false],
+    // Lines of a boxed "Directions" paragraph set in a large font are not titles.
+    ['large text starting in lowercase', line('section is followed by answers', 16), false],
+    ['large text ending on "of the"', line('Select the answer or completion of the', 16), false],
+    ['title ending on a full word', line('Radiation Protection and Safety', 16), true],
+    ['single-letter image label', line('R', 16), false],
     [
       'too many words',
       line('one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen', 16),

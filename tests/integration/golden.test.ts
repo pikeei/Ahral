@@ -3,6 +3,7 @@ import { resolve } from 'node:path'
 import { beforeAll, describe, expect, it } from 'vitest'
 import wordListPath from 'word-list'
 import { analyzeDocument, type DocumentAnalysis } from '../../src/core/analysis/analyze'
+import { describeQuestionBank, extractQuestionBank, type QuestionBankResult } from '../../src/core/bank/question-bank'
 import { type ExtractedDocument, extractDocument } from '../../src/core/extract'
 import { type GenerationResult, generateQuestions } from '../../src/core/generation/generate'
 import { buildGoldenPdf } from '../fixtures/golden-pdf'
@@ -24,16 +25,18 @@ const standardFontDataUrl = `${resolve('node_modules/pdfjs-dist/standard_fonts')
 let doc: ExtractedDocument
 let analysis: DocumentAnalysis
 let result: GenerationResult
+let bank: QuestionBankResult
 
 beforeAll(async () => {
   doc = await extractDocument(await buildGoldenPdf(), { standardFontDataUrl, isWord })
   analysis = analyzeDocument(doc)
   result = generateQuestions(doc, analysis, { isWord })
+  bank = extractQuestionBank(doc.blocks)
 })
 
 describe('golden pipeline', () => {
   it('matches the reviewed output', async () => {
-    await expect(summarize(doc, analysis, result)).toMatchFileSnapshot('./__golden__/pipeline.txt')
+    await expect(summarize(doc, analysis, result, bank)).toMatchFileSnapshot('./__golden__/pipeline.txt')
   })
 
   // Invariants that must hold whatever the snapshot says.
@@ -78,6 +81,17 @@ describe('golden pipeline', () => {
     }
   })
 
+  it('imports the book’s own questions with their answer key from a later page', () => {
+    expect(bank.stats).toEqual({ found: 2, imported: 2, withoutAnswer: 0, needsFigure: 0, malformed: 0 })
+    const [pulse, contact] = bank.questions
+    expect(pulse).toMatchObject({ answer: 'Superficial arteries', page: 3, explanationPage: 4, keepOptionOrder: true })
+    expect(contact?.prompt).toBe(
+      'Diseases that require contact precautions include\n1. MRSA\n2. wound infections\n3. influenza'
+    )
+    expect(contact?.answer).toBe('1 and 2 only')
+    expect(contact?.explanation).toMatch(/^MRSA and wound infections spread by direct contact/)
+  })
+
   it('references real pages', () => {
     for (const q of result.questions) {
       expect(q.page).toBeGreaterThanOrEqual(1)
@@ -87,7 +101,7 @@ describe('golden pipeline', () => {
 })
 
 /** A compact, human-readable view of everything the pipeline produced. */
-function summarize(d: ExtractedDocument, a: DocumentAnalysis, r: GenerationResult): string {
+function summarize(d: ExtractedDocument, a: DocumentAnalysis, r: GenerationResult, b: QuestionBankResult): string {
   const out: string[] = []
   out.push('WARNINGS', ...d.warnings.map((w) => `- ${w}`), '')
   out.push('SECTIONS', ...d.sections.map((s) => `- p${s.pageStart}-${s.pageEnd} ${s.title ?? '(untitled)'}`), '')
@@ -98,6 +112,13 @@ function summarize(d: ExtractedDocument, a: DocumentAnalysis, r: GenerationResul
     ''
   )
   out.push('TOP TERMS', ...a.terms.slice(0, 15).map((t) => `- ${t.text} (${t.score})`), '')
+  out.push(`BOOK QUESTIONS (${describeQuestionBank(b.stats) ?? 'none'})`)
+  for (const q of b.questions) {
+    out.push(`[${q.id} p${q.page}, explained p${q.explanationPage}] ${q.prompt.replace(/\n/g, ' / ')}`)
+    out.push(...(q.options ?? []).map((o) => `    ${o.text === q.answer ? '*' : '-'} ${o.text}`))
+    out.push(`    because: ${q.explanation}`)
+  }
+  out.push('')
   out.push(`QUESTIONS (${r.questions.length})`)
   for (const q of r.questions) {
     out.push(`[${q.type} p${q.page} q${q.quality}] ${q.prompt}`)

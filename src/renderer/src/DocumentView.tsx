@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import type { DocumentDetail, ExamSettings, QuestionType } from '../../shared/api'
 import { Button, Card, ErrorBanner, errorMessage, formatDate, ScoreBar, scoreColor, TYPE_LABELS } from './ui'
 
-const ALL_TYPES: QuestionType[] = ['cloze', 'mcq-term', 'mcq-definition']
+const ALL_TYPES: QuestionType[] = ['book-mcq', 'cloze', 'mcq-term', 'mcq-definition']
 
 interface Props {
   documentId: number

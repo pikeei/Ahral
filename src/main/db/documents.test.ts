@@ -1,5 +1,6 @@
 import type { DatabaseSync } from 'node:sqlite'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { question } from '../../core/exam/test-helpers'
 import {
   deleteDocument,
   findDocumentBySha,
@@ -45,6 +46,18 @@ describe('insertDocument', () => {
     expect(loadGlossary(db, id)).toEqual(original.glossary)
     // Includes options with and without a source, and questions without options.
     expect(loadQuestions(db, id)).toEqual(original.questions)
+  })
+
+  it('round-trips a book question with its option order and explanation page', () => {
+    const book = question('book-1-7', {
+      type: 'book-mcq',
+      options: [{ text: '1 only' }, { text: '1 and 2' }, { text: '1, 2, and 3' }],
+      keepOptionOrder: true,
+      explanationPage: 41,
+      quality: 1
+    })
+    const id = insertDocument(db, meta(), content({ questions: [book] }))
+    expect(loadQuestions(db, id)).toEqual([book])
   })
 
   it('keeps one copy per file content', () => {

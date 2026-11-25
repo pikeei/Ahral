@@ -33,8 +33,8 @@ import { importPdf } from '../src/main/import'
 import { loadDictionary, standardFontDataUrl } from './lib/read-pdf.mts'
 
 const USAGE =
-  'Usage: npm run exam -- <file.pdf> [--count N] [--seed N] [--types cloze,mcq-term,mcq-definition] [--typos] [--auto] [--regenerate] [--db FILE]'
-const QUESTION_TYPES: QuestionType[] = ['cloze', 'mcq-term', 'mcq-definition']
+  'Usage: npm run exam -- <file.pdf> [--count N] [--seed N] [--types book-mcq,cloze,mcq-term,mcq-definition] [--typos] [--auto] [--regenerate] [--db FILE]'
+const QUESTION_TYPES: QuestionType[] = ['book-mcq', 'cloze', 'mcq-term', 'mcq-definition']
 const FLAGS_WITH_VALUES = ['--count', '--seed', '--types', '--db']
 
 async function main(): Promise<void> {

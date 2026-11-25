@@ -62,7 +62,8 @@ export function ScoreBar({ percent }: { percent: number }) {
 export const TYPE_LABELS: Record<QuestionType, string> = {
   cloze: 'Fill in the blank',
   'mcq-term': 'Pick the term',
-  'mcq-definition': 'Pick the definition'
+  'mcq-definition': 'Pick the definition',
+  'book-mcq': 'From the book'
 }
 
 export const STAGE_LABELS: Record<ImportStage, string> = {

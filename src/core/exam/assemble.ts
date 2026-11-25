@@ -56,7 +56,9 @@ export function assembleExam(questions: Question[], config: ExamConfig, seed: nu
   const picked = pickQuestions(pool, config.questionCount, random)
   const items = shuffle(picked, random).map((question) => ({
     question,
-    ...(question.options ? { optionOrder: shuffle([...question.options.keys()], random) } : {})
+    ...(question.options && !question.keepOptionOrder
+      ? { optionOrder: shuffle([...question.options.keys()], random) }
+      : {})
   }))
 
   const warnings: string[] = []

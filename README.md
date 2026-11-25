@@ -3,7 +3,8 @@
 An offline Windows desktop app that turns PDF reading material into practice exams
 using rule-based text analysis. No generative AI, no cloud, no paid services.
 
-> Status: Stage 7 (Windows installer). Import PDFs, take exams with feedback, see results and history.
+> Status: Stage 8 (question banks). Review books' own questions are imported with their answer key,
+> alongside the generated ones. Windows installer; exams with feedback, results and history.
 
 ## Install
 
@@ -30,6 +31,22 @@ upgrading keeps them; delete that folder to remove them.
    *Retake these questions* replays the same exam; the document page keeps your past attempts and
    your weak sections across all of them.
 
+## Where questions come from
+
+- **From the book.** If the PDF already has multiple-choice questions with an answer key, as review
+  books do, Ahral imports them as written: same wording, same option order, and the book's own
+  explanation with its page. These rank above generated questions. Tick only *From the book* for
+  an exam closest to the real thing.
+- **Generated.** Ahral also makes questions from the text itself: fill-in-the-blank sentences with
+  a key term removed, and "pick the term" / "pick the definition" questions from the definitions it
+  finds. The wrong options are other real definitions from the same document.
+
+Question banks are recognised when questions are numbered ("12." or "12)"), options are lettered
+("(A)", "A)", "A." or lowercase) and answers are given as "12. (C) explanation" in a key, or as
+"Answer: C" after the options. Combination questions with numbered statements ("1 and 2 only") are
+supported. Questions that refer to a figure are skipped, since the app can't show images, and so are
+questions whose answer can't be found; the document's notes say how many.
+
 ## Stack
 
 Electron · React · TypeScript · Tailwind CSS · SQLite (Node's built-in `node:sqlite`) ·
@@ -49,6 +66,7 @@ src/
     pdf/         PDF.js adapter and layout analysis (lines, columns, headers, blocks, sections)
     text/        Normalization, sentence splitting, answer comparison, missing-letter repair
     analysis/    Definitions, acronyms, key terms (TF-IDF)
+    bank/        The document's own questions and answer key (review books)
     generation/  Sentence filter, fill-in-the-blank and multiple-choice questions, dedupe
     exam/        Seeded exam assembly, grading with explanations, scoring and weak sections
 tests/

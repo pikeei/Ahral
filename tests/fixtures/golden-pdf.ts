@@ -7,7 +7,8 @@ import { buildPdf, type PdfLine, textLines } from './pdf-builder'
  * - a broken word hyphenated across two lines ("femo-" / "ral" -> "emo-" / "ral");
  * - a running header and page-number footer on every page;
  * - a two-column page with a narrow gutter;
- * - a question with (A)-(D) options and an "Answers and Explanations" section;
+ * - numbered questions with (A)-(D) options (one a combination question with numbered
+ *   statements) and their numbered answer key on a later page;
  * - a glossary list with two deliberately similar definitions (ampoule / vial);
  * - a bold term followed by its definition.
  */
@@ -91,28 +92,22 @@ const page3: PdfLine[] = [
   ...broken(
     textLines(
       [
-        'Which blood vessels are best suited for determination of pulse rate?',
+        '1. Which blood vessels are best suited for determination of pulse rate?',
         '(A) Superficial arteries',
         '(B) Deep arteries',
         '(C) Superficial veins',
-        '(D) Deep veins'
+        '(D) Deep veins',
+        // A combination question: numbered statements, then options that refer to them.
+        '2. Diseases that require contact precautions include',
+        '1. MRSA',
+        '2. wound infections',
+        '3. influenza',
+        '(A) 1 only',
+        '(B) 1 and 2 only',
+        '(C) 2 and 3 only',
+        '(D) 1, 2, and 3'
       ],
       680
-    )
-  ),
-  { text: 'Answers and Explanations', y: 590, size: 14, bold: true },
-  ...broken(
-    textLines(
-      [
-        '(A) Superficial arteries are best suited for determination of pulse rate. The femoral',
-        'pulse is felt in the groin. Kilovoltage is the primary factor that controls beam',
-        'quality, while milliamperage controls the quantity of photons produced.',
-        '(D) The portal of entry is the pathway by which infectious organisms enter the body.',
-        'Proper body mechanics help prevent back injury when moving patients from a stretcher.',
-        'Hand hygiene is the single most effective way to prevent the spread of infection.',
-        'Standard precautions apply to every patient regardless of the final diagnosis.'
-      ],
-      560
     )
   ),
   { text: 'Thoracentesis', y: 450, bold: true },
@@ -123,6 +118,27 @@ const page3: PdfLine[] = [
   }
 ]
 
+// The answer key comes pages after the questions, as in a real review book.
+const page4: PdfLine[] = [
+  ...pageChrome(4),
+  { text: 'Answers and Explanations', y: 710, size: 14, bold: true },
+  ...broken(
+    textLines(
+      [
+        '1. (A) Superficial arteries are best suited for determination of pulse rate. The femoral',
+        'pulse is felt in the groin. Kilovoltage is the primary factor that controls beam',
+        'quality, while milliamperage controls the quantity of photons produced.',
+        '2. (B) MRSA and wound infections spread by direct contact; influenza spreads by droplets.',
+        'The portal of entry is the pathway by which infectious organisms enter the body.',
+        'Proper body mechanics help prevent back injury when moving patients from a stretcher.',
+        'Hand hygiene is the single most effective way to prevent the spread of infection.',
+        'Standard precautions apply to every patient regardless of the final diagnosis.'
+      ],
+      680
+    )
+  )
+]
+
 export function buildGoldenPdf(): Promise<Uint8Array> {
-  return buildPdf([page1, page2, page3])
+  return buildPdf([page1, page2, page3, page4])
 }

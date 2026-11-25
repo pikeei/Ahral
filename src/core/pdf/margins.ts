@@ -4,6 +4,8 @@ import type { Line } from './layout-types'
 
 /** Lines in the top/bottom fraction of the page are candidates for running headers/footers. */
 const MARGIN_ZONE = 0.1
+/** Margin text on at least this share of pages is a running header or footer. */
+const REPEATED_SHARE = 0.1
 
 const PAGE_NUMBER_PATTERNS = [
   /^(page\s*)?#(\s*(of|\/)\s*#)?$/i, // "12", "Page 12", "12 of 40", "12/40"
@@ -35,7 +37,10 @@ export function removeRunningHeadersFooters(pages: { lines: Line[]; height: numb
     for (const key of keys) pagesWithKey.set(key, (pagesWithKey.get(key) ?? 0) + 1)
   }
   // Needs at least 3 pages to call something "repeated"; page numbers are removed regardless.
-  const repeatThreshold = pages.length >= 3 ? Math.max(2, Math.ceil(pages.length * 0.5)) : Number.POSITIVE_INFINITY
+  // A running header may cover only one part of a book ("Answers: 213-228" on the answer
+  // pages), so a tenth of the pages is enough.
+  const repeatThreshold =
+    pages.length >= 3 ? Math.max(2, Math.ceil(pages.length * REPEATED_SHARE)) : Number.POSITIVE_INFINITY
 
   return pages.map(({ lines, height }) =>
     lines.filter((line) => {

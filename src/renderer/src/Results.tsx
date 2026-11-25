@@ -93,7 +93,7 @@ export function Results({ summary, onRetake, onDone }: Props) {
           {summary.review.map((r) => (
             <li key={r.position} className="border-t border-slate-100 pt-4 first:border-0 first:pt-0">
               <div className="flex items-start justify-between gap-3">
-                <p>
+                <p className="whitespace-pre-line">
                   <span className="text-slate-400">{r.position + 1}. </span>
                   {r.prompt}
                 </p>

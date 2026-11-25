@@ -6,6 +6,8 @@ export type QuestionType =
   | 'mcq-term'
   /** "Which best describes X?" Options are definitions. */
   | 'mcq-definition'
+  /** A multiple-choice question taken as it is from the document's own question bank. */
+  | 'book-mcq'
 
 export interface Question {
   /** Stable id built from the source, so regenerating gives the same ids. */
@@ -18,8 +20,12 @@ export interface Question {
   acceptedAnswers: string[]
   /** Multiple-choice options including the answer, unshuffled; shuffling happens per exam attempt. */
   options?: Option[]
+  /** Show the options in the document's order ("all of the above", "1 and 2 only" depend on it). */
+  keepOptionOrder?: boolean
   /** The source sentence, shown after answering. */
   explanation: string
+  /** Page of the explanation when it is not on the question's page (a book's answer key). */
+  explanationPage?: number
   page: number
   sectionId: number
   sentenceId: number

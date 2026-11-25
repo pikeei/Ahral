@@ -51,6 +51,24 @@ describe('gradeAnswer: multiple choice', () => {
   it('treats an answer that is not one of the options as wrong without an explanation', () => {
     expect(gradeAnswer(termMcq, 'Syringe').feedback.chosen).toBeUndefined()
   })
+
+  it('cites the page of a book question’s explanation, not of the question', () => {
+    const book = question('b', {
+      type: 'book-mcq',
+      answer: 'Superficial arteries',
+      options: [{ text: 'Superficial arteries' }, { text: 'Deep arteries' }, { text: 'Deep veins' }],
+      explanation: 'Superficial arteries are best suited for determination of pulse rate.',
+      explanationPage: 41,
+      page: 27
+    })
+    const wrong = gradeAnswer(book, 'Deep veins')
+    expect(wrong.status).toBe('wrong')
+    expect(describeFeedback(wrong)).toEqual([
+      'Not quite.',
+      'The answer is: Superficial arteries.',
+      'Superficial arteries are best suited for determination of pulse rate. (p. 41)'
+    ])
+  })
 })
 
 describe('gradeAnswer: typed answers', () => {

@@ -81,6 +81,16 @@ describe('assembleExam', () => {
     expect(displayedOptions(item).map((o) => o.text)).toEqual(item.optionOrder!.map((i) => q.options![i]!.text))
   })
 
+  it('keeps the document’s option order where the options depend on it ("1 and 2 only")', () => {
+    const texts = ['1 only', '1 and 2 only', '2 and 3 only', '1, 2, and 3']
+    const q = question('b', { type: 'book-mcq', options: texts.map((t) => ({ text: t })), keepOptionOrder: true })
+    for (const seed of [1, 2, 3]) {
+      const item = assembleExam([q], { questionCount: 1 }, seed).items[0]!
+      expect(item.optionOrder).toBeUndefined()
+      expect(displayedOptions(item).map((o) => o.text)).toEqual(texts)
+    }
+  })
+
   it('warns when nothing matches', () => {
     expect(assembleExam([], { questionCount: 5 }, 1).warnings).toEqual(['No questions match these settings.'])
   })

@@ -25,7 +25,8 @@ export interface GenerationStats {
   usableSentences: number
   rejectedSentences: Partial<Record<SentenceRejection, number>>
   rejectedQuestions: Partial<Record<ClozeRejection | McqRejection | 'duplicate', number>>
-  byType: Record<QuestionType, number>
+  /** Generated types only: questions from the document's own question bank are counted separately. */
+  byType: Record<Exclude<QuestionType, 'book-mcq'>, number>
 }
 
 export interface GenerationResult {

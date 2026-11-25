@@ -1,12 +1,12 @@
 WARNINGS
-- This PDF's text layer is missing letters: "f" (0% of the usual amount), so words containing them are broken (for example "of" becomes "o"). Repaired 47 words using a dictionary; uncommon terms may still be broken.
+- This PDF's text layer is missing letters: "f" (0% of the usual amount), so words containing them are broken (for example "of" becomes "o"). Repaired 51 words using a dictionary; uncommon terms may still be broken.
 
 SECTIONS
 - p1-1 Chapter 1 Patient Care
 - p1-1 1.1 Medication Containers
-- p2-3 Chapter 2 Radiation Protection
+- p2-4 Chapter 2 Radiation Protection
 - p3-3 Questions
-- p3-3 Answers and Explanations
+- p4-4 Answers and Explanations
 
 SENTENCES
 - p1 The five most easily palpated pulse points are the radial, carotid, temporal, femoral, and popliteal pulses.
@@ -33,14 +33,23 @@ SENTENCES
 - p3 (B) Deep arteries
 - p3 (C) Superficial veins
 - p3 (D) Deep veins
-- p3 (A) Superficial arteries are best suited or determination of pulse rate.
-- p3 The femoral pulse is elt in the groin.
-- p3 Kilovoltage is the primary actor that controls beam quality, while milliamperage controls the quantity of photons produced.
-- p3 (D) The portal of entry is the pathway by which infectious organisms enter the body.
-- p3 Proper body mechanics help prevent back injury when moving patients rom a stretcher.
-- p3 Hand hygiene is the single most effective way to prevent the spread of infection.
-- p3 Standard precautions apply to every patient regardless of the final diagnosis.
+- p3 Diseases that require contact precautions include
+- p3 MRSA
+- p3 2. wound infections
+- p3 3. influenza
+- p3 (A) 1 only
+- p3 (B) 1 and 2 only
+- p3 (C) 2 and 3 only
+- p3 (D) 1, 2, and 3
 - p3 Thoracentesis is a procedure used to remove fluid rom the pleural cavity of the chest.
+- p4 (A) Superficial arteries are best suited or determination of pulse rate.
+- p4 The femoral pulse is elt in the groin.
+- p4 Kilovoltage is the primary actor that controls beam quality, while milliamperage controls the quantity of photons produced.
+- p4 (B) MRSA and wound infections spread by direct contact; influenza spreads by droplets.
+- p4 The portal of entry is the pathway by which infectious organisms enter the body.
+- p4 Proper body mechanics help prevent back injury when moving patients rom a stretcher.
+- p4 Hand hygiene is the single most effective way to prevent the spread of infection.
+- p4 Standard precautions apply to every patient regardless of the final diagnosis.
 
 DEFINITIONS
 - p1 Infection control = fundamental part of patient care in every imaging department  [is-a 0.75]
@@ -52,10 +61,10 @@ DEFINITIONS
 - p1 Syringe = device used to inject fluids into the body or withdraw them  [glossary 0.9]
 - p1 Catheter = flexible tube inserted into the body to deliver or drain fluids  [glossary 0.9]
 - p2 half value layer = thickness of any absorber that reduces beam intensity to one half of its original value  [is-a 0.75]
-- p3 Kilovoltage = primary actor that controls beam quality, while milliamperage controls the quantity of photons produced  [is-a 0.75]
-- p3 portal of entry = pathway by which infectious organisms enter the body  [is-a 0.75]
-- p3 Hand hygiene = single most effective way to prevent the spread of infection  [is-a 0.75]
 - p3 Thoracentesis = procedure used to remove fluid rom the pleural cavity of the chest  [is-a 0.8]
+- p4 Kilovoltage = primary actor that controls beam quality, while milliamperage controls the quantity of photons produced  [is-a 0.75]
+- p4 portal of entry = pathway by which infectious organisms enter the body  [is-a 0.75]
+- p4 Hand hygiene = single most effective way to prevent the spread of infection  [is-a 0.75]
 
 TOP TERMS
 - Thoracentesis (6.45)
@@ -74,7 +83,21 @@ TOP TERMS
 - patient (3.73)
 - medication (3.31)
 
-QUESTIONS (37)
+BOOK QUESTIONS (Imported 2 of the 2 questions in this PDF.)
+[book-1-1 p3, explained p4] Which blood vessels are best suited or determination of pulse rate?
+    * Superficial arteries
+    - Deep arteries
+    - Superficial veins
+    - Deep veins
+    because: Superficial arteries are best suited or determination of pulse rate. The femoral pulse is elt in the groin. Kilovoltage is the primary actor that controls beam quality, while milliamperage controls the quantity of photons produced.
+[book-1-2 p3, explained p4] Diseases that require contact precautions include / 1. MRSA / 2. wound infections / 3. influenza
+    - 1 only
+    * 1 and 2 only
+    - 2 and 3 only
+    - 1, 2, and 3
+    because: MRSA and wound infections spread by direct contact; influenza spreads by droplets. The portal of entry is the pathway by which infectious organisms enter the body. Proper body mechanics help prevent back injury when moving patients rom a stretcher. Hand hygiene is the single most effective way to prevent the spread of infection. Standard precautions apply to every patient regardless of the final diagnosis.
+
+QUESTIONS (39)
 [mcq-term p1 q0.93] Which term is best described as: "Narrow-mouthed container that is not used or medical purposes"?
     * Carafe
     - Ampoule
@@ -102,14 +125,14 @@ QUESTIONS (37)
     - Syringe
 [cloze p2 q0.92] The _____ is the thickness of any absorber that reduces beam intensity to one half of its original value.
     = half value layer
-[cloze p3 q0.92] The _____ is the pathway by which infectious organisms enter the body.
+[cloze p4 q0.92] The _____ is the pathway by which infectious organisms enter the body.
     = portal of entry
 [cloze p3 q0.9] _____ is a procedure used to remove fluid rom the pleural cavity of the chest.
     = Thoracentesis
-[cloze p3 q0.88] _____ is the single most effective way to prevent the spread of infection.
-    = Hand hygiene
 [cloze p1 q0.88] _____ is a fundamental part of patient care in every imaging department.
     = Infection control
+[cloze p4 q0.88] _____ is the single most effective way to prevent the spread of infection.
+    = Hand hygiene
 [mcq-definition p1 q0.84] Which of the following best describes Carafe?
     * Narrow-mouthed container that is not used or medical purposes
     - Small sealed container that usually holds a single dose of medication
@@ -135,11 +158,6 @@ QUESTIONS (37)
     - Narrow-mouthed container that is not used or medical purposes
     - Small sealed container that usually holds a single dose of medication
     - Device used to inject fluids into the body or withdraw them
-[mcq-term p3 q0.76] Which term is best described as: "Procedure used to remove fluid rom the pleural cavity of the chest"?
-    * Thoracentesis
-    - Hand hygiene
-    - Portal of entry
-    - Catheter
 [cloze p1 q0.74] _____ - a narrow-mouthed container that is not used or medical purposes.
     = Carafe
 [cloze p1 q0.74] _____ - a device used to inject fluids into the body or withdraw them.
@@ -154,16 +172,6 @@ QUESTIONS (37)
     = Ampoule
 [cloze p1 q0.74] _____ - a larger container that holds a number of doses of medication.
     = Vial
-[mcq-term p3 q0.72] Which term is best described as: "Pathway by which infectious organisms enter the body"?
-    * Portal of entry
-    - Thoracentesis
-    - Hand hygiene
-    - Half value layer
-[mcq-term p3 q0.72] Which term is best described as: "Single most effective way to prevent the spread of infection"?
-    * Hand hygiene
-    - Thoracentesis
-    - Portal of entry
-    - Infection control
 [mcq-term p1 q0.72] Which term is best described as: "Fundamental part of patient care in every imaging department"?
     * Infection control
     - Reservoir
@@ -179,21 +187,6 @@ QUESTIONS (37)
     - Reservoir
     - Infection control
     - Carafe
-[mcq-definition p3 q0.68] Which of the following best describes Thoracentesis?
-    * Procedure used to remove fluid rom the pleural cavity of the chest
-    - Single most effective way to prevent the spread of infection
-    - Pathway by which infectious organisms enter the body
-    - Flexible tube inserted into the body to deliver or drain fluids
-[mcq-definition p3 q0.65] Which of the following best describes portal of entry?
-    * Pathway by which infectious organisms enter the body
-    - Procedure used to remove fluid rom the pleural cavity of the chest
-    - Single most effective way to prevent the spread of infection
-    - Thickness of any absorber that reduces beam intensity to one half of its original value
-[mcq-definition p3 q0.65] Which of the following best describes Hand hygiene?
-    * Single most effective way to prevent the spread of infection
-    - Procedure used to remove fluid rom the pleural cavity of the chest
-    - Pathway by which infectious organisms enter the body
-    - Fundamental part of patient care in every imaging department
 [mcq-definition p1 q0.65] Which of the following best describes Infection control?
     * Fundamental part of patient care in every imaging department
     - Site where an infectious organism can remain alive and rom which transmission can occur
@@ -209,15 +202,49 @@ QUESTIONS (37)
     - Site where an infectious organism can remain alive and rom which transmission can occur
     - Fundamental part of patient care in every imaging department
     - Narrow-mouthed container that is not used or medical purposes
+[mcq-term p4 q0.62] Which term is best described as: "Pathway by which infectious organisms enter the body"?
+    * Portal of entry
+    - Hand hygiene
+    - Half value layer
+    - Reservoir
+[mcq-term p4 q0.62] Which term is best described as: "Single most effective way to prevent the spread of infection"?
+    * Hand hygiene
+    - Portal of entry
+    - Infection control
+    - Thoracentesis
+[mcq-term p3 q0.56] Which term is best described as: "Procedure used to remove fluid rom the pleural cavity of the chest"?
+    * Thoracentesis
+    - Catheter
+    - Ampoule
+    - Syringe
+[mcq-definition p4 q0.55] Which of the following best describes portal of entry?
+    * Pathway by which infectious organisms enter the body
+    - Single most effective way to prevent the spread of infection
+    - Thickness of any absorber that reduces beam intensity to one half of its original value
+    - Site where an infectious organism can remain alive and rom which transmission can occur
+[mcq-definition p4 q0.55] Which of the following best describes Hand hygiene?
+    * Single most effective way to prevent the spread of infection
+    - Pathway by which infectious organisms enter the body
+    - Fundamental part of patient care in every imaging department
+    - Procedure used to remove fluid rom the pleural cavity of the chest
+[cloze p4 q0.52] _____ and wound infections spread by direct contact; influenza spreads by droplets.
+    = MRSA
 [mcq-term p2 q0.52] Which term is best described as: "Thickness of any absorber that reduces beam intensity to one half of its original value"?
     * Half value layer
     - Portal of entry
     - Reservoir
     - Vector
+[cloze p1 q0.48] _____ require gloves and gowns or anyone coming in direct contact with the infected patient.
+    = Contact precautions
+[mcq-definition p3 q0.48] Which of the following best describes Thoracentesis?
+    * Procedure used to remove fluid rom the pleural cavity of the chest
+    - Flexible tube inserted into the body to deliver or drain fluids
+    - Small sealed container that usually holds a single dose of medication
+    - Device used to inject fluids into the body or withdraw them
 [mcq-definition p2 q0.45] Which of the following best describes half value layer?
     * Thickness of any absorber that reduces beam intensity to one half of its original value
     - Pathway by which infectious organisms enter the body
     - Site where an infectious organism can remain alive and rom which transmission can occur
     - Animal host of an infectious organism that transmits the infection through a bite or sting
-[cloze p3 q0.38] Superficial arteries are best suited or determination of _____.
+[cloze p4 q0.38] Superficial arteries are best suited or determination of _____.
     = pulse rate

@@ -12,11 +12,11 @@ files:
   - package.json
   # PDF.js's optional canvas library draws pages as images. Ahral only reads text, so
   # its 37 MB native binary is left out (npm run test:packaged checks the app still works).
-  - '!node_modules/@napi-rs/**'
+  - "!node_modules/@napi-rs/**"
   # Ahral loads only PDF.js's legacy (Node-compatible) build; the browser builds and viewer stay out.
-  - '!node_modules/pdfjs-dist/{build,web,image_decoders,types}/**'
-  - '!node_modules/pdfjs-dist/legacy/{web,image_decoders}/**'
-  - '!**/*.map'
+  - "!node_modules/pdfjs-dist/{build,web,image_decoders,types}/**"
+  - "!node_modules/pdfjs-dist/legacy/{web,image_decoders}/**"
+  - "!**/*.map"
 
 win:
   target:

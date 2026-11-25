@@ -150,7 +150,9 @@ interface QuestionRow {
   answer: string
   accepted_answers: string
   options: string | null
+  keep_option_order: number
   explanation: string
+  explanation_page: number | null
   page: number
   section_id: number
   sentence_id: number
@@ -170,7 +172,9 @@ export function loadQuestions(db: DatabaseSync, documentId: number): Question[] 
     answer: r.answer,
     acceptedAnswers: fromJson<string[]>(r.accepted_answers),
     ...(r.options === null ? {} : { options: fromJson<Option[]>(r.options) }),
+    ...(r.keep_option_order === 1 ? { keepOptionOrder: true } : {}),
     explanation: r.explanation,
+    ...(r.explanation_page === null ? {} : { explanationPage: r.explanation_page }),
     page: r.page,
     sectionId: r.section_id,
     sentenceId: r.sentence_id,
@@ -196,8 +200,8 @@ function writeContent(db: DatabaseSync, documentId: number, content: DocumentCon
 
   const question = db.prepare(
     `INSERT INTO questions (document_id, id, position, type, prompt, answer, accepted_answers, options,
-       explanation, page, section_id, sentence_id, term_key, quality)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+       keep_option_order, explanation, explanation_page, page, section_id, sentence_id, term_key, quality)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
   )
   content.questions.forEach((q, i) => {
     question.run(
@@ -209,7 +213,9 @@ function writeContent(db: DatabaseSync, documentId: number, content: DocumentCon
       q.answer,
       toJson(q.acceptedAnswers),
       q.options ? toJson(q.options) : null,
+      q.keepOptionOrder ? 1 : 0,
       q.explanation,
+      q.explanationPage ?? null,
       q.page,
       q.sectionId,
       q.sentenceId,

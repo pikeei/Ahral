@@ -3,16 +3,14 @@ import { resolve } from 'node:path'
 import type { DatabaseSync } from 'node:sqlite'
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import wordListPath from 'word-list'
-import { analyzeDocument } from '../../src/core/analysis/analyze'
 import { assembleExam } from '../../src/core/exam/assemble'
-import { extractDocument } from '../../src/core/extract'
-import { generateQuestions } from '../../src/core/generation/generate'
 import type { Question } from '../../src/core/generation/types'
 import { PIPELINE_VERSION } from '../../src/core/version'
 import { getDocument, listDocuments, loadQuestions, loadSections } from '../../src/main/db/documents'
 import { loadExam, saveExam } from '../../src/main/db/exams'
 import { memoryDb } from '../../src/main/db/test-helpers'
 import { type ImportOptions, importPdf } from '../../src/main/import'
+import { runPipeline } from '../../src/main/pipeline'
 import { buildGoldenPdf } from '../fixtures/golden-pdf'
 
 /*
@@ -32,8 +30,8 @@ let db: DatabaseSync
 
 beforeAll(async () => {
   pdf = await buildGoldenPdf()
-  const doc = await extractDocument(pdf.slice(), options)
-  expected = generateQuestions(doc, analyzeDocument(doc), { isWord: options.isWord }).questions
+  // Generated questions plus the book's own question bank.
+  expected = (await runPipeline(pdf.slice(), options)).questions
 })
 beforeEach(() => {
   db = memoryDb()
@@ -47,7 +45,7 @@ describe('importPdf', () => {
     const result = await importPdf(db, source(), options)
     expect(result).toMatchObject({ status: 'imported', questionCount: expected.length })
     expect(result.warnings.some((w) => /missing letters/.test(w))).toBe(true)
-    expect(expected.length).toBeGreaterThan(0)
+    expect(expected.filter((q) => q.type === 'book-mcq')).toHaveLength(2)
     expect(loadQuestions(db, result.documentId)).toEqual(expected)
     expect(loadSections(db, result.documentId).length).toBeGreaterThan(0)
     expect(getDocument(db, result.documentId)).toMatchObject({

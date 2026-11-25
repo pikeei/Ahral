@@ -10,7 +10,7 @@ import { transaction } from './connection'
  *
  * STRICT tables make SQLite reject a value of the wrong type instead of storing it anyway.
  */
-const MIGRATIONS: readonly string[] = [
+export const MIGRATIONS: readonly string[] = [
   // 1: documents with their sections, glossary and questions; exams and attempts.
   `
   CREATE TABLE documents (
@@ -105,6 +105,40 @@ const MIGRATIONS: readonly string[] = [
     correct INTEGER NOT NULL CHECK (correct IN (0, 1)),
     PRIMARY KEY (attempt_id, position)
   ) STRICT;
+  `,
+
+  // 2: questions taken from the document's own question bank ('book-mcq'), which keep
+  // their option order and cite the page of their explanation. SQLite can't change a
+  // CHECK constraint in place, so the table is rebuilt and its rows copied over.
+  `
+  CREATE TABLE questions_v2 (
+    document_id INTEGER NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+    id TEXT NOT NULL,
+    position INTEGER NOT NULL,
+    type TEXT NOT NULL CHECK (type IN ('cloze', 'mcq-term', 'mcq-definition', 'book-mcq')),
+    prompt TEXT NOT NULL,
+    answer TEXT NOT NULL,
+    accepted_answers TEXT NOT NULL,
+    options TEXT,
+    keep_option_order INTEGER NOT NULL DEFAULT 0 CHECK (keep_option_order IN (0, 1)),
+    explanation TEXT NOT NULL,
+    explanation_page INTEGER,
+    page INTEGER NOT NULL,
+    section_id INTEGER NOT NULL,
+    sentence_id INTEGER NOT NULL,
+    term_key TEXT NOT NULL,
+    quality REAL NOT NULL,
+    PRIMARY KEY (document_id, id)
+  ) STRICT;
+
+  INSERT INTO questions_v2 (document_id, id, position, type, prompt, answer, accepted_answers, options,
+      explanation, page, section_id, sentence_id, term_key, quality)
+    SELECT document_id, id, position, type, prompt, answer, accepted_answers, options,
+      explanation, page, section_id, sentence_id, term_key, quality
+    FROM questions;
+
+  DROP TABLE questions;
+  ALTER TABLE questions_v2 RENAME TO questions;
   `
 ]
 
