@@ -9,3 +9,6 @@ playwright-report/
 *.log
 .DS_Store
 *.tsbuildinfo
+
+# Your study PDFs and extraction output stay local
+samples/
