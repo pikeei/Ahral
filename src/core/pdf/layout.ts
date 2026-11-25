@@ -1,5 +1,6 @@
 import { detectMissingLetters } from '../text/letter-frequency'
 import { normalizeText } from '../text/normalize'
+import { createRepairer } from '../text/repair'
 import { splitSentences } from '../text/sentences'
 import type { RawPage, RawTextItem } from './types'
 
@@ -101,7 +102,16 @@ export interface ExtractedDocument {
 }
 
 // ── Pipeline ────────────────────────────────────────────────────────────────
-export function analyzeLayout(rawPages: RawPage[]): ExtractedDocument {
+export interface LayoutOptions {
+  /**
+   * Dictionary lookup (lowercase word -> known?). When given, words broken by
+   * letters missing from the PDF's text layer are repaired. Without it, the
+   * problem is only reported as a warning.
+   */
+  isWord?: (word: string) => boolean
+}
+
+export function analyzeLayout(rawPages: RawPage[], options: LayoutOptions = {}): ExtractedDocument {
   const pages = rawPages.map(summarizePage)
   const warnings = textLayerWarnings(pages)
   const likelyScanned = pages.length > 0 && pages.filter((p) => p.hasText).length / pages.length < 0.5
@@ -115,19 +125,12 @@ export function analyzeLayout(rawPages: RawPage[]): ExtractedDocument {
 
   const bodyFontSize = dominantFontSize(allLines)
   const blocks = buildBlocks(allLines, bodyFontSize)
+  warnings.push(...repairMissingLetters(allLines, blocks, options.isWord))
   const sections = assignSections(blocks)
   const sentences = extractSentences(blocks)
 
   if (sentences.length === 0 && !likelyScanned) {
     warnings.push('No sentences could be extracted from this PDF.')
-  }
-  const missing = detectMissingLetters(sentences.map((s) => s.text).join(' '))
-  if (missing.length > 0) {
-    const letters = missing.map((m) => `"${m.letter}" (${Math.round(m.ratio * 100)}% of the usual amount)`).join(', ')
-    warnings.push(
-      `This PDF's text layer seems to be missing letters: ${letters}. ` +
-        'Words containing them will be broken (for example "of" becomes "o"), so questions may contain errors.'
-    )
   }
 
   return {
@@ -314,6 +317,56 @@ export function removeRunningHeadersFooters(pages: { lines: Line[]; height: numb
       return (pagesWithKey.get(key) ?? 0) < repeatThreshold
     })
   )
+}
+
+// ── Step 3b: letters missing from the text layer ───────────────────────────
+/**
+ * Detects letters the PDF's font failed to map (see text/letter-frequency.ts)
+ * and, given a dictionary, repairs the broken words in place.
+ *
+ * Runs on blocks, after words hyphenated across lines are rejoined ("emo-" +
+ * "ral" -> "emoral" -> "femoral"). Each page's part of a block is repaired
+ * separately so the page-break offsets can be recalculated exactly.
+ */
+function repairMissingLetters(lines: Line[], blocks: Block[], isWord: ((word: string) => boolean) | undefined): string[] {
+  const missing = detectMissingLetters(lines.map((l) => l.text).join(' '))
+  if (missing.length === 0) return []
+
+  const letters = missing.map((m) => `"${m.letter}" (${Math.round(m.ratio * 100)}% of the usual amount)`).join(', ')
+  const problem = `This PDF's text layer is missing letters: ${letters}, so words containing them are broken (for example "of" becomes "o").`
+  if (!isWord) return [`${problem} Questions may contain errors.`]
+
+  // Only the curated dictionary decides what a repair may produce: the document's own broken
+  // forms ("lef") must never become targets. The document does break ties, though: how often
+  // each dictionary word appears intact here ("left" far more often than "file").
+  const counts = new Map<string, number>()
+  for (const line of lines) {
+    for (const word of line.text.toLowerCase().match(/\p{L}+/gu) ?? []) counts.set(word, (counts.get(word) ?? 0) + 1)
+  }
+  const repair = createRepairer({
+    missingLetters: missing.map((m) => m.letter),
+    isWord,
+    frequency: (w) => counts.get(w) ?? 0
+  })
+
+  let repairs = 0
+  for (const block of blocks) {
+    // Cut the text at page breaks, repair each piece, then rebuild text and offsets.
+    const cuts = [0, ...block.pageBreaks.map((b) => b.offset), block.text.length]
+    let text = ''
+    const pageBreaks: Block['pageBreaks'] = []
+    for (let i = 0; i < cuts.length - 1; i++) {
+      if (i > 0) pageBreaks.push({ offset: text.length, page: block.pageBreaks[i - 1]!.page })
+      // Only the block's first piece starts a sentence; later pieces continue across a page break.
+      const result = repair(block.text.slice(cuts[i], cuts[i + 1]), { startsSentence: i === 0 })
+      text += result.text
+      repairs += result.repairs
+    }
+    block.text = text
+    block.pageBreaks = pageBreaks
+    block.boldRuns = block.boldRuns.map((run) => repair(run).text)
+  }
+  return [`${problem} Repaired ${repairs} words using a dictionary; uncommon terms may still be broken.`]
 }
 
 // ── Step 4: lines → blocks (headings, paragraphs, list items) ──────────────

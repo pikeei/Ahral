@@ -200,6 +200,39 @@ describe('paragraphs', () => {
   })
 })
 
+describe('repairing letters missing from the text layer', () => {
+  // Enough "f"-less text (over 2000 letters) for the letter-frequency check to trigger.
+  const filler = Array.from({ length: 40 }, () => 'We gauge the radial pulse, the most common pulse point, in adults today.')
+  const dictionary = new Set(['the', 'femoral', 'artery', 'of', 'arm', 'next', 'sentence', 'is', 'here', 'pulse', 'points', 'include'])
+  const isWord = (w: string) => dictionary.has(w)
+
+  it('repairs a broken word that is hyphenated across two lines', () => {
+    const doc = analyzeLayout([page(1, paragraph([...filler, 'Pulse points include the emo-', 'ral artery.'], 72, 760, { size: 6 }))], { isWord })
+    expect(doc.sentences.at(-1)?.text).toBe('Pulse points include the femoral artery.')
+    expect(doc.warnings.join(' ')).toMatch(/Repaired \d+ words/)
+  })
+
+  it('keeps sentence page numbers right after repairs change the text length', () => {
+    const doc = analyzeLayout(
+      [
+        page(1, paragraph([...filler, 'Pulse points include the'], 72, 760, { size: 6 })),
+        page(2, paragraph(['emoral artery o the arm. Next sentence is here.'], 72, 740, { size: 6 }))
+      ],
+      { isWord }
+    )
+    expect(doc.sentences.slice(-2).map((s) => [s.text, s.page])).toEqual([
+      ['Pulse points include the femoral artery of the arm.', 1],
+      ['Next sentence is here.', 2]
+    ])
+  })
+
+  it('only warns when no dictionary is given', () => {
+    const doc = analyzeLayout([page(1, paragraph([...filler, 'o the arm'], 72, 760, { size: 6 }))])
+    expect(doc.sentences.at(-1)?.text).toContain('o the arm')
+    expect(doc.warnings.join(' ')).toMatch(/missing letters: "f"/)
+  })
+})
+
 describe('text layer detection', () => {
   it('flags a PDF with no text as likely scanned', () => {
     const doc = analyzeLayout([page(1, []), page(2, [])])
