@@ -1,0 +1,14 @@
+appId: app.ahral.desktop
+productName: Ahral
+directories:
+  output: dist
+  buildResources: build
+# Only ship the compiled app. Source, tests and configs stay out of the installer.
+files:
+  - out/**/*
+  - package.json
+win:
+  target: nsis
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true

@@ -1,0 +1,11 @@
+node_modules/
+out/
+dist/
+test-results/
+playwright-report/
+*.db
+*.db-wal
+*.db-shm
+*.log
+.DS_Store
+*.tsbuildinfo
