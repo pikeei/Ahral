@@ -5,10 +5,9 @@
  *   npm run extract -- samples/notes.pdf --all    every sentence
  *   npm run extract -- samples/notes.pdf --json   also write samples/notes.extract.json
  */
-import { readFile, writeFile } from 'node:fs/promises'
-import { basename, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { extractDocument } from '../src/core/extract'
+import { writeFile } from 'node:fs/promises'
+import { basename } from 'node:path'
+import { readPdf } from './lib/read-pdf.mts'
 
 const USAGE = `Usage: npm run extract -- <file.pdf> [--all] [--json]
   --all   print every sentence (default: first 3 per section)
@@ -27,16 +26,7 @@ async function main(): Promise<void> {
   const showAll = args.includes('--all')
   const writeJson = args.includes('--json')
 
-  const path = resolve(file)
-  const data = new Uint8Array(await readFile(path))
-  // PDF.js wants a path ending in "/", even on Windows.
-  const standardFontDataUrl = fileURLToPath(new URL('../node_modules/pdfjs-dist/standard_fonts/', import.meta.url))
-    .replace(/\\/g, '/')
-    .replace(/\/?$/, '/')
-
-  const started = performance.now()
-  const doc = await extractDocument(data, { standardFontDataUrl })
-  const ms = Math.round(performance.now() - started)
+  const { path, doc, ms } = await readPdf(file)
 
   const pagesWithText = doc.pages.filter((p) => p.hasText).length
   console.log(`\n${basename(path)}`)

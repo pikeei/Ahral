@@ -52,6 +52,27 @@ describe('reading order', () => {
   })
 })
 
+describe('narrow column gutters', () => {
+  it('keeps columns apart when the gutter is only about twice the font size', () => {
+    // Left column ends at 72 + 30 chars * 5.5 = 237; right column starts 22pt later (2x the 11pt font).
+    const left = Array.from({ length: 8 }, (_, i) => `Left column sentence number ${i + 1}.`.padEnd(30, ' '))
+    const right = Array.from({ length: 8 }, (_, i) => `Right column sentence number ${i + 1}.`)
+    const doc = analyzeLayout([page(1, [...paragraph(left, 72, 700), ...paragraph(right, 259, 700)])])
+    const sentences = doc.sentences.map((s) => s.text)
+    expect(sentences[0]).toBe('Left column sentence number 1.')
+    expect(sentences.indexOf('Left column sentence number 8.')).toBeLessThan(sentences.indexOf('Right column sentence number 1.'))
+  })
+})
+
+describe('table of contents', () => {
+  it('drops lines with dot leaders', () => {
+    const doc = analyzeLayout([
+      page(1, paragraph(['Introduction . . . . . . . . . . 12', 'Test Levels.............. 15', 'Real sentence here.'], 72, 700))
+    ])
+    expect(doc.sentences.map((s) => s.text)).toEqual(['Real sentence here.'])
+  })
+})
+
 describe('running headers and footers', () => {
   const bodyPage = (n: number) =>
     page(n, [

@@ -1,8 +1,9 @@
-﻿{
-  // Code that runs in Node: Electron main + preload, pure core logic, configs and tests.
+{
+  // Code that runs in Node: Electron main + preload, pure core logic, configs, tests and scripts.
   "compilerOptions": {
     "composite": true,
     "noEmit": true,
+    "allowImportingTsExtensions": true,
     "target": "ES2023",
     "module": "ESNext",
     "moduleResolution": "bundler",

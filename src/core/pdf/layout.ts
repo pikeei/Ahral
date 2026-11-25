@@ -1,3 +1,4 @@
+import { detectMissingLetters } from '../text/letter-frequency'
 import { normalizeText } from '../text/normalize'
 import { splitSentences } from '../text/sentences'
 import type { RawPage, RawTextItem } from './types'
@@ -16,8 +17,12 @@ import type { RawPage, RawTextItem } from './types'
 const SAME_LINE_TOLERANCE = 0.5
 /** A horizontal gap wider than this × font size between items means a space. */
 const WORD_GAP = 0.15
-/** A gap wider than this × font size splits a row into separate segments (columns, table cells). */
-const SEGMENT_GAP = 2.5
+/**
+ * A gap wider than this × font size splits a row into separate segments (columns, table cells).
+ * Word spaces are about 0.25 × font size; real column gutters can be as narrow as ~2×.
+ * PDF.js already puts spaces inside an item's text, so gaps between items are rarely words.
+ */
+const SEGMENT_GAP = 1.5
 /** Lines in the top/bottom fraction of the page are candidates for running headers/footers. */
 const MARGIN_ZONE = 0.1
 /** A line counts as a heading when its font is at least this × the body font size. */
@@ -105,7 +110,8 @@ export function analyzeLayout(rawPages: RawPage[]): ExtractedDocument {
   const cleaned = removeRunningHeadersFooters(
     linesPerPage.map((lines, i) => ({ lines, height: rawPages[i]?.height ?? 0 }))
   )
-  const allLines = cleaned.flat()
+  // Table-of-contents entries ("Introduction . . . . . 12") are navigation, not content.
+  const allLines = cleaned.flat().filter((line) => !DOT_LEADER.test(line.text))
 
   const bodyFontSize = dominantFontSize(allLines)
   const blocks = buildBlocks(allLines, bodyFontSize)
@@ -114,6 +120,14 @@ export function analyzeLayout(rawPages: RawPage[]): ExtractedDocument {
 
   if (sentences.length === 0 && !likelyScanned) {
     warnings.push('No sentences could be extracted from this PDF.')
+  }
+  const missing = detectMissingLetters(sentences.map((s) => s.text).join(' '))
+  if (missing.length > 0) {
+    const letters = missing.map((m) => `"${m.letter}" (${Math.round(m.ratio * 100)}% of the usual amount)`).join(', ')
+    warnings.push(
+      `This PDF's text layer seems to be missing letters: ${letters}. ` +
+        'Words containing them will be broken (for example "of" becomes "o"), so questions may contain errors.'
+    )
   }
 
   return {
@@ -308,6 +322,8 @@ const BULLET_GLYPH = /^[•●○◦▪▫■□‣⁃∙·*\-–—]\s+/
 const LIST_MARKER = /^(\(?\d{1,3}[.)]|\(?[a-z][.)]|\([A-Z]\))\s+/
 const NUMBERED_HEADING = /^((\d+\.)*\d+\.?|[A-Z]\.|chapter|section|part|unit|lesson|module|appendix)\s/i
 const TERMINAL_PUNCTUATION = /[.!?:;]["'”’)\]]*$/
+/** Five or more dots in a row, with or without spaces: a table-of-contents leader. */
+const DOT_LEADER = /(?:\.\s?){5,}/
 
 export function isHeadingLine(line: Line, bodyFontSize: number): boolean {
   const text = line.text

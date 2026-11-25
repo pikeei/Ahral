@@ -15,7 +15,8 @@
     "test:e2e": "electron-vite build && playwright test",
     "dist": "electron-vite build && electron-builder --win",
     "extract": "tsx scripts/extract.mts",
-    "sample-pdf": "tsx scripts/make-sample-pdf.mts"
+    "sample-pdf": "tsx scripts/make-sample-pdf.mts",
+    "analyze": "tsx scripts/analyze.mts"
   },
   "devDependencies": {
     "@playwright/test": "^1.65.1",
@@ -37,6 +38,7 @@
     "vitest": "^5.1.2"
   },
   "dependencies": {
+    "compromise": "^14.20.0",
     "pdfjs-dist": "^6.5.438"
   }
 }
