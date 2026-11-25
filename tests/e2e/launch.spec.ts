@@ -2,8 +2,10 @@ import { existsSync, mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { DatabaseSync } from 'node:sqlite'
-import { type ElectronApplication, _electron as electron, expect, type Page, test } from '@playwright/test'
+import { type ElectronApplication, expect, type Page, test } from '@playwright/test'
 import { SCHEMA_VERSION } from '../../src/main/db/migrations'
+
+import { launchApp } from './launch-app'
 
 // Smoke tests against the real built app (out/), launched as a desktop process.
 // Each run gets a fresh, empty data folder so tests never touch your real exams.
@@ -14,12 +16,7 @@ let userDataDir: string
 
 test.beforeAll(async () => {
   userDataDir = mkdtempSync(join(tmpdir(), 'ahral-e2e-'))
-  // Drop ELECTRON_RUN_AS_NODE if it leaked in from the shell: it would start Electron as plain Node.
-  const { ELECTRON_RUN_AS_NODE: _ignored, ...env } = process.env
-  app = await electron.launch({
-    args: ['.'],
-    env: { ...(env as Record<string, string>), AHRAL_USER_DATA: userDataDir }
-  })
+  app = await launchApp(userDataDir)
   page = await app.firstWindow()
 })
 

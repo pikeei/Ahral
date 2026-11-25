@@ -33,3 +33,33 @@ jobs:
             test-results/
             coverage/
           if-no-files-found: ignore
+
+  # Builds the Windows app and runs the same E2E tests against the packaged Ahral.exe,
+  # then builds the installer so every main-branch commit has one to try.
+  package:
+    needs: test
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run test:packaged
+      - run: npm run installer
+      - name: Upload installer
+        uses: actions/upload-artifact@v7
+        with:
+          name: Ahral-Setup
+          path: dist/Ahral-Setup-*.exe
+          retention-days: 14
+      - name: Upload reports
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: packaged-test-reports
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore

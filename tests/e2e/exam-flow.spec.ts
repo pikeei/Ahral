@@ -1,8 +1,12 @@
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
-import { type ElectronApplication, _electron as electron, expect, type Page, test } from '@playwright/test'
+import { join, resolve } from 'node:path'
+import { type ElectronApplication, expect, type Page, test } from '@playwright/test'
+import wordListPath from 'word-list'
+import { runPipeline } from '../../src/main/pipeline'
 import { buildGoldenPdf } from '../fixtures/golden-pdf'
+
+import { launchApp } from './launch-app'
 
 // The whole study loop in the real app: import a PDF, take an exam, get feedback,
 // see results and history. The native file picker is replaced with one that returns
@@ -18,11 +22,7 @@ test.beforeAll(async () => {
   pdfPath = join(workDir, 'golden notes.pdf')
   writeFileSync(pdfPath, await buildGoldenPdf())
 
-  const { ELECTRON_RUN_AS_NODE: _ignored, ...env } = process.env
-  app = await electron.launch({
-    args: ['.'],
-    env: { ...(env as Record<string, string>), AHRAL_USER_DATA: join(workDir, 'user-data') }
-  })
+  app = await launchApp(join(workDir, 'user-data'))
   page = await app.firstWindow()
 })
 
@@ -55,8 +55,16 @@ test('imports a PDF and opens it', async () => {
   await pickFile(pdfPath)
   await page.getByRole('button', { name: 'Import PDF' }).click()
   await expect(page.getByRole('heading', { level: 2, name: 'golden notes.pdf' })).toBeVisible({ timeout: 60_000 })
-  await expect(page.getByText(/\d+ pages · \d+ questions/)).toBeVisible()
   await expect(page.getByText(/notes? about this PDF/)).toBeVisible()
+
+  // The app must produce exactly what the pipeline produces when run here. A missing
+  // dictionary, font folder or PDF.js file in the build would change the result.
+  const dictionary = new Set(readFileSync(wordListPath, 'utf8').split(/\r?\n/))
+  const expected = await runPipeline(new Uint8Array(readFileSync(pdfPath)), {
+    standardFontDataUrl: `${resolve('node_modules/pdfjs-dist/standard_fonts').replace(/\\/g, '/')}/`,
+    isWord: (w) => dictionary.has(w)
+  })
+  await expect(page.getByText(`${expected.pageCount} pages · ${expected.questions.length} questions`)).toBeVisible()
 })
 
 test('takes an exam with feedback after each answer', async () => {

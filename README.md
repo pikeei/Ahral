@@ -3,8 +3,19 @@
 An offline Windows desktop app that turns PDF reading material into practice exams
 using rule-based text analysis. No generative AI, no cloud, no paid services.
 
-> Status: Stage 6 (desktop exam UI: import PDFs, take exams with feedback, results and history).
-> Not yet packaged as an installer; run it with `npm run dev`.
+> Status: Stage 7 (Windows installer). Import PDFs, take exams with feedback, see results and history.
+
+## Install
+
+Download `Ahral-Setup-<version>.exe` from the repository's Releases page (or build it with
+`npm run dist`) and run it. It installs for your Windows user only, so no administrator rights
+are needed, and adds Start menu and desktop shortcuts.
+
+The installer is not code-signed, so Windows SmartScreen may say it "protected your PC".
+Choose **More info → Run anyway**. Signing needs a paid certificate, which this project doesn't use.
+
+Your documents, exams and attempts are stored in `%APPDATA%\Ahral\ahral.db`. Uninstalling or
+upgrading keeps them; delete that folder to remove them.
 
 ## Using the app
 
@@ -57,7 +68,11 @@ tests/
 | `npm test` | Unit and integration tests (Vitest) |
 | `npm run test:coverage` | Tests with a coverage report and minimum thresholds |
 | `npm run test:e2e` | Build, then launch the app and run Playwright tests |
-| `npm run dist` | Build a Windows installer into `dist/` |
+| `npm run dist` | Build the Windows installer, `dist/Ahral-Setup-<version>.exe` |
+| `npm run package` | Build the app unpacked into `dist/win-unpacked/` (no installer) |
+| `npm run test:packaged` | Package the app, then run the E2E tests against the packaged `Ahral.exe` |
+| `npm run installer` | Make the installer from an existing `dist/win-unpacked/` |
+| `npm run icon` | Redraw the app icon, `build/icon.png` |
 | `npm run extract -- <file.pdf> [--all] [--json]` | Print the sections and sentences extracted from a PDF |
 | `npm run analyze -- <file.pdf> [--top N] [--json]` | Print the definitions, acronyms and ranked key terms found in a PDF |
 | `npm run generate -- <file.pdf> [--all] [--json]` | Generate questions from a PDF and print a sample of each type |
@@ -84,6 +99,16 @@ Everything is stored locally in SQLite (`ahral.db` in the app's data folder; `da
 
 CI runs on every push and pull request (Windows): Biome lint and format check, type check,
 unit and integration tests with coverage thresholds, and Playwright E2E tests on the built app.
+A second job packages the app, runs the same E2E tests against the packaged `Ahral.exe`, and
+uploads the installer as a build artifact.
+
+**Packaged-app test.** The E2E flow imports a PDF in the app and checks it produces exactly as many
+questions as the pipeline run directly, so a dictionary, font or PDF.js file missing from the
+package fails the build instead of reaching users.
+
+**Releases.** Set the version in `package.json`, commit, then push a tag such as `v0.2.0`. The
+release workflow checks the tag matches the version, runs all tests on the packaged app, and
+attaches the installer to a GitHub release.
 
 **Golden-file test.** `tests/integration/golden.test.ts` builds a PDF that reproduces the problems
 found in real books (missing letters, two columns, running headers, Q&A layout), runs the full
