@@ -4,7 +4,7 @@ WARNINGS
 SECTIONS
 - p1-1 Chapter 1 Patient Care
 - p1-1 1.1 Medication Containers
-- p2-2 Chapter 2 Radiation Protection
+- p2-3 Chapter 2 Radiation Protection
 - p3-3 Questions
 - p3-3 Answers and Explanations
 

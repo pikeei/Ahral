@@ -3,7 +3,7 @@
 An offline Windows desktop app that turns PDF reading material into practice exams
 using rule-based text analysis. No generative AI, no cloud, no paid services.
 
-> Status: Stage 3 (question generation, command line only). No exam UI yet.
+> Status: Stage 4 (exam engine: assembly, grading with explanations, scoring). Command line only; no exam UI yet.
 
 ## Stack
 
@@ -23,6 +23,7 @@ src/
     text/        Normalization, sentence splitting, answer comparison, missing-letter repair
     analysis/    Definitions, acronyms, key terms (TF-IDF)
     generation/  Sentence filter, fill-in-the-blank and multiple-choice questions, dedupe
+    exam/        Seeded exam assembly, grading with explanations, scoring and weak sections
 tests/
   integration/ Golden-file test of the whole pipeline (see below)
   e2e/         Playwright tests that launch the real desktop app
@@ -44,6 +45,7 @@ tests/
 | `npm run extract -- <file.pdf> [--all] [--json]` | Print the sections and sentences extracted from a PDF |
 | `npm run analyze -- <file.pdf> [--top N] [--json]` | Print the definitions, acronyms and ranked key terms found in a PDF |
 | `npm run generate -- <file.pdf> [--all] [--json]` | Generate questions from a PDF and print a sample of each type |
+| `npm run exam -- <file.pdf> [--count N] [--seed N] [--types ...] [--typos] [--auto]` | Take a practice exam in the terminal, with feedback after each answer |
 | `npm run sample-pdf` | Generate `samples/demo-reviewer.pdf` to try extraction on |
 
 `samples/` is git-ignored: put your own study PDFs there to test extraction locally.

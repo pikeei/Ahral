@@ -20,7 +20,8 @@
     "generate": "tsx scripts/generate.mts",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "exam": "tsx scripts/exam.mts"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.9",

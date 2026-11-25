@@ -2,7 +2,7 @@ import type { Definition } from '../analysis/definitions'
 import { phraseKey } from '../analysis/nlp'
 import { overlappingAnswers, sameAnswer } from '../text/answer'
 import { contentWords, jaccard, termPattern } from './similarity'
-import type { Question } from './types'
+import type { OptionSource, Question } from './types'
 
 /*
  * Multiple-choice questions from detected definitions.
@@ -60,7 +60,10 @@ export function generateTermMcq(definitions: Definition[], onReject: (reason: Mc
       // Capitalize every option the same way; source casing ("Ionization" vs "anode") would hint at the answer.
       answer: capitalize(definition.term),
       acceptedAnswers: [capitalize(definition.term)],
-      options: [definition.term, ...distractors.map((d) => d.definition.term)].map(capitalize),
+      options: [target, ...distractors].map((d) => ({
+        text: capitalize(d.definition.term),
+        source: sourceOf(d.definition)
+      })),
       explanation: sourceText(definition),
       page: definition.page,
       sectionId: definition.sectionId,
@@ -104,7 +107,10 @@ export function generateDefinitionMcq(definitions: Definition[], onReject: (reas
       prompt: `Which of the following best describes ${definition.term}?`,
       answer: capitalize(definition.definition),
       acceptedAnswers: [capitalize(definition.definition)],
-      options: [definition.definition, ...distractors.map((d) => d.definition.definition)].map(capitalize),
+      options: [target, ...distractors].map((d) => ({
+        text: capitalize(d.definition.definition),
+        source: sourceOf(d.definition)
+      })),
       explanation: sourceText(definition),
       page: definition.page,
       sectionId: definition.sectionId,
@@ -143,6 +149,15 @@ function sameSectionShare(distractors: DefinedTerm[], target: DefinedTerm): numb
 
 function isAcronym(text: string): boolean {
   return /^[\p{Lu}\d&]{2,8}s?$/u.test(text)
+}
+
+function sourceOf(definition: Definition): OptionSource {
+  return {
+    term: definition.term,
+    definition: definition.definition,
+    page: definition.page,
+    sectionId: definition.sectionId
+  }
 }
 
 function sourceText(definition: Definition): string {

@@ -15,11 +15,15 @@ const WORD_GAP = 0.15
  * PDF.js already puts spaces inside an item's text, so gaps between items are rarely words.
  */
 const SEGMENT_GAP = 1.5
+/** Identical text drawn within this × font size of another copy is a fake-bold overprint. */
+const OVERPRINT_TOLERANCE = 0.15
 /** A line counts as bold when at least this share of its characters is bold. */
 const BOLD_LINE_SHARE = 0.6
 
 export function buildLines(page: RawPage): Line[] {
-  const items = page.items.filter((item) => item.text.trim() !== '').sort((a, b) => b.y - a.y || a.x - b.x)
+  const items = withoutOverprints(page.items.filter((item) => item.text.trim() !== '')).sort(
+    (a, b) => b.y - a.y || a.x - b.x
+  )
 
   // Group items into rows that share a baseline (within tolerance, so
   // superscripts and slightly misaligned fragments stay on their line).
@@ -54,6 +58,24 @@ export function buildLines(page: RawPage): Line[] {
     if (segment.length > 0) lines.push(toLine(segment, page.pageNumber))
   }
   return lines.filter((line) => line.text !== '')
+}
+
+/**
+ * Some PDFs fake bold text by drawing the same text twice, a fraction of a point apart.
+ * Keeping both copies would read "Answers and ExplanationsAnswers and Explanations".
+ */
+function withoutOverprints(items: RawTextItem[]): RawTextItem[] {
+  const kept: RawTextItem[] = []
+  for (const item of items) {
+    const overprint = kept.some(
+      (k) =>
+        k.text === item.text &&
+        Math.abs(k.x - item.x) <= item.fontSize * OVERPRINT_TOLERANCE &&
+        Math.abs(k.y - item.y) <= item.fontSize * OVERPRINT_TOLERANCE
+    )
+    if (!overprint) kept.push(item)
+  }
+  return kept
 }
 
 function toLine(items: RawTextItem[], page: number): Line {

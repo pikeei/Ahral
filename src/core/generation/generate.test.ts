@@ -37,7 +37,7 @@ describe('generateQuestions', () => {
     for (const q of questions) {
       expect(q.page).toBe(1)
       expect(q.explanation.length).toBeGreaterThan(0)
-      if (q.options) expect(q.options).toContain(q.answer)
+      if (q.options) expect(q.options.map((o) => o.text)).toContain(q.answer)
     }
   })
 

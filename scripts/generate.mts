@@ -62,7 +62,7 @@ function printQuestion(q: Question): void {
   console.log(`\n[p${q.page} · quality ${q.quality}] ${q.prompt}`)
   if (q.options) {
     for (const [i, option] of q.options.entries()) {
-      console.log(`   ${option === q.answer ? '*' : ' '} ${String.fromCharCode(65 + i)}. ${option}`)
+      console.log(`   ${option.text === q.answer ? '*' : ' '} ${String.fromCharCode(65 + i)}. ${option.text}`)
     }
     return
   }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { analyzeLayout, buildLines, isHeadingLine, type Line } from './layout'
+import { analyzeLayout, buildLines, isHeadingLine, type Line, sectionLabel } from './layout'
 import { item, PAGE_HEIGHT, page, paragraph } from './test-helpers'
 
 const lineTexts = (lines: Line[]) => lines.map((l) => l.text)
@@ -32,6 +32,23 @@ describe('buildLines', () => {
     const lines = buildLines(page(1, [item('Selenium', 72, 700, { bold: true }), item('is a browser tool.', 120, 700)]))
     expect(lines[0]?.boldRuns).toEqual(['Selenium'])
     expect(lines[0]?.bold).toBe(false)
+  })
+})
+
+describe('fake-bold overprints', () => {
+  it('keeps one copy of text drawn twice at nearly the same spot', () => {
+    const lines = buildLines(
+      page(1, [
+        item('Answers and Explanations', 72, 700, { size: 14 }),
+        item('Answers and Explanations', 72.6, 700.2, { size: 14 })
+      ])
+    )
+    expect(lineTexts(lines)).toEqual(['Answers and Explanations'])
+  })
+
+  it('keeps the same text when it really appears twice', () => {
+    const lines = buildLines(page(1, [item('Note', 72, 700), item('Note', 72, 500)]))
+    expect(lineTexts(lines)).toEqual(['Note', 'Note'])
   })
 })
 
@@ -159,6 +176,42 @@ describe('headings and sections', () => {
       ['Selenium automates browsers.', 3],
       ['Postman tests APIs.', 3]
     ])
+  })
+
+  it('links subsections to their chapter and labels them with it', () => {
+    const doc = analyzeLayout([
+      page(1, [
+        item('Chapter 1 Patient Care', 72, 740, { size: 20, bold: true }),
+        item('Questions', 72, 710, { size: 14, bold: true }),
+        ...paragraph(['Body text about patient care goes here.'], 72, 690),
+        item('Answers and Explanations', 72, 660, { size: 14, bold: true }),
+        ...paragraph(['More body text about the answers goes here.'], 72, 640),
+        item('Chapter 2 Imaging', 72, 600, { size: 20, bold: true }),
+        item('Answers and Explanations', 72, 570, { size: 14, bold: true }),
+        ...paragraph(['Body text about imaging procedures goes here.'], 72, 550)
+      ])
+    ])
+    expect(doc.sections.map((s) => [s.title, s.parentId])).toEqual([
+      ['Chapter 1 Patient Care', null],
+      ['Questions', 1],
+      ['Answers and Explanations', 1],
+      ['Chapter 2 Imaging', null],
+      ['Answers and Explanations', 4]
+    ])
+    expect(sectionLabel(doc.sections, 5)).toBe('Chapter 2 Imaging › Answers and Explanations')
+    expect(sectionLabel(doc.sections, 99)).toBe('(untitled)')
+  })
+
+  it('labels a deeply nested section with its two nearest levels only', () => {
+    const doc = analyzeLayout([
+      page(1, [
+        item('Review Book Title', 72, 760, { size: 26, bold: true }),
+        item('Chapter 3 Radiation', 72, 720, { size: 20, bold: true }),
+        item('Answers and Explanations', 72, 690, { size: 14, bold: true }),
+        ...paragraph(['Body text for the deepest section goes here.'], 72, 660)
+      ])
+    ])
+    expect(sectionLabel(doc.sections, 3)).toBe('Chapter 3 Radiation › Answers and Explanations')
   })
 
   it('merges a heading that wraps onto two lines', () => {

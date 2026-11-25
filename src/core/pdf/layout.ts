@@ -33,6 +33,7 @@ export type {
 export { buildLines } from './lines'
 export { removeRunningHeadersFooters } from './margins'
 export { orderForReading } from './reading-order'
+export { sectionLabel } from './sections'
 
 export function analyzeLayout(rawPages: RawPage[], options: LayoutOptions = {}): ExtractedDocument {
   const pages = rawPages.map(summarizePage)

@@ -61,7 +61,7 @@ describe('golden pipeline', () => {
 
   it('never puts a broken fragment into a question', () => {
     for (const q of result.questions) {
-      const text = [q.prompt, q.answer, ...(q.options ?? [])].join(' ')
+      const text = [q.prompt, q.answer, ...(q.options ?? []).map((o) => o.text)].join(' ')
       expect(text).not.toMatch(/(?<![\p{L}.'-])[oi](?![\p{L}.'-])/u)
       expect(text).not.toMatch(/\b(eedback|speci c|super cial|e ective|in ectious)\b/i)
     }
@@ -69,9 +69,12 @@ describe('golden pipeline', () => {
 
   it('builds well-formed multiple-choice questions', () => {
     for (const q of result.questions.filter((x) => x.options)) {
-      expect(q.options).toHaveLength(4)
-      expect(new Set(q.options).size).toBe(4)
-      expect(q.options).toContain(q.answer)
+      const texts = q.options!.map((o) => o.text)
+      expect(texts).toHaveLength(4)
+      expect(new Set(texts).size).toBe(4)
+      expect(texts).toContain(q.answer)
+      // Every option can be explained: it comes from a definition in the document.
+      expect(q.options!.every((o) => o.source !== undefined)).toBe(true)
     }
   })
 
@@ -98,7 +101,7 @@ function summarize(d: ExtractedDocument, a: DocumentAnalysis, r: GenerationResul
   out.push(`QUESTIONS (${r.questions.length})`)
   for (const q of r.questions) {
     out.push(`[${q.type} p${q.page} q${q.quality}] ${q.prompt}`)
-    if (q.options) out.push(...q.options.map((o) => `    ${o === q.answer ? '*' : '-'} ${o}`))
+    if (q.options) out.push(...q.options.map((o) => `    ${o.text === q.answer ? '*' : '-'} ${o.text}`))
     else out.push(`    = ${q.answer}`)
   }
   return `${out.join('\n')}\n`

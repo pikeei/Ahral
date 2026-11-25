@@ -1,5 +1,19 @@
 import { describe, expect, it } from 'vitest'
-import { normalizeAnswer, overlappingAnswers, sameAnswer } from './answer'
+import { editDistance, normalizeAnswer, overlappingAnswers, sameAnswer } from './answer'
+
+describe('editDistance', () => {
+  it.each([
+    ['', '', 0],
+    ['abc', 'abc', 0],
+    ['abc', '', 3],
+    ['kitten', 'sitting', 3],
+    ['milliamperage', 'milliamperge', 1],
+    ['rad', 'rem', 2]
+  ])('%s -> %s = %i', (a, b, expected) => {
+    expect(editDistance(a, b)).toBe(expected)
+    expect(editDistance(b, a)).toBe(expected)
+  })
+})
 
 describe('normalizeAnswer', () => {
   it.each([

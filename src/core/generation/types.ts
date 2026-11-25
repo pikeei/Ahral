@@ -17,7 +17,7 @@ export interface Question {
   /** Other answers accepted for typed questions (alternate spellings, acronym/long form). */
   acceptedAnswers: string[]
   /** Multiple-choice options including the answer, unshuffled; shuffling happens per exam attempt. */
-  options?: string[]
+  options?: Option[]
   /** The source sentence, shown after answering. */
   explanation: string
   page: number
@@ -27,6 +27,21 @@ export interface Question {
   termKey: string
   /** 0-1 ranking score; higher means more likely to be a good question. */
   quality: number
+}
+
+/** Where an option comes from: every option is a term defined somewhere in the document. */
+export interface OptionSource {
+  term: string
+  definition: string
+  page: number
+  sectionId: number
+}
+
+export interface Option {
+  /** What the user sees and picks. The correct option's text equals the question's `answer`. */
+  text: string
+  /** Lets feedback explain any option: "Vial is a larger container ... (p. 43)". */
+  source?: OptionSource
 }
 
 export const BLANK = '_____'

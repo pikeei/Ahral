@@ -37,6 +37,8 @@ export interface Section {
   /** null for text that appears before the first heading. */
   title: string | null
   level: number
+  /** The enclosing section (the chapter of a subsection), or null at the top level. */
+  parentId: number | null
   pageStart: number
   pageEnd: number
 }
