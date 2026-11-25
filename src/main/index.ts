@@ -2,7 +2,8 @@ import { join } from 'node:path'
 import type { DatabaseSync } from 'node:sqlite'
 import { app, BrowserWindow, ipcMain } from 'electron'
 import { type AppInfo, IpcChannels } from '../shared/api'
-import { getSqliteVersion, openDatabase } from './db'
+import { getSqliteVersion, openDatabase } from './db/connection'
+import { migrate } from './db/migrations'
 
 // Lets E2E tests run against a throwaway data folder instead of your real one.
 // Must be set before the app is ready.
@@ -59,6 +60,7 @@ function registerIpcHandlers(database: DatabaseSync): void {
 
 void app.whenReady().then(() => {
   db = openDatabase(join(app.getPath('userData'), 'ahral.db'))
+  migrate(db)
   registerIpcHandlers(db)
   createWindow()
 })

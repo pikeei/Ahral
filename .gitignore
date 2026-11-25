@@ -13,3 +13,6 @@ playwright-report/
 # Your study PDFs and extraction output stay local
 samples/
 coverage/
+
+# Local database used by the developer CLIs
+data/

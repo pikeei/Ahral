@@ -3,7 +3,7 @@
 An offline Windows desktop app that turns PDF reading material into practice exams
 using rule-based text analysis. No generative AI, no cloud, no paid services.
 
-> Status: Stage 4 (exam engine: assembly, grading with explanations, scoring). Command line only; no exam UI yet.
+> Status: Stage 5 (local database: imported documents, exams, attempts and history). Command line only; no exam UI yet.
 
 ## Stack
 
@@ -14,7 +14,7 @@ Vitest · Playwright · Biome · electron-builder
 
 ```
 src/
-  main/        Electron main process: database, file system, IPC handlers
+  main/        Electron main process: database (db/), PDF import, IPC handlers
   preload/     Typed bridge that exposes `window.api` to the UI
   renderer/    React UI (no Node access)
   shared/      Types shared by main and renderer (the IPC contract)
@@ -45,10 +45,24 @@ tests/
 | `npm run extract -- <file.pdf> [--all] [--json]` | Print the sections and sentences extracted from a PDF |
 | `npm run analyze -- <file.pdf> [--top N] [--json]` | Print the definitions, acronyms and ranked key terms found in a PDF |
 | `npm run generate -- <file.pdf> [--all] [--json]` | Generate questions from a PDF and print a sample of each type |
-| `npm run exam -- <file.pdf> [--count N] [--seed N] [--types ...] [--typos] [--auto]` | Take a practice exam in the terminal, with feedback after each answer |
+| `npm run exam -- <file.pdf> [--count N] [--seed N] [--types ...] [--typos] [--auto] [--regenerate] [--db FILE]` | Take a practice exam in the terminal, with feedback after each answer. The PDF is imported into `data/ahral.db` on first use, and every attempt is saved |
 | `npm run sample-pdf` | Generate `samples/demo-reviewer.pdf` to try extraction on |
 
-`samples/` is git-ignored: put your own study PDFs there to test extraction locally.
+`samples/` and `data/` are git-ignored: put your own study PDFs in `samples/` to test extraction locally.
+
+## Database
+
+Everything is stored locally in SQLite (`ahral.db` in the app's data folder; `data/ahral.db` for the CLIs).
+
+- **Documents** are identified by the SHA-256 of the file, so the slow pipeline runs once per PDF.
+  Importing the same file again (even renamed) loads the stored questions. When `PIPELINE_VERSION`
+  (`src/core/version.ts`) is raised, documents are regenerated on their next import.
+- **Exams** keep a copy of each question as shown, with the option order, so past exams can be
+  reviewed even after their document is regenerated.
+- **Attempts** store each answer with its status and section, which gives per-section history and
+  weak sections across all attempts.
+- **Migrations** (`src/main/db/migrations.ts`) run at start-up; the schema version is SQLite's
+  `user_version`. Shipped migrations are never edited, only added to.
 
 ## Quality checks
 

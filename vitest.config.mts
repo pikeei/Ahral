@@ -9,7 +9,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       // The pure logic is where coverage is meaningful; Electron and React glue is covered by E2E.
-      include: ['src/core/**/*.ts', 'src/main/db.ts'],
+      include: ['src/core/**/*.ts', 'src/main/db/**/*.ts', 'src/main/import.ts'],
       exclude: ['**/*.test.ts', '**/test-helpers.ts', '**/types.ts'],
       reporter: ['text-summary', 'html'],
       // Set a little below current levels (99% lines, 91% branches): CI fails on a real drop,

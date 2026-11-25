@@ -19,3 +19,19 @@ export function getSqliteVersion(db: DatabaseSync): string {
   const row = db.prepare('SELECT sqlite_version() AS version').get() as { version: string }
   return row.version
 }
+
+/**
+ * Runs `work` in one transaction: either every write lands or none does.
+ * node:sqlite has no transaction helper, so this is the usual BEGIN / COMMIT / ROLLBACK.
+ */
+export function transaction<T>(db: DatabaseSync, work: () => T): T {
+  db.exec('BEGIN')
+  try {
+    const result = work()
+    db.exec('COMMIT')
+    return result
+  } catch (err) {
+    db.exec('ROLLBACK')
+    throw err
+  }
+}

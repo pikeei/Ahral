@@ -72,6 +72,6 @@ export function scoreExam(exam: Exam, responses: Map<string, string | null>, opt
   }
 }
 
-function tally(correct: number, total: number): Tally {
+export function tally(correct: number, total: number): Tally {
   return { correct, total, percent: total === 0 ? 0 : Math.round((100 * correct) / total) }
 }

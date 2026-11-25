@@ -10,16 +10,22 @@ export async function loadDictionary(): Promise<Set<string>> {
   return new Set(text.split(/\r?\n/))
 }
 
+/** PDF.js's bundled fonts folder. PDF.js wants a path ending in "/", even on Windows. */
+export function standardFontDataUrl(): string {
+  return fileURLToPath(new URL('../../node_modules/pdfjs-dist/standard_fonts/', import.meta.url))
+    .replace(/\\/g, '/')
+    .replace(/\/?$/, '/')
+}
+
 /** Reads and extracts a PDF from disk for the developer CLIs. */
 export async function readPdf(file: string): Promise<{ path: string; doc: ExtractedDocument; ms: number }> {
   const path = resolve(file)
   const data = new Uint8Array(await readFile(path))
-  // PDF.js wants a path ending in "/", even on Windows.
-  const standardFontDataUrl = fileURLToPath(new URL('../../node_modules/pdfjs-dist/standard_fonts/', import.meta.url))
-    .replace(/\\/g, '/')
-    .replace(/\/?$/, '/')
   const dictionary = await loadDictionary()
   const started = performance.now()
-  const doc = await extractDocument(data, { standardFontDataUrl, isWord: (w) => dictionary.has(w) })
+  const doc = await extractDocument(data, {
+    standardFontDataUrl: standardFontDataUrl(),
+    isWord: (w) => dictionary.has(w)
+  })
   return { path, doc, ms: Math.round(performance.now() - started) }
 }
