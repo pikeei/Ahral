@@ -58,9 +58,9 @@ describe('documents', () => {
   it('describes a document for the exam setup screen', () => {
     const detail = service.getDocument(documentId)
     expect(detail.sections).toEqual([
-      { id: 1, label: 'Radiation Protection', questionCount: 1 },
-      { id: 2, label: 'Radiation Protection › Shielding', questionCount: 1 },
-      { id: 3, label: '(untitled)', questionCount: 1 }
+      { id: 1, label: 'Radiation Protection', questionCount: 1, countByType: { cloze: 1 } },
+      { id: 2, label: 'Radiation Protection › Shielding', questionCount: 1, countByType: { 'mcq-term': 1 } },
+      { id: 3, label: '(untitled)', questionCount: 1, countByType: { 'mcq-definition': 1 } }
     ])
     expect(detail.questionCountByType).toEqual({ cloze: 1, 'mcq-term': 1, 'mcq-definition': 1 })
     expect(detail.warnings).toEqual(['Some pages have no text.'])
@@ -161,6 +161,15 @@ describe('taking an exam', () => {
     const again = service.startExam(documentId, { ...ALL, seed: 42 })
     expect(again.seed).toBe(42)
     expect(again.questions).toEqual(first.questions)
+  })
+
+  it('refuses to start an exam that no question matches', () => {
+    // Section 2 has only a "pick the term" question.
+    expect(() => service.startExam(documentId, { ...ALL, types: ['cloze'], sectionIds: [2] }, 1)).toThrow(
+      'No questions match these settings'
+    )
+    // Nothing was saved for it.
+    expect(db.prepare('SELECT COUNT(*) AS n FROM exams').get()).toEqual({ n: 0 })
   })
 
   it('fails for an unknown document', () => {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { DocumentDetail, ExamSettings, QuestionType } from '../../shared/api'
+import { matchingQuestions, sectionMatches } from '../../shared/exam-setup'
 import { Button, Card, ErrorBanner, errorMessage, formatDate, ScoreBar, scoreColor, TYPE_LABELS } from './ui'
 
 const ALL_TYPES: QuestionType[] = ['book-mcq', 'cloze', 'mcq-term', 'mcq-definition']
@@ -32,6 +33,7 @@ export function DocumentView({ documentId, onStart, onDeleted }: Props) {
   const { document, sections, questionCountByType, attempts, weakSections, warnings } = detail
   const available = ALL_TYPES.filter((t) => (questionCountByType[t] ?? 0) > 0)
   const chosenTypes = types.filter((t) => available.includes(t))
+  const matching = matchingQuestions(sections, chosenTypes, sectionIds)
 
   async function start() {
     setError(null)
@@ -127,8 +129,8 @@ export function DocumentView({ documentId, onStart, onDeleted }: Props) {
                       checked={sectionIds.includes(s.id)}
                       onChange={() => setSectionIds(toggle(sectionIds, s.id))}
                     />
-                    <span>
-                      {s.label} <span className="text-slate-400">({s.questionCount})</span>
+                    <span className={sectionMatches(s, chosenTypes) === 0 ? 'text-slate-400' : ''}>
+                      {s.label} <span className="text-slate-400">({sectionMatches(s, chosenTypes)})</span>
                     </span>
                   </label>
                 ))}
@@ -141,9 +143,18 @@ export function DocumentView({ documentId, onStart, onDeleted }: Props) {
             Count near-miss spellings as correct
           </label>
 
-          <Button className="mt-6" onClick={start} disabled={starting || chosenTypes.length === 0}>
-            {starting ? 'Starting…' : 'Start exam'}
-          </Button>
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            <Button onClick={start} disabled={starting || matching === 0}>
+              {starting ? 'Starting…' : 'Start exam'}
+            </Button>
+            <span className="text-sm text-slate-600" data-testid="matching-count">
+              {matching === 0
+                ? 'No questions match: pick another question type or section.'
+                : `${matching} ${matching === 1 ? 'question matches' : 'questions match'}${
+                    count > matching ? `; the exam will have ${matching}` : ''
+                  }.`}
+            </span>
+          </div>
         </Card>
       )}
 

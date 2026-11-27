@@ -68,6 +68,14 @@ test('imports a PDF and opens it', async () => {
 })
 
 test('takes an exam with feedback after each answer', async () => {
+  // With no question type ticked nothing matches, so the exam can't start empty.
+  const typeBoxes = page.getByRole('group', { name: 'Question types' }).getByRole('checkbox')
+  for (const box of await typeBoxes.all()) await box.uncheck()
+  await expect(page.getByTestId('matching-count')).toHaveText(/^No questions match/)
+  await expect(page.getByRole('button', { name: 'Start exam' })).toBeDisabled()
+  for (const box of await typeBoxes.all()) await box.check()
+  await expect(page.getByTestId('matching-count')).toHaveText(/^\d+ questions match/)
+
   await page.getByLabel('Number of questions').fill('3')
   await page.getByRole('button', { name: 'Start exam' }).click()
   await expect(page.getByTestId('exam-progress')).toHaveText('Question 1 of 3')

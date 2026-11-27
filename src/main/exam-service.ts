@@ -54,18 +54,27 @@ export class ExamService {
     const document = this.requireDocument(id)
     const sections = loadSections(this.db, id)
     const questions = loadQuestions(this.db, id)
-    const perSection = new Map<number, number>()
+    const perSection = new Map<number, Partial<Record<QuestionType, number>>>()
     const byType: DocumentDetail['questionCountByType'] = {}
     for (const q of questions) {
-      perSection.set(q.sectionId, (perSection.get(q.sectionId) ?? 0) + 1)
+      const counts = perSection.get(q.sectionId) ?? {}
+      counts[q.type] = (counts[q.type] ?? 0) + 1
+      perSection.set(q.sectionId, counts)
       byType[q.type] = (byType[q.type] ?? 0) + 1
     }
+    const total = (counts: Partial<Record<QuestionType, number>> = {}) =>
+      Object.values(counts).reduce((sum, n) => sum + n, 0)
     return {
       document: this.summarize(document),
       warnings: document.warnings,
       sections: sections
         .filter((s) => perSection.has(s.id))
-        .map((s) => ({ id: s.id, label: sectionLabel(sections, s.id), questionCount: perSection.get(s.id) ?? 0 })),
+        .map((s) => ({
+          id: s.id,
+          label: sectionLabel(sections, s.id),
+          questionCount: total(perSection.get(s.id)),
+          countByType: perSection.get(s.id) ?? {}
+        })),
       questionCountByType: byType,
       attempts: listAttempts(this.db, id).map((a) => ({
         id: a.id,
@@ -92,19 +101,22 @@ export class ExamService {
     this.requireDocument(documentId)
     const sections = loadSections(this.db, documentId)
     const labelOf = (sectionId: number) => sectionLabel(sections, sectionId)
-    const exam = saveExam(
-      this.db,
-      documentId,
-      assembleExam(
-        loadQuestions(this.db, documentId),
-        {
-          questionCount: settings.questionCount,
-          ...(settings.types.length > 0 ? { types: settings.types } : {}),
-          ...(settings.sectionIds.length > 0 ? { sectionIds: settings.sectionIds } : {})
-        },
-        seed
-      )
+    const assembled = assembleExam(
+      loadQuestions(this.db, documentId),
+      {
+        questionCount: settings.questionCount,
+        ...(settings.types.length > 0 ? { types: settings.types } : {}),
+        ...(settings.sectionIds.length > 0 ? { sectionIds: settings.sectionIds } : {})
+      },
+      seed
     )
+    // An empty exam is never started (or saved): say why instead.
+    if (assembled.items.length === 0) {
+      throw new Error(
+        'No questions match these settings. The sections you picked have no questions of the types you picked.'
+      )
+    }
+    const exam = saveExam(this.db, documentId, assembled)
     this.sessions.set(exam.id, {
       exam,
       labelOf,

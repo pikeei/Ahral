@@ -45,6 +45,8 @@ export interface SectionOption {
   id: number
   label: string
   questionCount: number
+  /** The same count split by question type, so the setup screen can tell what a choice matches. */
+  countByType: Partial<Record<QuestionType, number>>
 }
 
 export interface AttemptView {
