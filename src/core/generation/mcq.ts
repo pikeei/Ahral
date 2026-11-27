@@ -14,9 +14,15 @@ import type { OptionSource, Question } from './types'
  *   - it does not appear in the question itself;
  *   - its own definition is clearly different (word overlap below MAX_DEFINITION_OVERLAP),
  *     because "ampoule" and "vial" defined almost alike would make both right.
+ *
+ * Among the safe ones, the most plausible are picked: the same topic (shared words), the
+ * same kind of thing ("Irradiation damage" with "Somatic damage", "Radiation that ..." with
+ * "Radiation that ..."), and a similar shape and length. A question is dropped when only the
+ * correct option repeats a word from the question ("Irradiation damage" ... "effects of
+ * irradiation on water"), since that word alone would give the answer away.
  */
 
-export type McqRejection = 'answer-in-definition' | 'not-enough-distractors'
+export type McqRejection = 'answer-in-definition' | 'not-enough-distractors' | 'answer-gives-away'
 
 export const DISTRACTOR_COUNT = 3
 /** Two definitions sharing more than this share of words are too alike to separate. */
@@ -26,12 +32,34 @@ const MAX_LENGTH_RATIO = 2.5
 
 interface DefinedTerm {
   definition: Definition
+  /** Content words of the definition. */
   words: Set<string>
+  /** Content words of the term. */
+  termWords: Set<string>
+  /** Content words of the term and definition together: what the entry is about. */
+  topic: Set<string>
+  /** Last word of the term ("damage" in "irradiation damage"): what kind of thing it is. */
+  head: string
+  /** First word of the definition ("result" in "result of ..."): how it is described. */
+  genus: string
+}
+
+function describeTerm(definition: Definition): DefinedTerm {
+  const words = contentWords(definition.definition)
+  const termWords = contentWords(definition.term)
+  return {
+    definition,
+    words,
+    termWords,
+    topic: new Set([...words, ...termWords]),
+    head: [...termWords].at(-1) ?? '',
+    genus: [...words][0] ?? ''
+  }
 }
 
 /** "Which term is best described as ...?" with terms as options. */
 export function generateTermMcq(definitions: Definition[], onReject: (reason: McqRejection) => void): Question[] {
-  const defined = definitions.map((definition) => ({ definition, words: contentWords(definition.definition) }))
+  const defined = definitions.map(describeTerm)
   const questions: Question[] = []
 
   for (const target of defined) {
@@ -50,6 +78,11 @@ export function generateTermMcq(definitions: Definition[], onReject: (reason: Mc
       .slice(0, DISTRACTOR_COUNT)
     if (distractors.length < DISTRACTOR_COUNT) {
       onReject('not-enough-distractors')
+      continue
+    }
+    // The prompt is the definition: if it repeats a word of the answer term and of no other option, that's the answer.
+    if (givesAwayAnswer(target.termWords, target.words, (word) => distractors.some((d) => d.termWords.has(word)))) {
+      onReject('answer-gives-away')
       continue
     }
 
@@ -77,12 +110,16 @@ export function generateTermMcq(definitions: Definition[], onReject: (reason: Mc
 
 /** "Which best describes X?" with definitions as options. */
 export function generateDefinitionMcq(definitions: Definition[], onReject: (reason: McqRejection) => void): Question[] {
-  const defined = definitions.map((definition) => ({ definition, words: contentWords(definition.definition) }))
+  const defined = definitions.map(describeTerm)
   const questions: Question[] = []
 
   for (const target of defined) {
     const { definition } = target
     const answerLength = definition.definition.split(/\s+/).length
+    // Words of the asked term that the right definition repeats ("irradiation"): a wrong
+    // definition that also uses them hides that clue, so those are preferred.
+    const clue = [...target.termWords].filter((w) => target.words.has(w))
+    const sharesClue = (other: DefinedTerm) => clue.some((w) => other.words.has(w))
     const distractors = defined
       .filter((other) => {
         if (other === target || !isSafeTermDistractor(other, target)) return false
@@ -93,11 +130,17 @@ export function generateDefinitionMcq(definitions: Definition[], onReject: (reas
       })
       .sort(
         (a, b) =>
-          distractorScore(b, target) - distractorScore(a, target) || a.definition.term.localeCompare(b.definition.term)
+          Number(sharesClue(b)) - Number(sharesClue(a)) ||
+          distractorScore(b, target) - distractorScore(a, target) ||
+          a.definition.term.localeCompare(b.definition.term)
       )
       .slice(0, DISTRACTOR_COUNT)
     if (distractors.length < DISTRACTOR_COUNT) {
       onReject('not-enough-distractors')
+      continue
+    }
+    if (givesAwayAnswer(target.termWords, target.words, (word) => distractors.some((d) => d.words.has(word)))) {
+      onReject('answer-gives-away')
       continue
     }
 
@@ -130,11 +173,31 @@ function isSafeTermDistractor(other: DefinedTerm, target: DefinedTerm): boolean 
   return jaccard(other.words, target.words) <= MAX_DEFINITION_OVERLAP
 }
 
-/** Plausible distractors first: same section, similar shape and length as the answer. */
+/**
+ * A word of the term that the definition repeats is a clue to the answer, unless at least
+ * one wrong option carries it too (`alsoInDistractor`).
+ */
+function givesAwayAnswer(
+  termWords: Set<string>,
+  definitionWords: Set<string>,
+  alsoInDistractor: (word: string) => boolean
+): boolean {
+  const clue = [...termWords].filter((w) => definitionWords.has(w))
+  return clue.length > 0 && !clue.some(alsoInDistractor)
+}
+
+/** How much shared topic counts against other signals: fully shared words would add this much. */
+const TOPIC_WEIGHT = 4
+/** Same kind of thing: same last word of the term, or the definition starts the same way. */
+const SAME_KIND_BONUS = 1.5
+
+/** Plausible distractors first: same topic and kind, same section, similar shape and length as the answer. */
 function distractorScore(other: DefinedTerm, target: DefinedTerm): number {
   const a = other.definition.term
   const b = target.definition.term
-  let score = 0
+  let score = TOPIC_WEIGHT * jaccard(other.topic, target.topic)
+  if (other.head !== '' && other.head === target.head) score += SAME_KIND_BONUS
+  if (other.genus !== '' && other.genus === target.genus) score += SAME_KIND_BONUS
   if (other.definition.sectionId === target.definition.sectionId) score += 2
   if (a.split(/\s+/).length === b.split(/\s+/).length) score += 1
   if (isAcronym(a) === isAcronym(b)) score += 1

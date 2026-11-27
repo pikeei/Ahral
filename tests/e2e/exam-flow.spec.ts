@@ -90,6 +90,15 @@ test('takes an exam with feedback after each answer', async () => {
     await expect(feedback).toBeVisible()
     // Every explanation cites the page it comes from.
     await expect(feedback).toContainText(/\(p\. \d+\)/)
+    if ((await options.count()) > 0) {
+      // The picked option (A) is labelled right or wrong, and exactly one option is the right one.
+      await expect(options.first()).toContainText(/[✓✗] Your answer/)
+      await expect(options.filter({ hasText: /✓/ })).toHaveCount(1)
+      if ((await feedback.textContent())?.startsWith('Not quite')) {
+        await expect(options.first()).toContainText('✗ Your answer')
+        await expect(options.filter({ hasText: '✓ Correct answer' })).toHaveCount(1)
+      }
+    }
     await page.getByRole('button', { name: n < 3 ? 'Next question' : 'See results' }).click()
   }
 

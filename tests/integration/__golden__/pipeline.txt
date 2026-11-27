@@ -29,23 +29,23 @@ SENTENCES
 - p2 The half value layer is the thickness of any absorber that reduces beam intensity to one half of its original value.
 - p2 Added filtration removes low energy photons and reduces the patient skin dose or every examination that is performed.
 - p3 Which blood vessels are best suited or determination of pulse rate?
-- p3 (A) Superficial arteries
-- p3 (B) Deep arteries
-- p3 (C) Superficial veins
-- p3 (D) Deep veins
+- p3 Superficial arteries
+- p3 Deep arteries
+- p3 Superficial veins
+- p3 Deep veins
 - p3 Diseases that require contact precautions include
 - p3 MRSA
 - p3 2. wound infections
 - p3 3. influenza
-- p3 (A) 1 only
-- p3 (B) 1 and 2 only
-- p3 (C) 2 and 3 only
-- p3 (D) 1, 2, and 3
+- p3 1 only
+- p3 1 and 2 only
+- p3 2 and 3 only
+- p3 1, 2, and 3
 - p3 Thoracentesis is a procedure used to remove fluid rom the pleural cavity of the chest.
-- p4 (A) Superficial arteries are best suited or determination of pulse rate.
+- p4 Superficial arteries are best suited or determination of pulse rate.
 - p4 The femoral pulse is elt in the groin.
 - p4 Kilovoltage is the primary actor that controls beam quality, while milliamperage controls the quantity of photons produced.
-- p4 (B) MRSA and wound infections spread by direct contact; influenza spreads by droplets.
+- p4 MRSA and wound infections spread by direct contact; influenza spreads by droplets.
 - p4 The portal of entry is the pathway by which infectious organisms enter the body.
 - p4 Proper body mechanics help prevent back injury when moving patients rom a stretcher.
 - p4 Hand hygiene is the single most effective way to prevent the spread of infection.
@@ -97,31 +97,31 @@ BOOK QUESTIONS (Imported 2 of the 2 questions in this PDF.)
     - 1, 2, and 3
     because: MRSA and wound infections spread by direct contact; influenza spreads by droplets. The portal of entry is the pathway by which infectious organisms enter the body. Proper body mechanics help prevent back injury when moving patients rom a stretcher. Hand hygiene is the single most effective way to prevent the spread of infection. Standard precautions apply to every patient regardless of the final diagnosis.
 
-QUESTIONS (39)
+QUESTIONS (37)
 [mcq-term p1 q0.93] Which term is best described as: "Narrow-mouthed container that is not used or medical purposes"?
     * Carafe
-    - Ampoule
     - Syringe
-    - Catheter
+    - Ampoule
+    - Vial
 [mcq-term p1 q0.93] Which term is best described as: "Device used to inject fluids into the body or withdraw them"?
     * Syringe
-    - Ampoule
-    - Carafe
     - Catheter
+    - Carafe
+    - Ampoule
 [mcq-term p1 q0.93] Which term is best described as: "Flexible tube inserted into the body to deliver or drain fluids"?
     * Catheter
-    - Ampoule
     - Syringe
+    - Ampoule
     - Carafe
 [mcq-term p1 q0.93] Which term is best described as: "Small sealed container that usually holds a single dose of medication"?
     * Ampoule
-    - Syringe
+    - Vial
     - Carafe
-    - Catheter
+    - Syringe
 [mcq-term p1 q0.93] Which term is best described as: "Larger container that holds a number of doses of medication"?
     * Vial
-    - Carafe
     - Ampoule
+    - Carafe
     - Syringe
 [cloze p2 q0.92] The _____ is the thickness of any absorber that reduces beam intensity to one half of its original value.
     = half value layer
@@ -135,28 +135,28 @@ QUESTIONS (39)
     = Hand hygiene
 [mcq-definition p1 q0.84] Which of the following best describes Carafe?
     * Narrow-mouthed container that is not used or medical purposes
-    - Small sealed container that usually holds a single dose of medication
     - Device used to inject fluids into the body or withdraw them
-    - Flexible tube inserted into the body to deliver or drain fluids
+    - Small sealed container that usually holds a single dose of medication
+    - Larger container that holds a number of doses of medication
 [mcq-definition p1 q0.84] Which of the following best describes Syringe?
     * Device used to inject fluids into the body or withdraw them
-    - Small sealed container that usually holds a single dose of medication
-    - Narrow-mouthed container that is not used or medical purposes
     - Flexible tube inserted into the body to deliver or drain fluids
+    - Narrow-mouthed container that is not used or medical purposes
+    - Small sealed container that usually holds a single dose of medication
 [mcq-definition p1 q0.84] Which of the following best describes Catheter?
     * Flexible tube inserted into the body to deliver or drain fluids
-    - Small sealed container that usually holds a single dose of medication
     - Device used to inject fluids into the body or withdraw them
+    - Small sealed container that usually holds a single dose of medication
     - Narrow-mouthed container that is not used or medical purposes
 [mcq-definition p1 q0.84] Which of the following best describes Ampoule?
     * Small sealed container that usually holds a single dose of medication
-    - Device used to inject fluids into the body or withdraw them
+    - Larger container that holds a number of doses of medication
     - Narrow-mouthed container that is not used or medical purposes
-    - Flexible tube inserted into the body to deliver or drain fluids
+    - Device used to inject fluids into the body or withdraw them
 [mcq-definition p1 q0.84] Which of the following best describes Vial?
     * Larger container that holds a number of doses of medication
-    - Narrow-mouthed container that is not used or medical purposes
     - Small sealed container that usually holds a single dose of medication
+    - Narrow-mouthed container that is not used or medical purposes
     - Device used to inject fluids into the body or withdraw them
 [cloze p1 q0.74] _____ - a narrow-mouthed container that is not used or medical purposes.
     = Carafe
@@ -174,14 +174,14 @@ QUESTIONS (39)
     = Vial
 [mcq-term p1 q0.72] Which term is best described as: "Fundamental part of patient care in every imaging department"?
     * Infection control
-    - Reservoir
     - Vector
+    - Reservoir
     - Hand hygiene
 [mcq-term p1 q0.72] Which term is best described as: "Site where an infectious organism can remain alive and rom which transmission can occur"?
     * Reservoir
     - Vector
     - Infection control
-    - Catheter
+    - Thoracentesis
 [mcq-term p1 q0.72] Which term is best described as: "Animal host of an infectious organism that transmits the infection through a bite or sting"?
     * Vector
     - Reservoir
@@ -189,14 +189,14 @@ QUESTIONS (39)
     - Carafe
 [mcq-definition p1 q0.65] Which of the following best describes Infection control?
     * Fundamental part of patient care in every imaging department
-    - Site where an infectious organism can remain alive and rom which transmission can occur
     - Animal host of an infectious organism that transmits the infection through a bite or sting
+    - Site where an infectious organism can remain alive and rom which transmission can occur
     - Single most effective way to prevent the spread of infection
 [mcq-definition p1 q0.65] Which of the following best describes reservoir?
     * Site where an infectious organism can remain alive and rom which transmission can occur
     - Animal host of an infectious organism that transmits the infection through a bite or sting
     - Fundamental part of patient care in every imaging department
-    - Flexible tube inserted into the body to deliver or drain fluids
+    - Procedure used to remove fluid rom the pleural cavity of the chest
 [mcq-definition p1 q0.65] Which of the following best describes vector?
     * Animal host of an infectious organism that transmits the infection through a bite or sting
     - Site where an infectious organism can remain alive and rom which transmission can occur
@@ -211,12 +211,12 @@ QUESTIONS (39)
     * Hand hygiene
     - Portal of entry
     - Infection control
-    - Thoracentesis
+    - Ampoule
 [mcq-term p3 q0.56] Which term is best described as: "Procedure used to remove fluid rom the pleural cavity of the chest"?
     * Thoracentesis
-    - Catheter
-    - Ampoule
     - Syringe
+    - Catheter
+    - Carafe
 [mcq-definition p4 q0.55] Which of the following best describes portal of entry?
     * Pathway by which infectious organisms enter the body
     - Single most effective way to prevent the spread of infection
@@ -226,25 +226,15 @@ QUESTIONS (39)
     * Single most effective way to prevent the spread of infection
     - Pathway by which infectious organisms enter the body
     - Fundamental part of patient care in every imaging department
-    - Procedure used to remove fluid rom the pleural cavity of the chest
+    - Small sealed container that usually holds a single dose of medication
 [cloze p4 q0.52] _____ and wound infections spread by direct contact; influenza spreads by droplets.
     = MRSA
-[mcq-term p2 q0.52] Which term is best described as: "Thickness of any absorber that reduces beam intensity to one half of its original value"?
-    * Half value layer
-    - Portal of entry
-    - Reservoir
-    - Vector
 [cloze p1 q0.48] _____ require gloves and gowns or anyone coming in direct contact with the infected patient.
     = Contact precautions
 [mcq-definition p3 q0.48] Which of the following best describes Thoracentesis?
     * Procedure used to remove fluid rom the pleural cavity of the chest
-    - Flexible tube inserted into the body to deliver or drain fluids
-    - Small sealed container that usually holds a single dose of medication
     - Device used to inject fluids into the body or withdraw them
-[mcq-definition p2 q0.45] Which of the following best describes half value layer?
-    * Thickness of any absorber that reduces beam intensity to one half of its original value
-    - Pathway by which infectious organisms enter the body
-    - Site where an infectious organism can remain alive and rom which transmission can occur
-    - Animal host of an infectious organism that transmits the infection through a bite or sting
+    - Flexible tube inserted into the body to deliver or drain fluids
+    - Narrow-mouthed container that is not used or medical purposes
 [cloze p4 q0.38] Superficial arteries are best suited or determination of _____.
     = pulse rate

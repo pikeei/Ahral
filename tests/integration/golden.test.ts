@@ -92,6 +92,15 @@ describe('golden pipeline', () => {
     expect(contact?.explanation).toMatch(/^MRSA and wound infections spread by direct contact/)
   })
 
+  it('never carries the book’s answer letters into generated questions', () => {
+    // "(D) Irradiation damage is ..." in an answer key: the D belongs to another question.
+    for (const q of result.questions) {
+      expect([q.prompt, q.explanation, ...(q.options ?? []).map((o) => o.text)].join('\n')).not.toMatch(
+        /(^|\n)\([A-H]\) /
+      )
+    }
+  })
+
   it('references real pages', () => {
     for (const q of result.questions) {
       expect(q.page).toBeGreaterThanOrEqual(1)

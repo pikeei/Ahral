@@ -64,15 +64,22 @@ export function sectionLabel(sections: Section[], sectionId: number): string {
   return titles.length > 0 ? titles.slice(-LABEL_LEVELS).join(' › ') : '(untitled)'
 }
 
+/**
+ * An answer-key or option label at the start of a sentence: "(D) Irradiation damage is ...".
+ * The letter belongs to the book's own question, so it would mislead anywhere else.
+ */
+const LEADING_CHOICE_LABEL = /^\([A-Ha-h]\)\s+/
+
 export function extractSentences(blocks: Block[]): Sentence[] {
   const sentences: Sentence[] = []
   for (const block of blocks) {
     if (block.kind === 'heading') continue
     for (const span of splitSentences(block.text)) {
-      if (!/\p{L}/u.test(span.text)) continue
+      const text = span.text.replace(LEADING_CHOICE_LABEL, '')
+      if (!/\p{L}/u.test(text)) continue
       sentences.push({
         id: sentences.length + 1,
-        text: span.text,
+        text,
         page: pageAtOffset(block, span.start),
         sectionId: block.sectionId,
         blockId: block.id

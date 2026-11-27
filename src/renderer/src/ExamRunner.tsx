@@ -21,15 +21,19 @@ export function ExamRunner({ exam, onFinish, onQuit }: Props) {
   const [confirmQuit, setConfirmQuit] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const nextRef = useRef<HTMLButtonElement>(null)
+  const optionsRef = useRef<HTMLDivElement>(null)
 
   const question = exam.questions[position]
   const isLast = position === exam.questions.length - 1
 
-  // Focus the input for each new question, and the Next button once answered.
+  // Focus the input (or the options) for each new question, and the Next button once answered.
+  // Without this, focus stays on the button under the mouse: after "Next question" that is
+  // the new question's Skip button, and pressing Enter to check a choice would skip it.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: runs for each new question too
   useEffect(() => {
     if (feedback) nextRef.current?.focus()
-    else inputRef.current?.focus()
-  }, [feedback])
+    else (inputRef.current ?? optionsRef.current)?.focus()
+  }, [feedback, position])
 
   // Keyboard shortcuts for multiple choice: A-D or 1-4 to choose, Enter to check.
   useEffect(() => {
@@ -81,16 +85,58 @@ export function ExamRunner({ exam, onFinish, onQuit }: Props) {
     setFeedback(null)
   }
 
+  /** After answering: the right option is green; a wrong pick is red; the rest fade. */
+  function optionResult(option: string): 'right' | 'wrong-pick' | 'other' {
+    if (option === feedback?.answer) return 'right'
+    if (option === feedback?.given) return 'wrong-pick'
+    return 'other'
+  }
+
   function optionStyle(index: number, option: string): string {
     if (!feedback) {
       return choice === index
         ? 'border-indigo-500 bg-indigo-50 ring-1 ring-indigo-500'
         : 'border-slate-200 bg-white hover:border-slate-300'
     }
-    if (option === feedback.answer) return 'border-emerald-500 bg-emerald-50'
-    if (option === feedback.given) return 'border-red-400 bg-red-50'
-    return 'border-slate-200 bg-white opacity-60'
+    return {
+      right: 'border-emerald-600 bg-emerald-50 text-emerald-950 ring-1 ring-emerald-600',
+      'wrong-pick': 'border-red-600 bg-red-100 text-red-950 ring-1 ring-red-600',
+      other: 'border-slate-200 bg-white text-slate-500'
+    }[optionResult(option)]
   }
+
+  /** Words as well as colour, so the result is clear without telling red from green. */
+  function optionTag(option: string) {
+    if (!feedback) return null
+    const result = optionResult(option)
+    if (result === 'other') return null
+    const picked = option === feedback.given
+    return (
+      <span
+        className={`ml-auto shrink-0 self-start rounded-full px-2 py-0.5 text-xs font-semibold ${
+          result === 'right' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'
+        }`}
+      >
+        {result === 'right' ? (picked ? '✓ Your answer' : '✓ Correct answer') : '✗ Your answer'}
+      </span>
+    )
+  }
+
+  const typedAnswerStyle = !feedback
+    ? 'border-slate-300'
+    : feedback.correct
+      ? 'border-emerald-600 bg-emerald-50 ring-1 ring-emerald-600'
+      : feedback.status === 'almost'
+        ? 'border-amber-500 bg-amber-50 ring-1 ring-amber-500'
+        : 'border-red-600 bg-red-50 text-red-950 ring-1 ring-red-600'
+
+  const feedbackStyle = !feedback
+    ? ''
+    : feedback.correct
+      ? 'bg-emerald-50 text-emerald-950'
+      : feedback.status === 'almost'
+        ? 'bg-amber-50 text-amber-950'
+        : 'bg-red-50 text-red-950'
 
   const progress = ((position + (feedback ? 1 : 0)) / exam.questions.length) * 100
 
@@ -131,7 +177,13 @@ export function ExamRunner({ exam, onFinish, onQuit }: Props) {
         </h2>
 
         {options ? (
-          <div role="radiogroup" aria-label="Options" className="mt-5 space-y-2">
+          <div
+            role="radiogroup"
+            aria-label="Options"
+            ref={optionsRef}
+            tabIndex={-1}
+            className="mt-5 space-y-2 outline-none"
+          >
             {options.map((option, i) => (
               // biome-ignore lint/a11y/useSemanticElements: styled option cards behave as a radio group
               <button
@@ -143,8 +195,9 @@ export function ExamRunner({ exam, onFinish, onQuit }: Props) {
                 onClick={() => setChoice(i)}
                 className={`flex w-full gap-3 rounded-md border p-3 text-left transition-colors ${optionStyle(i, option)}`}
               >
-                <span className="font-semibold text-slate-500">{LETTERS[i]}</span>
+                <span className="font-semibold opacity-70">{LETTERS[i]}</span>
                 <span>{option}</span>
+                {optionTag(option)}
               </button>
             ))}
           </div>
@@ -167,19 +220,13 @@ export function ExamRunner({ exam, onFinish, onQuit }: Props) {
               disabled={feedback !== null}
               autoComplete="off"
               spellCheck={false}
-              className="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 disabled:bg-slate-50"
+              className={`mt-1 block w-full rounded-md border px-3 py-2 ${typedAnswerStyle}`}
             />
           </form>
         )}
 
         {feedback && (
-          <div
-            aria-live="polite"
-            data-testid="feedback"
-            className={`mt-5 rounded-md p-4 text-sm ${
-              feedback.correct ? 'bg-emerald-50 text-emerald-950' : 'bg-amber-50 text-amber-950'
-            }`}
-          >
+          <div aria-live="polite" data-testid="feedback" className={`mt-5 rounded-md p-4 text-sm ${feedbackStyle}`}>
             <p className="font-semibold">{feedback.lines[0]}</p>
             {explanationLines(feedback.lines, options !== undefined).map((line) => (
               <p key={line} className="mt-1">

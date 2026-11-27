@@ -107,3 +107,57 @@ describe('generateDefinitionMcq', () => {
     expect(texts(q).some((o) => o.startsWith('Process of re-running'))).toBe(false)
   })
 })
+
+describe('choosing plausible wrong options', () => {
+  // A radiation-biology topic with unrelated terms mixed in, like a real review book.
+  const RADIATION = [
+    definition('Irradiation damage', 'result of the effects of irradiation on water or on macromolecules'),
+    definition('Mutation', 'result of damage to the base sequence of DNA after irradiation'),
+    definition('Chromosome break', 'result of a double-strand break on the same DNA rung'),
+    definition('Remnant radiation', 'radiation that emerges from the patient to form the image'),
+    definition('Pair production', 'interaction that occurs only at energies above 1.02 MeV'),
+    definition('Thoracentesis', 'procedure used to remove fluid from the pleural cavity'),
+    definition('Catheter', 'flexible tube inserted into the body to drain fluids')
+  ]
+  const rejectedFor = (defs: typeof RADIATION) => {
+    const rejected: McqRejection[] = []
+    return { questions: generateDefinitionMcq(defs, (r) => rejected.push(r)), rejected }
+  }
+
+  it('prefers options of the same topic and kind over unrelated ones', () => {
+    const q = rejectedFor(RADIATION).questions.find((x) => x.termKey === 'mutation')!
+    const wrong = q.options!.filter((o) => o.text !== q.answer).map((o) => o.source?.term)
+    // Both other kinds of radiation damage ("result of ..."). Before, one-word terms of the
+    // same shape as "Mutation" won: "Catheter" and "Thoracentesis", which are easy to rule out.
+    expect(wrong).toEqual(expect.arrayContaining(['Chromosome break', 'Irradiation damage']))
+    expect(wrong).not.toContain('Thoracentesis')
+  })
+
+  it('hides a clue word by choosing a wrong option that repeats it too', () => {
+    // "Irradiation damage" ... "effects of irradiation": "Mutation" also mentions irradiation.
+    const q = rejectedFor(RADIATION).questions.find((x) => x.termKey === 'irradiation damage')!
+    const wrong = q.options!.filter((o) => o.text !== q.answer).map((o) => o.text)
+    expect(wrong.some((t) => /irradiation/i.test(t))).toBe(true)
+  })
+
+  it('drops the question when only the right option repeats a word of the term', () => {
+    const giveaway = [
+      definition('Half value layer', 'thickness of absorber that reduces the beam to one half'),
+      ...TOOLS
+    ]
+    const { questions, rejected } = rejectedFor(giveaway)
+    expect(questions.find((x) => x.termKey === 'half value layer')).toBeUndefined()
+    expect(rejected).toContain('answer-gives-away')
+  })
+
+  it('drops a "which term" question whose prompt repeats a word of the answer only', () => {
+    const giveaway = [
+      definition('Half value layer', 'thickness of absorber that reduces the beam to one half'),
+      ...TOOLS
+    ]
+    const rejected: McqRejection[] = []
+    const questions = generateTermMcq(giveaway, (r) => rejected.push(r))
+    expect(questions.find((x) => x.termKey === 'half value layer')).toBeUndefined()
+    expect(rejected).toContain('answer-gives-away')
+  })
+})

@@ -238,7 +238,10 @@ const BAD_DEFINITION_START = new Set([
   'she',
   'we',
   'you',
-  'i'
+  'i',
+  // "Somatic effects can be classified as being early or late ..." describes, not defines.
+  'being',
+  'having'
 ])
 
 const MIN_DEFINITION_WORDS = 3
