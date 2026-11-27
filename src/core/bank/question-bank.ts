@@ -1,5 +1,5 @@
 import type { Question } from '../generation/types'
-import type { Block } from '../pdf/layout-types'
+import type { Block, ExtractedDocument } from '../pdf/layout-types'
 
 /*
  * Question banks: multiple-choice questions the document already contains, such as
@@ -36,12 +36,20 @@ export interface QuestionBankStats {
 export interface QuestionBankResult {
   questions: Question[]
   stats: QuestionBankStats
+  /** Blocks that are question text or options: not prose to generate questions from. */
+  blockIds: Set<number>
 }
 
 interface ParsedQuestion {
   number: number
+  /** How the number is written ("." in "12.", ".)" in "12.)"): every question in a set writes it the same way. */
+  marker: string
   stem: string[]
   options: string[]
+  /** Blocks of the question and its options. */
+  blockIds: number[]
+  /** Text after the options, kept in case it ends with the answer ("... Ans. C"). */
+  afterOptions: string[]
   page: number
   sectionId: number
   inlineAnswer?: Answer
@@ -55,8 +63,13 @@ interface Answer {
 }
 
 const LETTERS = 'ABCDEFGH'
-/** "12. Which ...", "12) Which ...", or "12." alone with the question in the next block. */
-const NUMBERED = /^(\d{1,3})[.)](?:\s+(\S.*))?$/s
+/** "12. Which ...", "12) Which ...", "12.) Which ...", or "12." alone with the question in the next block. */
+const NUMBERED = /^(\d{1,3})(\.\)|[.)])(?:\s+(\S.*))?$/s
+/**
+ * An answer at the end of an explanation that follows the options, as in study notes:
+ * "... (Bushong, p 441) Ans. C".
+ */
+const TRAILING_ANSWER = /(?:^|\s)(?:correct\s+)?(?:answer|ans\.?)\s*[:.-]?\s*\(?([A-Ha-h])\)?\.?\s*$/i
 /** "12. (C) Because ..." or "12. C. Because ..." — never "12. A patient ...". */
 const ANSWER_KEY = /^(\d{1,3})[.)]\s*(?:\(([A-Ha-h])\)|([A-Ha-h])[.)])(?:\s+(.*))?$/s
 /** "Answer: C", "Ans. (C) because ...", "Correct answer: C". */
@@ -106,7 +119,7 @@ export function extractQuestionBank(blocks: Block[]): QuestionBankResult {
     }
   })
   stats.imported = imported.length
-  return { questions: imported, stats }
+  return { questions: imported, stats, blockIds: new Set(questions.flatMap((q) => q.blockIds)) }
 }
 
 /** One line for the document's notes, or nothing when the document has no question bank. */
@@ -183,7 +196,7 @@ export function parseQuestionBlocks(blocks: Block[]): { questions: ParsedQuestio
       current.inlineAnswer = {
         number: current.number,
         letter: (inline[1] ?? '').toUpperCase(),
-        explanation: (inline[2] ?? '').trim(),
+        explanation: (inline[2] ?? '').trim() || current.afterOptions.join(' '),
         page: block.page
       }
       close()
@@ -195,6 +208,7 @@ export function parseQuestionBlocks(blocks: Block[]): { questions: ParsedQuestio
       for (const option of options) {
         if (option.letter === LETTERS[current.options.length]) current.options.push(option.text)
       }
+      current.blockIds.push(block.id)
       continue
     }
 
@@ -203,6 +217,7 @@ export function parseQuestionBlocks(blocks: Block[]): { questions: ParsedQuestio
       // A numbered line before any options is part of the question ("1. MRSA" in a combination question).
       if (current && current.options.length === 0) {
         current.stem.push(text)
+        current.blockIds.push(block.id)
         continue
       }
       // Inside an explanation, a numbered list ("1. the patient's name") is part of it,
@@ -211,12 +226,27 @@ export function parseQuestionBlocks(blocks: Block[]): { questions: ParsedQuestio
         lastAnswer.explanation = `${lastAnswer.explanation} ${text}`.trim()
         continue
       }
+      // After a question's options, the next question numbers itself the same way and
+      // counts up ("2.)" after "1.)"). Anything else ("1) Exposure artifacts ...") is
+      // explanation text, which may end with the answer.
+      const marker = numbered[2] ?? ''
+      if (current && current.options.length >= MIN_OPTIONS) {
+        const nextQuestion =
+          marker === current.marker && (Number(numbered[1]) > current.number || optionsFollow(blocks, index))
+        if (!nextQuestion) {
+          if (takeAnswerFromExplanation(current, text, block.page)) close()
+          continue
+        }
+      }
       lastAnswer = undefined
       close()
       current = {
         number: Number(numbered[1]),
-        stem: numbered[2] ? [numbered[2].trim()] : [],
+        marker,
+        stem: numbered[3] ? [numbered[3].trim()] : [],
+        blockIds: [block.id],
         options: [],
+        afterOptions: [],
         page: block.page,
         sectionId: block.sectionId
       }
@@ -226,6 +256,10 @@ export function parseQuestionBlocks(blocks: Block[]): { questions: ParsedQuestio
     if (current && current.options.length === 0) {
       // A question that wraps into a second block.
       current.stem.push(text)
+      current.blockIds.push(block.id)
+    } else if (current && current.options.length >= MIN_OPTIONS) {
+      // An explanation after the options, as in study notes; it may end with "Ans. C".
+      if (takeAnswerFromExplanation(current, text, block.page)) close()
     } else if (lastAnswer && !current) {
       // An explanation that continues into the next paragraph.
       lastAnswer.explanation = `${lastAnswer.explanation} ${text}`.trim()
@@ -235,6 +269,24 @@ export function parseQuestionBlocks(blocks: Block[]): { questions: ParsedQuestio
   }
   close()
   return { questions, answers }
+}
+
+/**
+ * Adds a block of explanation after a question's options. When it ends with the answer
+ * ("... Ans. C"), the question gets that answer, with everything after its options as the
+ * explanation, and true is returned.
+ */
+function takeAnswerFromExplanation(question: ParsedQuestion, text: string, page: number): boolean {
+  const answer = TRAILING_ANSWER.exec(text)
+  question.afterOptions.push(answer ? text.slice(0, answer.index).trim() : text)
+  if (!answer) return false
+  question.inlineAnswer = {
+    number: question.number,
+    letter: (answer[1] ?? '').toUpperCase(),
+    explanation: question.afterOptions.filter((t) => t !== '').join(' '),
+    page
+  }
+  return true
 }
 
 /** How far ahead an "(A)" option may be for a numbered line to count as a question (stem blocks, sub-items). */
@@ -289,4 +341,18 @@ function splitRuns<T>(items: T[], numberOf: (item: T) => number): T[][] {
     previous = n
   }
   return runs
+}
+
+/**
+ * The document without its question bank's questions and options, for finding definitions
+ * and generating questions: those are fragments ("(D) spinning top."), not prose. The
+ * explanations stay, since they are written-out text.
+ */
+export function withoutQuestionBank(doc: ExtractedDocument, blockIds: Set<number>): ExtractedDocument {
+  if (blockIds.size === 0) return doc
+  return {
+    ...doc,
+    blocks: doc.blocks.filter((b) => !blockIds.has(b.id)),
+    sentences: doc.sentences.filter((s) => !blockIds.has(s.blockId))
+  }
 }

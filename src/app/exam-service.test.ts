@@ -60,7 +60,7 @@ describe('documents', () => {
     expect(detail.sections).toEqual([
       { id: 1, label: 'Radiation Protection', questionCount: 1, countByType: { cloze: 1 } },
       { id: 2, label: 'Radiation Protection › Shielding', questionCount: 1, countByType: { 'mcq-term': 1 } },
-      { id: 3, label: '(untitled)', questionCount: 1, countByType: { 'mcq-definition': 1 } }
+      { id: 3, label: 'Pages 7–12', questionCount: 1, countByType: { 'mcq-definition': 1 } }
     ])
     expect(detail.questionCountByType).toEqual({ cloze: 1, 'mcq-term': 1, 'mcq-definition': 1 })
     expect(detail.warnings).toEqual(['Some pages have no text.'])

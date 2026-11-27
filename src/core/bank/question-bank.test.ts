@@ -187,6 +187,43 @@ describe('extractQuestionBank', () => {
     expect(stats).toEqual({ found: 5, imported: 1, withoutAnswer: 2, needsFigure: 1, malformed: 1 })
   })
 
+  it('reads study notes: "1.)" numbers, an explanation after the options ending in "Ans. A"', () => {
+    const blocks = [
+      block('1.) When a slow screen is used with a fast-screen exposure system, the images'),
+      ...['(A) are too light.', '(B) are too dark.', '(C) have improved detail.', '(D) have poor detail.'].map((t) =>
+        block(t)
+      ),
+      paragraph('The system expects a faster screen, so the film receives too little exposure.'),
+      // A numbered list inside the explanation, written differently from the questions.
+      block('1) Exposure artifacts include motion.'),
+      block('2) Handling artifacts include static.'),
+      paragraph('The images are too light. (Bushong, p 441) Ans. A'),
+      block('2.) Exposure-type artifacts include'),
+      block('1. motion'),
+      block('2. static'),
+      ...['(A) 1 only', '(B) 2 only', '(C) 1 and 2'].map((t) => block(t)),
+      paragraph('Both happen during exposure. Ans. C')
+    ]
+    const { questions, stats, blockIds } = extractQuestionBank(blocks)
+    expect(stats).toMatchObject({ found: 2, imported: 2 })
+    expect(questions.map((q) => [q.prompt, q.answer])).toEqual([
+      ['When a slow screen is used with a fast-screen exposure system, the images', 'are too light.'],
+      ['Exposure-type artifacts include\n1. motion\n2. static', '1 and 2']
+    ])
+    expect(questions[0]?.explanation).toBe(
+      'The system expects a faster screen, so the film receives too little exposure. 1) Exposure artifacts include motion. 2) Handling artifacts include static. The images are too light. (Bushong, p 441)'
+    )
+    // Question text and options are not prose for generated questions; explanations are.
+    const kept = blocks.filter((b) => !blockIds.has(b.id)).map((b) => b.text)
+    expect(kept).toEqual([
+      'The system expects a faster screen, so the film receives too little exposure.',
+      '1) Exposure artifacts include motion.',
+      '2) Handling artifacts include static.',
+      'The images are too light. (Bushong, p 441) Ans. A',
+      'Both happen during exposure. Ans. C'
+    ])
+  })
+
   it('finds nothing in ordinary text', () => {
     const blocks = [
       paragraph('Radiation protection is important.'),
@@ -195,7 +232,8 @@ describe('extractQuestionBank', () => {
     ]
     expect(extractQuestionBank(blocks)).toEqual({
       questions: [],
-      stats: { found: 0, imported: 0, withoutAnswer: 0, needsFigure: 0, malformed: 0 }
+      stats: { found: 0, imported: 0, withoutAnswer: 0, needsFigure: 0, malformed: 0 },
+      blockIds: new Set()
     })
   })
 })

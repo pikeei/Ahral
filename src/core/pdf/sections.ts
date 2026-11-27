@@ -61,7 +61,13 @@ export function sectionLabel(sections: Section[], sectionId: number): string {
   for (let s = byId.get(sectionId); s; s = s.parentId === null ? undefined : byId.get(s.parentId)) {
     if (s.title) titles.unshift(s.title)
   }
-  return titles.length > 0 ? titles.slice(-LABEL_LEVELS).join(' › ') : '(untitled)'
+  if (titles.length > 0) return titles.slice(-LABEL_LEVELS).join(' › ')
+  // No heading (text before the first one, or a PDF without any): say where it is instead.
+  const section = byId.get(sectionId)
+  if (!section) return '(untitled)'
+  return section.pageStart === section.pageEnd
+    ? `Page ${section.pageStart}`
+    : `Pages ${section.pageStart}–${section.pageEnd}`
 }
 
 /**

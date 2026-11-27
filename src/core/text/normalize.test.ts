@@ -8,6 +8,7 @@ describe('normalizeText', () => {
     ['removes zero-width characters', 'Sele​nium', 'Selenium'],
     ['turns non-breaking and thin spaces into spaces', 'Node js API', 'Node js API'],
     ['collapses repeated spaces', 'a   b', 'a b'],
+    ['removes symbol-font bullets (private-use characters)', ' A digital image', ' A digital image'],
     ['leaves normal text alone', 'Postman is an API testing tool.', 'Postman is an API testing tool.']
   ])('%s', (_name, input, expected) => {
     expect(normalizeText(input)).toBe(expected)

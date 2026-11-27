@@ -1,5 +1,5 @@
 import { analyzeDocument } from '../core/analysis/analyze'
-import { describeQuestionBank, extractQuestionBank } from '../core/bank/question-bank'
+import { describeQuestionBank, extractQuestionBank, withoutQuestionBank } from '../core/bank/question-bank'
 import { buildGlossary } from '../core/exam/grade'
 import { type ExtractOptions, extractDocument } from '../core/extract'
 import { generateQuestions } from '../core/generation/generate'
@@ -17,13 +17,15 @@ export async function runPipeline(data: Uint8Array, options: PipelineOptions = {
   const { onStage, ...extractOptions } = options
   onStage?.('reading')
   const doc = await extractDocument(data, extractOptions)
-  onStage?.('analyzing')
-  const analysis = analyzeDocument(doc)
-  onStage?.('generating')
-  const generated = generateQuestions(doc, analysis, options.isWord ? { isWord: options.isWord } : {})
-  // Questions the document already has (a review book's question bank) come first.
+  // Questions the document already has (a review book's question bank) come first. Their
+  // wording and options are left out of what definitions and new questions are made from.
   const bank = extractQuestionBank(doc.blocks)
   const bankNote = describeQuestionBank(bank.stats)
+  const prose = withoutQuestionBank(doc, bank.blockIds)
+  onStage?.('analyzing')
+  const analysis = analyzeDocument(prose)
+  onStage?.('generating')
+  const generated = generateQuestions(prose, analysis, options.isWord ? { isWord: options.isWord } : {})
   return {
     pageCount: doc.pageCount,
     warnings: bankNote ? [...doc.warnings, bankNote] : doc.warnings,

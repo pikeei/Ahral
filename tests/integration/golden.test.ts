@@ -3,7 +3,12 @@ import { resolve } from 'node:path'
 import { beforeAll, describe, expect, it } from 'vitest'
 import wordListPath from 'word-list'
 import { analyzeDocument, type DocumentAnalysis } from '../../src/core/analysis/analyze'
-import { describeQuestionBank, extractQuestionBank, type QuestionBankResult } from '../../src/core/bank/question-bank'
+import {
+  describeQuestionBank,
+  extractQuestionBank,
+  type QuestionBankResult,
+  withoutQuestionBank
+} from '../../src/core/bank/question-bank'
 import { type ExtractedDocument, extractDocument } from '../../src/core/extract'
 import { type GenerationResult, generateQuestions } from '../../src/core/generation/generate'
 import { buildGoldenPdf } from '../fixtures/golden-pdf'
@@ -29,9 +34,12 @@ let bank: QuestionBankResult
 
 beforeAll(async () => {
   doc = await extractDocument(await buildGoldenPdf(), { standardFontDataUrl, isWord })
-  analysis = analyzeDocument(doc)
-  result = generateQuestions(doc, analysis, { isWord })
+  // The same order as the app's pipeline (src/app/pipeline.ts): the question bank first,
+  // then definitions and generated questions from the rest of the text.
   bank = extractQuestionBank(doc.blocks)
+  const prose = withoutQuestionBank(doc, bank.blockIds)
+  analysis = analyzeDocument(prose)
+  result = generateQuestions(prose, analysis, { isWord })
 })
 
 describe('golden pipeline', () => {

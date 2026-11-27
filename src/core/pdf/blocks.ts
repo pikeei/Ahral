@@ -13,7 +13,7 @@ const MAX_HEADING_WORDS = 15
 
 /** Bullet glyphs are removed from list items; numbers and letters ("1.", "a)") are kept. */
 const BULLET_GLYPH = /^[•●○◦▪▫■□‣⁃∙·*\-–—]\s+/
-const LIST_MARKER = /^(\(?\d{1,3}[.)]|\(?[a-z][.)]|\([A-Z]\))\s+/
+const LIST_MARKER = /^(\(?\d{1,3}(?:\.\)|[.)])|\(?[a-z][.)]|\([A-Z]\))\s+/
 const NUMBERED_HEADING = /^((\d+\.)*\d+\.?|[A-Z]\.|chapter|section|part|unit|lesson|module|appendix)\s/i
 const TERMINAL_PUNCTUATION = /[.!?:;]["'”’)\]]*$/
 /**
@@ -51,7 +51,13 @@ export function buildBlocks(lines: Line[], bodyFontSize: number): Block[] {
   let current: Block | undefined
   let prev: Line | undefined
 
-  for (const line of lines) {
+  for (const line of splitAtRules(lines)) {
+    if (line === RULE_BREAK) {
+      // A drawn rule separates what comes before from what comes after: start a new block.
+      current = undefined
+      prev = undefined
+      continue
+    }
     const heading = isHeadingLine(line, bodyFontSize)
     const isListStart = !heading && (BULLET_GLYPH.test(line.text) || LIST_MARKER.test(line.text))
     const kind: BlockKind = heading ? 'heading' : isListStart ? 'list-item' : 'paragraph'
@@ -75,6 +81,36 @@ export function buildBlocks(lines: Line[], bodyFontSize: number): Block[] {
     prev = line
   }
   return blocks
+}
+
+/**
+ * A horizontal rule typed as characters: "————————" (dashes) in study notes that separate a
+ * question from its explanation, or a line of only "________". Underscores inside text are
+ * left alone, since "The ________ is ..." is a fill-in blank, not a separator.
+ */
+const DASH_RULE = /\s*(?:[—–]{3,}|-{8,})\s*/
+const UNDERSCORE_LINE = /^[\s_]{8,}$/
+const RULE_BREAK = Symbol('rule')
+
+/** Lines with rules removed, and RULE_BREAK where a rule was. */
+function* splitAtRules(lines: Line[]): Generator<Line | typeof RULE_BREAK> {
+  for (const line of lines) {
+    if (UNDERSCORE_LINE.test(line.text)) {
+      yield RULE_BREAK
+      continue
+    }
+    if (!DASH_RULE.test(line.text)) {
+      yield line
+      continue
+    }
+    const pieces = line.text.split(DASH_RULE)
+    for (const [i, piece] of pieces.entries()) {
+      if (i > 0) yield RULE_BREAK
+      if (piece.trim() !== '') {
+        yield { ...line, text: piece.trim(), boldRuns: line.boldRuns.filter((run) => piece.includes(run)) }
+      }
+    }
+  }
 }
 
 function continuesBlock(block: Block, prev: Line, line: Line, kind: BlockKind): boolean {

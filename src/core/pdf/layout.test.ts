@@ -244,6 +244,40 @@ describe('headings and sections', () => {
   })
 })
 
+describe('rules typed as characters', () => {
+  const blockTexts = (lines: string[]) => analyzeLayout([page(1, paragraph(lines, 72, 700))]).blocks.map((b) => b.text)
+
+  it('splits text at a dash rule and drops the rule', () => {
+    // Study notes: an option, a rule, then the explanation, all running together.
+    expect(
+      blockTexts([
+        '(D) have poor detail. ————————————— When an automatic exposure control is used,',
+        'the film is too light.'
+      ])
+    ).toEqual(['(D) have poor detail.', 'When an automatic exposure control is used, the film is too light.'])
+  })
+
+  it('treats a line of only underscores as a separator', () => {
+    expect(blockTexts(['First part of the notes.', '____________________', 'Second part.'])).toEqual([
+      'First part of the notes.',
+      'Second part.'
+    ])
+  })
+
+  it('keeps a fill-in blank and ordinary dashes inside a sentence', () => {
+    expect(blockTexts(['The ________ controls contrast — mostly — in film-screen work.'])).toEqual([
+      'The ________ controls contrast — mostly — in film-screen work.'
+    ])
+  })
+})
+
+describe('sections without a heading', () => {
+  it('are labelled by their pages instead of "(untitled)"', () => {
+    const doc = analyzeLayout([1, 2, 3].map((n) => page(n, paragraph([`Plain notes on page ${n}.`], 72, 600))))
+    expect(sectionLabel(doc.sections, doc.sections[0]!.id)).toBe('Pages 1–3')
+  })
+})
+
 describe('paragraphs', () => {
   it('joins wrapped lines into one paragraph and removes line-break hyphens', () => {
     const doc = analyzeLayout([

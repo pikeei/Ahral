@@ -390,7 +390,8 @@ function cleanTerm(raw: string | undefined): string | undefined {
   const term = raw
     .trim()
     .replace(/^(the|a|an)\s+/i, '')
-    .replace(/[\s,;:]+$/, '')
+    // A trailing full stop is punctuation, not part of the term ("spinning top.").
+    .replace(/[\s,;:.]+$/, '')
   return term === '' ? undefined : term
 }
 
