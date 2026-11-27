@@ -55,8 +55,8 @@ export function App() {
         )}
         {info && !info.persistent && (
           <p role="status" className="mb-6 rounded-md bg-amber-50 p-3 text-sm text-amber-900">
-            Ahral can&rsquo;t save in this tab: it may already be open in another tab, or this is a private
-            window. You can still practise, but anything you do here will be gone when you close this tab.
+            Ahral can&rsquo;t save in this tab: it may already be open in another tab, or this is a private window. You
+            can still practise, but anything you do here will be gone when you close this tab.
           </p>
         )}
 
