@@ -24,6 +24,7 @@
     "analyze": "tsx scripts/analyze.mts",
     "generate": "tsx scripts/generate.mts",
     "lint": "biome check .",
+    "lockfile": "npx -y npm@12 install --package-lock-only --ignore-scripts",
     "lint:fix": "biome check --write .",
     "test:coverage": "vitest run --coverage",
     "exam": "tsx scripts/exam.mts",

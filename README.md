@@ -124,6 +124,10 @@ tests/
 
 `samples/` and `data/` are git-ignored: put your own study PDFs in `samples/` to test extraction locally.
 
+**After adding or updating a dependency, run `npm run lockfile`.** CI installs with npm 12, which
+rejects a `package-lock.json` written by npm 11 (it leaves out entries npm 12 requires, and every
+CI job then fails at `npm ci`). The script rewrites the lockfile with npm 12; both versions accept it.
+
 ## Database
 
 Everything is stored locally in SQLite: in the browser's private storage for the site (the
