@@ -16,3 +16,6 @@ coverage/
 
 # Local database used by the developer CLIs
 data/
+
+# Website build
+dist-web/

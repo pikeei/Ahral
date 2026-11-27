@@ -20,6 +20,8 @@ export async function loadPdfPages(data: Uint8Array, options: LoadPdfOptions = {
     data: data.slice(),
     // Exposes real font names like "Arial-BoldMT", which is how bold text is detected.
     fontExtraProperties: true,
+    // Nothing is drawn, so fonts never need loading into a page; a browser worker has none.
+    disableFontFace: true,
     verbosity: 0,
     ...(options.standardFontDataUrl ? { standardFontDataUrl: options.standardFontDataUrl } : {})
   })

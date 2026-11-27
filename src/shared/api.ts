@@ -24,10 +24,14 @@ export const IpcChannels = {
 
 export interface AppInfo {
   appVersion: string
-  electron: string
-  node: string
-  chrome: string
+  /** What the app runs on: "Electron 45.5.0" or "Web". */
+  platform: string
   sqlite: string
+  /**
+   * Whether documents and attempts are kept. A browser can refuse storage (some private
+   * windows), and then everything is lost when the tab closes.
+   */
+  persistent: boolean
 }
 
 export interface DocumentSummary {

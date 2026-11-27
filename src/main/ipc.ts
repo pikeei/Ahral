@@ -56,10 +56,9 @@ export function registerIpcHandlers(db: SqlDatabase): void {
     IpcChannels.getAppInfo,
     (): AppInfo => ({
       appVersion: app.getVersion(),
-      electron: process.versions.electron,
-      node: process.versions.node,
-      chrome: process.versions.chrome,
-      sqlite: getSqliteVersion(db)
+      platform: `Electron ${process.versions.electron}`,
+      sqlite: getSqliteVersion(db),
+      persistent: true
     })
   )
 

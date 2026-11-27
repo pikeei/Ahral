@@ -9,6 +9,11 @@
     "ignoreUnknown": false,
     "includes": ["**", "!**/package-lock.json", "!**/*.md"]
   },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",

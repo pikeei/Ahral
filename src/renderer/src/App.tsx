@@ -53,6 +53,12 @@ export function App() {
             Could not reach the app backend: {backendError}
           </p>
         )}
+        {info && !info.persistent && (
+          <p role="status" className="mb-6 rounded-md bg-amber-50 p-3 text-sm text-amber-900">
+            Ahral can&rsquo;t save in this tab: it may already be open in another tab, or this is a private
+            window. You can still practise, but anything you do here will be gone when you close this tab.
+          </p>
+        )}
 
         {screen.name === 'library' && <Library onOpen={(documentId) => setScreen({ name: 'document', documentId })} />}
 
@@ -94,8 +100,8 @@ export function App() {
       <footer className="border-t border-slate-200 py-2 text-center text-xs text-slate-400">
         {info && (
           <>
-            Ahral <span data-testid="app-version">{info.appVersion}</span> · Electron {info.electron} · SQLite{' '}
-            <span data-testid="sqlite-version">{info.sqlite}</span> · everything stays on this computer
+            Ahral <span data-testid="app-version">{info.appVersion}</span> · {info.platform} · SQLite{' '}
+            <span data-testid="sqlite-version">{info.sqlite}</span> · everything stays on this device
           </>
         )}
       </footer>

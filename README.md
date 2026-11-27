@@ -1,12 +1,26 @@
 # Ahral
 
-An offline Windows desktop app that turns PDF reading material into practice exams
-using rule-based text analysis. No generative AI, no cloud, no paid services.
+Turns PDF reading material into practice exams using rule-based text analysis.
+No generative AI, no cloud, no paid services.
 
-> Status: Stage 8 (question banks). Review books' own questions are imported with their answer key,
-> alongside the generated ones. Windows installer; exams with feedback, results and history.
+> Status: Stage 9 (website). Runs in any modern browser, on a phone too, with nothing to install.
+> Also available as a Windows desktop app.
 
-## Install
+## Use it in your browser
+
+Open **https://pikeei.github.io/Ahral/**. Everything runs inside your browser: the PDF is read
+on your device and never uploaded, and the site makes no network requests after it loads.
+
+- Your library and scores are saved in the browser's private storage for the site, so they're
+  there next time, on that browser and device only. Clearing the site's data removes them.
+- In some private windows the browser won't allow storage; Ahral then says so, and still works
+  until the tab is closed.
+- The first visit downloads about 4 MB (the app, PDF reader, SQLite and the dictionary).
+
+The site is published automatically from `main` by the Website workflow
+(`.github/workflows/website.yml`) after its tests pass.
+
+## Windows desktop app
 
 Download `Ahral-Setup-<version>.exe` from the repository's Releases page (or build it with
 `npm run dist`) and run it. It installs for your Windows user only, so no administrator rights
@@ -49,19 +63,25 @@ questions whose answer can't be found; the document's notes say how many.
 
 ## Stack
 
-Electron · React · TypeScript · Tailwind CSS · SQLite (Node's built-in `node:sqlite`) ·
-Vitest · Playwright · Biome · electron-builder
+React · TypeScript · Tailwind CSS · SQLite (WebAssembly in the browser, Node's built-in
+`node:sqlite` in the desktop app) · Vite · Electron · Vitest · Playwright · Biome
 
 ## Project layout
 
+The screens and all the logic are shared; only the backend's host differs. On the website a
+browser worker runs it; in the desktop app, Electron's main process does. The screens talk to
+either through the same `window.api` calls.
+
 ```
 src/
-  main/        Electron main process: database (db/), PDF import (in a worker thread),
-               exam service (grading happens here), IPC handlers with input checks
-  preload/     Typed bridge that exposes `window.api` to the UI
-  renderer/    React UI (no Node access): library, exam setup, exam, results
-  shared/      Types shared by main and renderer (the IPC contract); answers never reach
-               the UI before the user has answered
+  app/         The backend, shared by both: database (db/), exam service (grading happens here),
+               PDF import and pipeline. Works with any SQLite through a small interface.
+  web/         The website: browser worker (SQLite WebAssembly, PDF import), window.api for the page
+  main/        The desktop app: Electron main process, IPC handlers with input checks
+  preload/     The desktop app's bridge that exposes `window.api` to the screens
+  renderer/    React screens (no Node access): library, exam setup, exam, results
+  shared/      Types shared by backend and screens (the API contract); answers never reach
+               the screens before the user has answered
   core/        Pure TypeScript logic, no Electron or DOM:
     pdf/         PDF.js adapter and layout analysis (lines, columns, headers, blocks, sections)
     text/        Normalization, sentence splitting, answer comparison, missing-letter repair
@@ -71,6 +91,7 @@ src/
     exam/        Seeded exam assembly, grading with explanations, scoring and weak sections
 tests/
   integration/ Golden-file test of the whole pipeline (see below)
+  web/         Playwright tests of the website in a real browser, desktop and phone size
   e2e/         Playwright tests that launch the real desktop app and run the full study loop
   fixtures/    Builders for test PDFs (generated, never committed as binaries)
 ```
@@ -79,7 +100,11 @@ tests/
 
 | Command | What it does |
 |---|---|
-| `npm run dev` | Run the app with hot reload |
+| `npm run web:dev` | Run the website locally with hot reload (http://localhost:5173) |
+| `npm run web:build` | Build the website into `dist-web/` |
+| `npm run web:preview` | Serve the built website locally (http://localhost:4173) |
+| `npm run test:web` | Build the website and test it in a browser, desktop and phone size |
+| `npm run dev` | Run the desktop app with hot reload |
 | `npm run lint` | Lint and format check (Biome) |
 | `npm run lint:fix` | Apply safe lint fixes and formatting |
 | `npm run typecheck` | Type-check main/preload and renderer separately |
@@ -101,7 +126,9 @@ tests/
 
 ## Database
 
-Everything is stored locally in SQLite (`ahral.db` in the app's data folder; `data/ahral.db` for the CLIs).
+Everything is stored locally in SQLite: in the browser's private storage for the site (the
+Origin Private File System) on the website, `ahral.db` in the app's data folder for the desktop
+app, and `data/ahral.db` for the CLIs. The same database code runs on all three.
 
 - **Documents** are identified by the SHA-256 of the file, so the slow pipeline runs once per PDF.
   Importing the same file again (even renamed) loads the stored questions. When `PIPELINE_VERSION`

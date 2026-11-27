@@ -26,7 +26,11 @@
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "test:coverage": "vitest run --coverage",
-    "exam": "tsx scripts/exam.mts"
+    "exam": "tsx scripts/exam.mts",
+    "web:dev": "vite --config vite.web.config.mts",
+    "web:build": "vite build --config vite.web.config.mts",
+    "web:preview": "vite preview --config vite.web.config.mts",
+    "test:web": "npm run web:build && playwright test -c playwright.web.config.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.9",
@@ -50,6 +54,7 @@
     "vitest": "^5.1.2"
   },
   "dependencies": {
+    "@sqlite.org/sqlite-wasm": "3.54.1-build1",
     "compromise": "^14.20.0",
     "pdfjs-dist": "^6.5.438",
     "word-list": "^4.1.0"
