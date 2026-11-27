@@ -74,6 +74,23 @@ test('takes an exam with feedback, and keeps the library after a reload', async 
   await expect(page.getByText('No documents yet')).toBeVisible()
 })
 
+test('opens a real file input on the page, and choosing nothing leaves the app usable', async ({ page }) => {
+  await page.goto('./')
+  await expect(page.getByText('No documents yet')).toBeVisible()
+  // Phones only open a file picker for an input that is part of the page (not one made on the fly).
+  const input = page.getByTestId('file-input')
+  await expect(input).toHaveCount(1)
+  expect(await input.evaluate((el) => (el as unknown as { isConnected: boolean }).isConnected)).toBe(true)
+
+  const chooser = page.waitForEvent('filechooser')
+  await page.getByRole('button', { name: 'Import PDF' }).click()
+  // Closing the picker without a file: nothing starts, and the button still works.
+  await (await chooser).setFiles([])
+  await expect(page.getByTestId('import-stage')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'Import PDF' })).toBeEnabled()
+  await importGoldenPdf(page)
+})
+
 test('says so in a second tab, which can’t use the saved library at the same time', async ({ page, context }) => {
   await page.goto('./')
   await expect(page.getByTestId('sqlite-version')).toBeVisible()

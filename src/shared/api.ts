@@ -83,6 +83,13 @@ export interface DocumentDetail {
 
 export type ImportStage = 'reading' | 'analyzing' | 'generating' | 'saving'
 
+/** Where an import is. While reading, also how many pages are done, so a slow phone shows movement. */
+export interface ImportProgress {
+  stage: ImportStage
+  page?: number
+  pageCount?: number
+}
+
 export type ImportResponse =
   | { status: 'cancelled' }
   | { status: 'imported' | 'regenerated' | 'unchanged'; document: DocumentSummary; warnings: string[] }
@@ -147,10 +154,15 @@ export interface ExamSummary {
 export interface AhralApi {
   getAppInfo(): Promise<AppInfo>
   listDocuments(): Promise<DocumentSummary[]>
-  /** Opens a file picker and imports the chosen PDF. */
-  importDocument(): Promise<ImportResponse>
-  /** Called with each import step; returns a function that stops listening. */
-  onImportProgress(listener: (stage: ImportStage) => void): () => void
+  /**
+   * True on the website: the screen shows its own file input and passes the chosen file
+   * to importDocument. False in the desktop app, where importDocument opens a system dialog.
+   */
+  readonly choosesFileInPage: boolean
+  /** Imports a PDF: the given file on the website, or one picked in a system dialog on the desktop. */
+  importDocument(file?: File): Promise<ImportResponse>
+  /** Called as an import progresses; returns a function that stops listening. */
+  onImportProgress(listener: (progress: ImportProgress) => void): () => void
   getDocument(id: number): Promise<DocumentDetail>
   deleteDocument(id: number): Promise<void>
   startExam(documentId: number, settings: ExamSettings): Promise<ExamView>

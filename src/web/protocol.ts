@@ -7,8 +7,8 @@ import type {
   ExamSettings,
   ExamSummary,
   ExamView,
-  ImportResponse,
-  ImportStage
+  ImportProgress,
+  ImportResponse
 } from '../shared/api'
 
 /*
@@ -46,4 +46,4 @@ export type ToWorker =
 export type FromWorker =
   | { type: 'result'; id: number; value: unknown }
   | { type: 'error'; id: number; message: string }
-  | { type: 'progress'; stage: ImportStage }
+  | { type: 'progress'; progress: ImportProgress }

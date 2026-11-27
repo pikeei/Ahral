@@ -16,6 +16,10 @@ on your device and never uploaded, and the site makes no network requests after 
 - In some private windows the browser won't allow storage; Ahral then says so, and still works
   until the tab is closed.
 - The first visit downloads about 4 MB (the app, PDF reader, SQLite and the dictionary).
+- Works in current Chrome, Edge, Firefox and Safari, including iPhone and iPad (iOS 16.4 or later)
+  and Android. On a phone, stay on the page while a PDF imports: the screen is kept on where the
+  browser allows it, and progress is shown page by page. Very large PDFs (over about 30 MB) can
+  take several minutes on a phone.
 
 The site is published automatically from `main` by the Website workflow
 (`.github/workflows/website.yml`) after its tests pass.

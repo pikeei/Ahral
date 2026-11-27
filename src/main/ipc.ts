@@ -9,6 +9,7 @@ import {
   type AppInfo,
   type ExamResponse,
   type ExamSettings,
+  type ImportProgress,
   type ImportResponse,
   type ImportStage,
   IpcChannels
@@ -81,7 +82,8 @@ export function registerIpcHandlers(db: SqlDatabase): void {
     importing = true
     try {
       const progress = (stage: ImportStage) => {
-        if (!event.sender.isDestroyed()) event.sender.send(IpcChannels.importProgress, stage)
+        if (!event.sender.isDestroyed())
+          event.sender.send(IpcChannels.importProgress, { stage } satisfies ImportProgress)
       }
       const inWorker = workerPipeline(standardFontDataUrl(), progress)
       const result = await importPdf(

@@ -7,6 +7,8 @@ export interface LoadPdfOptions {
    * Only needed in Node; without it PDF.js still extracts text but may log font warnings.
    */
   standardFontDataUrl?: string
+  /** Called after each page is read, so a long import can show how far it has got. */
+  onPage?: (page: number, pageCount: number) => void
 }
 
 /**
@@ -60,6 +62,7 @@ export async function loadPdfPages(data: Uint8Array, options: LoadPdfOptions = {
 
       pages.push({ pageNumber, width: x1 - x0, height: y1 - y0, items })
       page.cleanup()
+      options.onPage?.(pageNumber, pdf.numPages)
     }
 
     return pages

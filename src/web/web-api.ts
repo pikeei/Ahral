@@ -1,4 +1,4 @@
-import type { AhralApi, ImportResponse, ImportStage } from '../shared/api'
+import type { AhralApi, ImportProgress, ImportResponse } from '../shared/api'
 import type { Backend, FromWorker, Method, ToWorker, WorkerConfig } from './protocol'
 
 /*
@@ -14,12 +14,14 @@ export function createWebApi(config: WorkerConfig): AhralApi {
 
   let nextId = 1
   const pending = new Map<number, { resolve: (value: unknown) => void; reject: (error: Error) => void }>()
-  const progressListeners = new Set<(stage: ImportStage) => void>()
+  const progressListeners = new Set<(progress: ImportProgress) => void>()
+  // Once the worker has died, every call fails at once instead of waiting for an answer that never comes.
+  let failure: Error | undefined
 
   worker.onmessage = (event: MessageEvent<FromWorker>) => {
     const message = event.data
     if (message.type === 'progress') {
-      for (const listener of progressListeners) listener(message.stage)
+      for (const listener of progressListeners) listener(message.progress)
       return
     }
     const call = pending.get(message.id)
@@ -28,13 +30,20 @@ export function createWebApi(config: WorkerConfig): AhralApi {
     else call?.reject(new Error(message.message))
   }
   worker.onerror = (event) => {
-    const error = new Error(`The app's background worker stopped: ${event.message || 'unknown error'}`)
-    for (const call of pending.values()) call.reject(error)
+    failure = new Error(
+      `Ahral's background worker stopped (${event.message || 'the browser gave no reason'}). ` +
+        'This browser may be too old: Ahral needs Safari 16.4 or later, or a recent Chrome, Edge or Firefox.'
+    )
+    for (const call of pending.values()) call.reject(failure)
     pending.clear()
   }
 
   function call<M extends Method>(method: M, args: Parameters<Backend[M]>, transfer: Transferable[] = []) {
     return new Promise<Awaited<ReturnType<Backend[M]>>>((resolve, reject) => {
+      if (failure) {
+        reject(failure)
+        return
+      }
       const id = nextId++
       pending.set(id, { resolve: resolve as (value: unknown) => void, reject })
       send({ type: 'call', id, method, args }, transfer)
@@ -44,12 +53,19 @@ export function createWebApi(config: WorkerConfig): AhralApi {
   return {
     getAppInfo: () => call('getAppInfo', []),
     listDocuments: () => call('listDocuments', []),
-    importDocument: async (): Promise<ImportResponse> => {
-      const file = await pickPdf()
+    // The library screen shows a real file input (a hidden one opened from code does not
+    // open on iPhones, iPads and some Android browsers) and hands the chosen file here.
+    choosesFileInPage: true,
+    importDocument: async (file?: File): Promise<ImportResponse> => {
       if (!file) return { status: 'cancelled' }
       const data = await file.arrayBuffer()
-      // The bytes are moved to the worker, not copied.
-      return call('importPdf', [{ data, fileName: file.name }], [data])
+      const awake = await keepScreenAwake()
+      try {
+        // The bytes are moved to the worker, not copied.
+        return await call('importPdf', [{ data, fileName: file.name }], [data])
+      } finally {
+        await awake?.release().catch(() => undefined)
+      }
     },
     onImportProgress: (listener) => {
       progressListeners.add(listener)
@@ -64,16 +80,13 @@ export function createWebApi(config: WorkerConfig): AhralApi {
 }
 
 /**
- * Opens the browser's file picker. Must run straight from a click (no await before it),
- * or browsers block it. Resolves with undefined when the picker is closed without a file.
+ * Phones pause a page when the screen locks, which would stall a long import. Where the
+ * browser allows it, the screen stays on until the import ends. Not every browser can.
  */
-function pickPdf(): Promise<File | undefined> {
-  return new Promise((resolve) => {
-    const input = document.createElement('input')
-    input.type = 'file'
-    input.accept = 'application/pdf,.pdf'
-    input.addEventListener('change', () => resolve(input.files?.[0]))
-    input.addEventListener('cancel', () => resolve(undefined))
-    input.click()
-  })
+async function keepScreenAwake(): Promise<WakeLockSentinel | undefined> {
+  try {
+    return await navigator.wakeLock?.request('screen')
+  } catch {
+    return undefined
+  }
 }

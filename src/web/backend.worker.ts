@@ -5,7 +5,7 @@ import { wrapWasmDatabase } from '../app/db/wasm'
 import { ExamService } from '../app/exam-service'
 import { importPdf } from '../app/import'
 import { runPipeline } from '../app/pipeline'
-import type { ImportStage } from '../shared/api'
+import type { ImportProgress } from '../shared/api'
 import type { Backend, FromWorker, Method, ToWorker, WorkerConfig } from './protocol'
 
 /*
@@ -23,6 +23,16 @@ const post = (message: FromWorker) => worker.postMessage(message)
 let config: WorkerConfig | undefined
 let dictionary: Promise<Set<string>> | undefined
 
+/** How long the browser's private storage may take to open before the app runs without saving. */
+const STORAGE_TIMEOUT_MS = 8000
+
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<never>((_, reject) => setTimeout(() => reject(new Error('Timed out')), ms))
+  ])
+}
+
 interface State {
   db: SqlDatabase
   service: ExamService
@@ -35,7 +45,8 @@ const state: Promise<State> = (async () => {
   let persistent = true
   try {
     // The "SAH pool" storage works without special server headers, so it runs on any static host.
-    const pool = await sqlite3.installOpfsSAHPoolVfs({ name: 'ahral' })
+    // A time limit, because a browser that never answers would otherwise leave the app on "Loading…".
+    const pool = await withTimeout(sqlite3.installOpfsSAHPoolVfs({ name: 'ahral' }), STORAGE_TIMEOUT_MS)
     raw = new pool.OpfsSAHPoolDb('/ahral.db')
   } catch {
     // No private storage (some private windows): still usable, but nothing is kept.
@@ -83,8 +94,8 @@ const methods = (s: State): Backend => ({
   listDocuments: () => s.service.listDocuments(),
   importPdf: async ({ data, fileName }) => {
     const { fontsUrl, dictionaryUrl } = requireConfig()
-    const progress = (stage: ImportStage) => post({ type: 'progress', stage })
-    progress('reading')
+    const progress = (update: ImportProgress) => post({ type: 'progress', progress: update })
+    progress({ stage: 'reading' })
     const [words] = await Promise.all([loadDictionary(dictionaryUrl), preparePdfjs()])
     const result = await importPdf(
       s.db,
@@ -94,9 +105,10 @@ const methods = (s: State): Backend => ({
           const content = await runPipeline(bytes, {
             standardFontDataUrl: fontsUrl,
             isWord: (w) => words.has(w),
-            onStage: progress
+            onStage: (stage) => progress({ stage }),
+            onPage: (page, pageCount) => progress({ stage: 'reading', page, pageCount })
           })
-          progress('saving')
+          progress({ stage: 'saving' })
           return content
         }
       }
