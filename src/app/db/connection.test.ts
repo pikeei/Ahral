@@ -1,9 +1,10 @@
-import type { DatabaseSync } from 'node:sqlite'
 import { afterEach, describe, expect, it } from 'vitest'
-import { getSqliteVersion, openDatabase, transaction } from './connection'
+import type { NodeDatabase } from './connection'
+import { openDatabase } from './connection'
+import { getSqliteVersion, transaction } from './sql'
 
 describe('openDatabase', () => {
-  let db: DatabaseSync | undefined
+  let db: NodeDatabase | undefined
 
   afterEach(() => {
     db?.close()
@@ -32,7 +33,7 @@ describe('transaction', () => {
     db.exec('CREATE TABLE t (x INTEGER)')
     return db
   }
-  const count = (db: DatabaseSync) => (db.prepare('SELECT COUNT(*) AS n FROM t').get() as { n: number }).n
+  const count = (db: NodeDatabase) => (db.prepare('SELECT COUNT(*) AS n FROM t').get() as { n: number }).n
 
   it('commits and returns the result', () => {
     const db = setup()

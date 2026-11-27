@@ -1,4 +1,3 @@
-import type { DatabaseSync } from 'node:sqlite'
 import { assembleExam, displayedOptions } from '../core/exam/assemble'
 import { describeFeedback, type GradeOptions, gradeAnswer } from '../core/exam/grade'
 import { newSeed } from '../core/exam/random'
@@ -24,6 +23,7 @@ import {
   loadSections
 } from './db/documents'
 import { listAttempts, type StoredExam, saveAttempt, saveExam, sectionHistory } from './db/exams'
+import type { SqlDatabase } from './db/sql'
 
 /*
  * What the UI can do, on top of the database: browse documents, take an exam one
@@ -44,7 +44,7 @@ interface Session {
 export class ExamService {
   private readonly sessions = new Map<number, Session>()
 
-  constructor(private readonly db: DatabaseSync) {}
+  constructor(private readonly db: SqlDatabase) {}
 
   listDocuments(): DocumentSummary[] {
     return listDocuments(this.db).map((d) => this.summarize(d))

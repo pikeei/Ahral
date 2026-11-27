@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { DatabaseSync } from 'node:sqlite'
 import { type ElectronApplication, expect, type Page, test } from '@playwright/test'
-import { SCHEMA_VERSION } from '../../src/main/db/migrations'
+import { SCHEMA_VERSION } from '../../src/app/db/migrations'
 
 import { launchApp } from './launch-app'
 

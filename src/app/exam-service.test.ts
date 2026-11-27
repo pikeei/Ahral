@@ -1,10 +1,10 @@
-import type { DatabaseSync } from 'node:sqlite'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import type { ExamSettings, ExamView } from '../shared/api'
+import type { NodeDatabase } from './db/connection'
 import { insertSample, memoryDb } from './db/test-helpers'
 import { ExamService } from './exam-service'
 
-let db: DatabaseSync
+let db: NodeDatabase
 let service: ExamService
 let documentId: number
 

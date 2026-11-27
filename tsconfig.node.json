@@ -20,6 +20,7 @@
     "vitest.config.mts",
     "playwright.config.ts",
     "src/main/**/*",
+    "src/app/**/*",
     "src/preload/**/*",
     "src/shared/**/*",
     "src/core/**/*",

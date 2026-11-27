@@ -1,7 +1,10 @@
 import { readFile } from 'node:fs/promises'
 import { basename, dirname, join } from 'node:path'
-import type { DatabaseSync } from 'node:sqlite'
 import { app, BrowserWindow, dialog, ipcMain, type OpenDialogOptions } from 'electron'
+import type { SqlDatabase } from '../app/db/sql'
+import { getSqliteVersion } from '../app/db/sql'
+import { ExamService } from '../app/exam-service'
+import { importPdf } from '../app/import'
 import {
   type AppInfo,
   type ExamResponse,
@@ -10,9 +13,6 @@ import {
   type ImportStage,
   IpcChannels
 } from '../shared/api'
-import { getSqliteVersion } from './db/connection'
-import { ExamService } from './exam-service'
-import { importPdf } from './import'
 import { workerPipeline } from './worker-pipeline'
 
 /** PDF.js's bundled fonts. PDF.js wants forward slashes and a trailing "/", even on Windows. */
@@ -48,7 +48,7 @@ function response(value: unknown): ExamResponse {
   throw new TypeError('Invalid answer')
 }
 
-export function registerIpcHandlers(db: DatabaseSync): void {
+export function registerIpcHandlers(db: SqlDatabase): void {
   const service = new ExamService(db)
   let importing = false
 

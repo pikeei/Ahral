@@ -1,7 +1,7 @@
-import type { DocumentContent } from './db/documents'
-import type { Pipeline } from './import'
+import type { DocumentContent } from '../app/db/documents'
+import type { Pipeline } from '../app/import'
+import type { PipelineStage } from '../app/pipeline'
 import createImportWorker from './import-worker?nodeWorker'
-import type { PipelineStage } from './pipeline'
 
 export interface WorkerInput {
   data: Uint8Array

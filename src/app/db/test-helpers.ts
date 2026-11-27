@@ -1,10 +1,10 @@
-import type { DatabaseSync } from 'node:sqlite'
 import { option, question } from '../../core/exam/test-helpers'
+import type { NodeDatabase } from './connection'
 import { openDatabase } from './connection'
 import { type DocumentContent, type DocumentMeta, insertDocument } from './documents'
 import { migrate } from './migrations'
 
-export function memoryDb(): DatabaseSync {
+export function memoryDb(): NodeDatabase {
   const db = openDatabase(':memory:')
   migrate(db)
   return db
@@ -43,6 +43,6 @@ export function content(opts: Partial<DocumentContent> = {}): DocumentContent {
   }
 }
 
-export function insertSample(db: DatabaseSync, sha256?: string): number {
+export function insertSample(db: NodeDatabase, sha256?: string): number {
   return insertDocument(db, meta(sha256), content())
 }

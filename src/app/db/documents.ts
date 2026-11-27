@@ -1,9 +1,9 @@
-import type { DatabaseSync } from 'node:sqlite'
 import type { GlossaryEntry } from '../../core/exam/grade'
 import type { Option, Question, QuestionType } from '../../core/generation/types'
 import type { Section } from '../../core/pdf/layout-types'
-import { transaction } from './connection'
 import { fromJson, toJson } from './json'
+import type { SqlDatabase } from './sql'
+import { transaction } from './sql'
 
 /*
  * Imported documents and everything generated from them. A document is identified by
@@ -52,7 +52,7 @@ const SELECT_DOCUMENT = `
   SELECT d.*, (SELECT COUNT(*) FROM questions q WHERE q.document_id = d.id) AS question_count
   FROM documents d`
 
-export function insertDocument(db: DatabaseSync, meta: DocumentMeta, content: DocumentContent): number {
+export function insertDocument(db: SqlDatabase, meta: DocumentMeta, content: DocumentContent): number {
   return transaction(db, () => {
     const now = new Date().toISOString()
     const { lastInsertRowid } = db
@@ -78,7 +78,7 @@ export function insertDocument(db: DatabaseSync, meta: DocumentMeta, content: Do
 
 /** Replaces a document's sections, glossary and questions (after regenerating). Its exams and attempts are kept. */
 export function replaceDocumentContent(
-  db: DatabaseSync,
+  db: SqlDatabase,
   id: number,
   pipelineVersion: number,
   content: DocumentContent
@@ -96,27 +96,27 @@ export function replaceDocumentContent(
 }
 
 /** Deletes a document with its questions, exams and attempts. */
-export function deleteDocument(db: DatabaseSync, id: number): boolean {
+export function deleteDocument(db: SqlDatabase, id: number): boolean {
   return Number(db.prepare('DELETE FROM documents WHERE id = ?').run(id).changes) > 0
 }
 
-export function getDocument(db: DatabaseSync, id: number): DocumentRecord | undefined {
+export function getDocument(db: SqlDatabase, id: number): DocumentRecord | undefined {
   const row = db.prepare(`${SELECT_DOCUMENT} WHERE d.id = ?`).get(id) as DocumentRow | undefined
   return row && toDocument(row)
 }
 
-export function findDocumentBySha(db: DatabaseSync, sha256: string): DocumentRecord | undefined {
+export function findDocumentBySha(db: SqlDatabase, sha256: string): DocumentRecord | undefined {
   const row = db.prepare(`${SELECT_DOCUMENT} WHERE d.sha256 = ?`).get(sha256) as DocumentRow | undefined
   return row && toDocument(row)
 }
 
 /** Most recently imported first. */
-export function listDocuments(db: DatabaseSync): DocumentRecord[] {
+export function listDocuments(db: SqlDatabase): DocumentRecord[] {
   const rows = db.prepare(`${SELECT_DOCUMENT} ORDER BY d.imported_at DESC, d.id DESC`).all() as unknown as DocumentRow[]
   return rows.map(toDocument)
 }
 
-export function loadSections(db: DatabaseSync, documentId: number): Section[] {
+export function loadSections(db: SqlDatabase, documentId: number): Section[] {
   const rows = db
     .prepare(`SELECT id, title, level, parent_id, page_start, page_end FROM sections WHERE document_id = ? ORDER BY id`)
     .all(documentId) as unknown as {
@@ -137,7 +137,7 @@ export function loadSections(db: DatabaseSync, documentId: number): Section[] {
   }))
 }
 
-export function loadGlossary(db: DatabaseSync, documentId: number): GlossaryEntry[] {
+export function loadGlossary(db: SqlDatabase, documentId: number): GlossaryEntry[] {
   return db
     .prepare('SELECT term, definition, page FROM glossary WHERE document_id = ? ORDER BY position')
     .all(documentId) as unknown as GlossaryEntry[]
@@ -161,7 +161,7 @@ interface QuestionRow {
 }
 
 /** In the order the generator produced them. */
-export function loadQuestions(db: DatabaseSync, documentId: number): Question[] {
+export function loadQuestions(db: SqlDatabase, documentId: number): Question[] {
   const rows = db
     .prepare('SELECT * FROM questions WHERE document_id = ? ORDER BY position')
     .all(documentId) as unknown as QuestionRow[]
@@ -183,7 +183,7 @@ export function loadQuestions(db: DatabaseSync, documentId: number): Question[] 
   }))
 }
 
-function writeContent(db: DatabaseSync, documentId: number, content: DocumentContent): void {
+function writeContent(db: SqlDatabase, documentId: number, content: DocumentContent): void {
   const section = db.prepare(
     'INSERT INTO sections (document_id, id, title, level, parent_id, page_start, page_end) VALUES (?, ?, ?, ?, ?, ?, ?)'
   )

@@ -1,4 +1,3 @@
-import type { DatabaseSync } from 'node:sqlite'
 import type { Exam, ExamConfig } from '../../core/exam/assemble'
 import {
   type ExamResult,
@@ -8,8 +7,9 @@ import {
   WEAK_SECTION_PERCENT
 } from '../../core/exam/score'
 import type { Question } from '../../core/generation/types'
-import { transaction } from './connection'
 import { fromJson, toJson } from './json'
+import type { SqlDatabase } from './sql'
+import { transaction } from './sql'
 
 /*
  * Exams (the questions picked for one sitting, in their shown order) and attempts
@@ -22,7 +22,7 @@ export interface StoredExam extends Exam {
   createdAt: string
 }
 
-export function saveExam(db: DatabaseSync, documentId: number, exam: Exam): StoredExam {
+export function saveExam(db: SqlDatabase, documentId: number, exam: Exam): StoredExam {
   return transaction(db, () => {
     const createdAt = new Date().toISOString()
     const { lastInsertRowid } = db
@@ -37,7 +37,7 @@ export function saveExam(db: DatabaseSync, documentId: number, exam: Exam): Stor
   })
 }
 
-export function loadExam(db: DatabaseSync, id: number): StoredExam | undefined {
+export function loadExam(db: SqlDatabase, id: number): StoredExam | undefined {
   const row = db.prepare('SELECT * FROM exams WHERE id = ?').get(id) as
     | { id: number; document_id: number; seed: number; config: string; warnings: string; created_at: string }
     | undefined
@@ -67,7 +67,7 @@ export interface AttemptInfo {
   sectionLabel: (sectionId: number) => string
 }
 
-export function saveAttempt(db: DatabaseSync, exam: StoredExam, result: ExamResult, info: AttemptInfo): number {
+export function saveAttempt(db: SqlDatabase, exam: StoredExam, result: ExamResult, info: AttemptInfo): number {
   if (result.answers.length !== exam.items.length) {
     throw new Error(
       `The result has ${result.answers.length} answers but exam ${exam.id} has ${exam.items.length} items`
@@ -109,7 +109,7 @@ export interface AttemptSummary extends Tally {
 }
 
 /** A document's attempts, most recent first. */
-export function listAttempts(db: DatabaseSync, documentId: number): AttemptSummary[] {
+export function listAttempts(db: SqlDatabase, documentId: number): AttemptSummary[] {
   const rows = db
     .prepare(
       `SELECT a.id, a.exam_id, e.seed, a.accept_typos, a.correct, a.total, a.started_at, a.finished_at
@@ -145,7 +145,7 @@ export interface SectionHistory extends Tally {
 }
 
 /** Score per section over every attempt on a document, lowest first. */
-export function sectionHistory(db: DatabaseSync, documentId: number): SectionHistory[] {
+export function sectionHistory(db: SqlDatabase, documentId: number): SectionHistory[] {
   const rows = db
     .prepare(
       `SELECT aa.section_label AS label, SUM(aa.correct) AS correct, COUNT(*) AS total

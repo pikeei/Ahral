@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { type ElectronApplication, expect, type Page, test } from '@playwright/test'
 import wordListPath from 'word-list'
-import { runPipeline } from '../../src/main/pipeline'
+import { runPipeline } from '../../src/app/pipeline'
 import { buildGoldenPdf } from '../fixtures/golden-pdf'
 
 import { launchApp } from './launch-app'

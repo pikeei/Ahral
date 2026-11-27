@@ -1,7 +1,6 @@
-import { createHash } from 'node:crypto'
-import type { DatabaseSync } from 'node:sqlite'
 import { PIPELINE_VERSION } from '../core/version'
 import { type DocumentContent, findDocumentBySha, insertDocument, replaceDocumentContent } from './db/documents'
+import type { SqlDatabase } from './db/sql'
 import { type PipelineOptions, runPipeline } from './pipeline'
 
 /*
@@ -37,12 +36,12 @@ export interface ImportResult {
 }
 
 export async function importPdf(
-  db: DatabaseSync,
+  db: SqlDatabase,
   source: ImportSource,
   options: ImportOptions = {}
 ): Promise<ImportResult> {
   // Hash first: PDF.js may take over (detach) the byte buffer while parsing.
-  const sha256 = createHash('sha256').update(source.data).digest('hex')
+  const sha256 = await sha256Hex(source.data)
   const existing = findDocumentBySha(db, sha256)
   if (existing && existing.pipelineVersion === PIPELINE_VERSION && !options.force) {
     return {
@@ -70,4 +69,10 @@ export async function importPdf(
     content
   )
   return { documentId, status: 'imported', questionCount: content.questions.length, warnings: content.warnings }
+}
+
+/** SHA-256 as hex, with the Web Crypto API that both browsers and Node provide. */
+async function sha256Hex(data: Uint8Array): Promise<string> {
+  const digest = await crypto.subtle.digest('SHA-256', data as Uint8Array<ArrayBuffer>)
+  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('')
 }

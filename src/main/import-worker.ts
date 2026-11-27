@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import { parentPort, workerData } from 'node:worker_threads'
 import wordListPath from 'word-list'
-import { runPipeline } from './pipeline'
+import { runPipeline } from '../app/pipeline'
 import type { WorkerInput, WorkerMessage } from './worker-pipeline'
 
 /*

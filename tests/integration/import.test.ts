@@ -1,16 +1,16 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import type { DatabaseSync } from 'node:sqlite'
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import wordListPath from 'word-list'
+import type { NodeDatabase } from '../../src/app/db/connection'
+import { getDocument, listDocuments, loadQuestions, loadSections } from '../../src/app/db/documents'
+import { loadExam, saveExam } from '../../src/app/db/exams'
+import { memoryDb } from '../../src/app/db/test-helpers'
+import { type ImportOptions, importPdf } from '../../src/app/import'
+import { runPipeline } from '../../src/app/pipeline'
 import { assembleExam } from '../../src/core/exam/assemble'
 import type { Question } from '../../src/core/generation/types'
 import { PIPELINE_VERSION } from '../../src/core/version'
-import { getDocument, listDocuments, loadQuestions, loadSections } from '../../src/main/db/documents'
-import { loadExam, saveExam } from '../../src/main/db/exams'
-import { memoryDb } from '../../src/main/db/test-helpers'
-import { type ImportOptions, importPdf } from '../../src/main/import'
-import { runPipeline } from '../../src/main/pipeline'
 import { buildGoldenPdf } from '../fixtures/golden-pdf'
 
 /*
@@ -26,7 +26,7 @@ const options: ImportOptions = {
 
 let pdf: Uint8Array
 let expected: Question[]
-let db: DatabaseSync
+let db: NodeDatabase
 
 beforeAll(async () => {
   pdf = await buildGoldenPdf()

@@ -1,12 +1,12 @@
-import type { DatabaseSync } from 'node:sqlite'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { assembleExam } from '../../core/exam/assemble'
 import { scoreExam } from '../../core/exam/score'
+import type { NodeDatabase } from './connection'
 import { deleteDocument, loadQuestions } from './documents'
 import { listAttempts, loadExam, type StoredExam, saveAttempt, saveExam, sectionHistory } from './exams'
 import { insertSample, memoryDb } from './test-helpers'
 
-let db: DatabaseSync
+let db: NodeDatabase
 let documentId: number
 let exam: StoredExam
 
@@ -84,7 +84,7 @@ describe('attempts', () => {
       .prepare('SELECT question_id, section_label, given, status, correct FROM attempt_answers WHERE attempt_id = ?')
       .all(id)
     expect(rows).toHaveLength(3)
-    expect(rows.find((r) => r.question_id === 'q1')).toEqual({
+    expect((rows as { question_id: string }[]).find((r) => r.question_id === 'q1')).toEqual({
       question_id: 'q1',
       section_label: 'Radiation Protection',
       given: 'nope',

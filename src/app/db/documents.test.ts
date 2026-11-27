@@ -1,6 +1,6 @@
-import type { DatabaseSync } from 'node:sqlite'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { question } from '../../core/exam/test-helpers'
+import type { NodeDatabase } from './connection'
 import {
   deleteDocument,
   findDocumentBySha,
@@ -15,7 +15,7 @@ import {
 import { saveExam } from './exams'
 import { content, insertSample, memoryDb, meta } from './test-helpers'
 
-let db: DatabaseSync
+let db: NodeDatabase
 
 beforeEach(() => {
   db = memoryDb()
@@ -116,7 +116,7 @@ describe('deleteDocument', () => {
     expect(deleteDocument(db, id)).toBe(false)
     for (const table of ['sections', 'glossary', 'questions']) {
       const rows = db.prepare(`SELECT DISTINCT document_id AS id FROM ${table}`).all()
-      expect(rows.map((r) => r.id)).toEqual([keep])
+      expect((rows as { id: number }[]).map((r) => r.id)).toEqual([keep])
     }
     expect(count('exams')).toBe(0)
   })

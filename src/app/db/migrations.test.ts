@@ -1,10 +1,10 @@
-import type { DatabaseSync } from 'node:sqlite'
 import { afterEach, describe, expect, it } from 'vitest'
+import type { NodeDatabase } from './connection'
 import { openDatabase } from './connection'
 import { MIGRATIONS, migrate, SCHEMA_VERSION, schemaVersion } from './migrations'
 
 describe('migrate', () => {
-  let db: DatabaseSync | undefined
+  let db: NodeDatabase | undefined
   const open = () => {
     db = openDatabase(':memory:')
     return db
@@ -21,7 +21,7 @@ describe('migrate', () => {
     migrate(d)
     expect(schemaVersion(d)).toBe(SCHEMA_VERSION)
     const tables = d.prepare("SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name").all()
-    expect(tables.map((t) => t.name)).toEqual([
+    expect((tables as { name: string }[]).map((t) => t.name)).toEqual([
       'attempt_answers',
       'attempts',
       'documents',
@@ -49,7 +49,7 @@ describe('migrate', () => {
       d
         .prepare('PRAGMA table_info(a)')
         .all()
-        .map((c) => c.name)
+        .map((c) => (c as { name: string }).name)
     ).toEqual(['x', 'y'])
   })
 

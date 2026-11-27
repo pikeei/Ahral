@@ -1,5 +1,5 @@
-import type { DatabaseSync } from 'node:sqlite'
-import { transaction } from './connection'
+import type { SqlDatabase } from './sql'
+import { transaction } from './sql'
 
 /*
  * Schema migrations. Each entry upgrades the database by one version; the current
@@ -144,13 +144,13 @@ export const MIGRATIONS: readonly string[] = [
 
 export const SCHEMA_VERSION = MIGRATIONS.length
 
-export function schemaVersion(db: DatabaseSync): number {
+export function schemaVersion(db: SqlDatabase): number {
   const row = db.prepare('PRAGMA user_version').get() as { user_version: number }
   return row.user_version
 }
 
 /** Brings the database up to SCHEMA_VERSION. Each step commits on its own, so a failure leaves a valid version. */
-export function migrate(db: DatabaseSync, migrations: readonly string[] = MIGRATIONS): void {
+export function migrate(db: SqlDatabase, migrations: readonly string[] = MIGRATIONS): void {
   const current = schemaVersion(db)
   if (current > migrations.length) {
     throw new Error(

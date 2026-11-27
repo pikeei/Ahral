@@ -1,8 +1,7 @@
 import { join } from 'node:path'
-import type { DatabaseSync } from 'node:sqlite'
 import { app, BrowserWindow } from 'electron'
-import { openDatabase } from './db/connection'
-import { migrate } from './db/migrations'
+import { openDatabase } from '../app/db/connection'
+import { migrate } from '../app/db/migrations'
 import { registerIpcHandlers } from './ipc'
 
 // Lets E2E tests run against a throwaway data folder instead of your real one.
@@ -11,7 +10,7 @@ if (process.env.AHRAL_USER_DATA) {
   app.setPath('userData', process.env.AHRAL_USER_DATA)
 }
 
-let db: DatabaseSync | undefined
+let db: ReturnType<typeof openDatabase> | undefined
 
 function createWindow(): void {
   const win = new BrowserWindow({
