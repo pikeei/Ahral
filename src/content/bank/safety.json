@@ -1,0 +1,517 @@
+[
+  {
+    "id": "safety-001",
+    "area": "safety",
+    "topic": "Photon interactions",
+    "stem": "Which interaction between diagnostic x-ray photons and tissue contributes most to the patient's absorbed dose?",
+    "options": ["Coherent scatter", "Compton scatter", "Photoelectric absorption", "Pair production"],
+    "answer": 2,
+    "explanation": "In photoelectric absorption the photon gives up all of its energy to an inner-shell electron, so the whole of that energy is deposited in the patient."
+  },
+  {
+    "id": "safety-002",
+    "area": "safety",
+    "topic": "Photon interactions",
+    "stem": "Scattered radiation that reaches the radiographer during fluoroscopy comes mainly from which interaction?",
+    "options": ["Photoelectric absorption", "Compton scatter", "Coherent scatter", "Characteristic emission"],
+    "answer": 1,
+    "explanation": "In Compton scatter the photon ejects an outer-shell electron and leaves the patient with most of its energy in a new direction, which is the main source of occupational exposure."
+  },
+  {
+    "id": "safety-003",
+    "area": "safety",
+    "topic": "Photon interactions",
+    "stem": "Pair production cannot occur in diagnostic radiography because it needs photon energies of at least",
+    "options": ["150 keV", "511 keV", "1.02 MeV", "10 MeV"],
+    "answer": 2,
+    "explanation": "Creating an electron and a positron requires at least 1.02 MeV, far above the energies used to make diagnostic images."
+  },
+  {
+    "id": "safety-004",
+    "area": "safety",
+    "topic": "Photon interactions",
+    "stem": "In which interaction does a low-energy photon change direction without ionizing the atom it meets?",
+    "options": ["Coherent (classic) scatter", "Compton scatter", "Photoelectric absorption", "Photodisintegration"],
+    "answer": 0,
+    "explanation": "In coherent scatter the photon is absorbed and re-emitted with the same energy but a new direction; no electron is removed, so the atom is not ionized."
+  },
+  {
+    "id": "safety-005",
+    "area": "safety",
+    "topic": "Radiation quantities",
+    "stem": "Which unit expresses effective dose, the quantity used for occupational dose limits?",
+    "options": ["Gray (Gy)", "Sievert (Sv)", "Coulomb per kilogram (C/kg)", "Becquerel (Bq)"],
+    "answer": 1,
+    "explanation": "Effective dose weighs absorbed dose by the type of radiation and the tissues exposed, and it is expressed in sieverts. The gray measures absorbed dose."
+  },
+  {
+    "id": "safety-006",
+    "area": "safety",
+    "topic": "Radiation quantities",
+    "stem": "The gray (Gy) is the SI unit of",
+    "options": ["exposure in air", "absorbed dose", "effective dose", "radioactivity"],
+    "answer": 1,
+    "explanation": "One gray is one joule of energy absorbed per kilogram of tissue: absorbed dose."
+  },
+  {
+    "id": "safety-007",
+    "area": "safety",
+    "topic": "Radiobiology",
+    "stem": "According to the law of Bergonié and Tribondeau, cells are most sensitive to radiation when they are",
+    "options": [
+      "mature and highly specialized",
+      "immature, undifferentiated and dividing rapidly",
+      "old and dividing slowly",
+      "fully differentiated nerve cells"
+    ],
+    "answer": 1,
+    "explanation": "Young, undifferentiated cells with a high rate of division are the most radiosensitive; mature, specialized cells that rarely divide are the least."
+  },
+  {
+    "id": "safety-008",
+    "area": "safety",
+    "topic": "Radiobiology",
+    "stem": "Which of these cells is the most radiosensitive?",
+    "options": ["Nerve cell", "Muscle cell", "Lymphocyte", "Chondrocyte"],
+    "answer": 2,
+    "explanation": "Lymphocytes are among the most radiosensitive cells in the body; a drop in their number is an early sign of significant exposure. Nerve and muscle cells are among the least sensitive."
+  },
+  {
+    "id": "safety-009",
+    "area": "safety",
+    "topic": "Radiobiology",
+    "stem": "Most biologic damage from diagnostic x-rays happens indirectly, through",
+    "options": [
+      "direct breaks in DNA strands",
+      "free radicals formed when water is irradiated",
+      "heating of the irradiated tissue",
+      "activation of radioactive atoms in the body"
+    ],
+    "answer": 1,
+    "explanation": "The body is mostly water. Its radiolysis produces free radicals that go on to damage DNA and other molecules: the indirect effect, which accounts for most damage from low-LET radiation."
+  },
+  {
+    "id": "safety-010",
+    "area": "safety",
+    "topic": "Radiobiology",
+    "stem": "Compared with diagnostic x-rays, alpha particles cause more biologic damage for the same absorbed dose because they have a higher",
+    "options": ["linear energy transfer (LET)", "half-value layer", "wavelength", "penetrating power"],
+    "answer": 0,
+    "explanation": "High-LET radiation deposits its energy densely along a short path, so it is more damaging per unit dose. X-rays are low-LET radiation."
+  },
+  {
+    "id": "safety-011",
+    "area": "safety",
+    "topic": "Radiobiology",
+    "stem": "Well-oxygenated tissue is more sensitive to radiation than hypoxic tissue. This is described by the",
+    "options": [
+      "oxygen enhancement ratio",
+      "relative biologic effectiveness",
+      "linear energy transfer",
+      "inverse square law"
+    ],
+    "answer": 0,
+    "explanation": "The oxygen enhancement ratio compares the dose needed for an effect without oxygen to the dose needed with oxygen. It is why hypoxic tumors resist radiation treatment."
+  },
+  {
+    "id": "safety-012",
+    "area": "safety",
+    "topic": "Dose-response",
+    "stem": "Cancer and genetic effects of radiation are described as stochastic. This means",
+    "options": [
+      "they occur only above a threshold dose",
+      "their severity increases with dose",
+      "their probability increases with dose, with no threshold",
+      "they appear within hours of exposure"
+    ],
+    "answer": 2,
+    "explanation": "Stochastic effects are all-or-nothing: a higher dose makes them more likely but not more severe, and no dose is considered completely safe."
+  },
+  {
+    "id": "safety-013",
+    "area": "safety",
+    "topic": "Dose-response",
+    "stem": "Which of the following is a deterministic (nonstochastic) effect of radiation?",
+    "options": ["Leukemia", "Skin erythema", "Genetic mutation", "Thyroid cancer"],
+    "answer": 1,
+    "explanation": "Deterministic effects such as erythema, epilation and cataracts occur only above a threshold dose, and they become more severe as the dose rises."
+  },
+  {
+    "id": "safety-014",
+    "area": "safety",
+    "topic": "Dose-response",
+    "stem": "Radiation protection standards assume that the risk of cancer and genetic effects follows which dose-response relationship?",
+    "options": ["Linear, nonthreshold", "Linear, threshold", "Nonlinear, threshold", "Sigmoid, threshold"],
+    "answer": 0,
+    "explanation": "For stochastic effects, risk is assumed to rise in proportion to dose with no safe threshold. This conservative assumption is the basis of ALARA."
+  },
+  {
+    "id": "safety-015",
+    "area": "safety",
+    "topic": "Dose-response",
+    "stem": "The dose that produces a noticeable reddening of the skin is called the",
+    "options": ["threshold erythema exposure", "skin erythema dose (SED)", "median lethal dose", "doubling dose"],
+    "answer": 1,
+    "explanation": "The skin erythema dose is the dose at which reddening of the skin appears, a deterministic effect with a threshold."
+  },
+  {
+    "id": "safety-016",
+    "area": "safety",
+    "topic": "Late effects",
+    "stem": "Which of the following is a late (long-term) effect of radiation exposure?",
+    "options": [
+      "Nausea and vomiting",
+      "Cataract formation",
+      "Acute hematologic syndrome",
+      "Temporary epilation within days"
+    ],
+    "answer": 1,
+    "explanation": "Cataracts can appear months or years after exposure of the lens, along with cancer and genetic effects. Nausea and the acute syndromes are early effects of high doses."
+  },
+  {
+    "id": "safety-017",
+    "area": "safety",
+    "topic": "Cell cycle",
+    "stem": "During which phase of the cell cycle is a cell most sensitive to radiation?",
+    "options": ["Late S (synthesis)", "G1", "M (mitosis)", "G0 (resting)"],
+    "answer": 2,
+    "explanation": "Cells are most radiosensitive during mitosis and least sensitive late in the synthesis phase."
+  },
+  {
+    "id": "safety-018",
+    "area": "safety",
+    "topic": "Dose limits",
+    "stem": "Under NCRP recommendations, the annual effective dose limit for an occupationally exposed radiographer is",
+    "options": ["1 mSv", "5 mSv", "50 mSv", "500 mSv"],
+    "answer": 2,
+    "explanation": "The annual occupational effective dose limit is 50 mSv (5 rem). Keeping actual doses far below it is the aim of ALARA."
+  },
+  {
+    "id": "safety-019",
+    "area": "safety",
+    "topic": "Personnel monitoring",
+    "stem": "A worker must be given a radiation monitor whenever that person could receive what share of the annual effective dose limit?",
+    "options": ["1% or more", "10% or more", "25% or more", "50% or more"],
+    "answer": 1,
+    "explanation": "Personnel monitoring is required whenever a worker could receive 10% or more of the annual limit of 50 mSv."
+  },
+  {
+    "id": "safety-020",
+    "area": "safety",
+    "topic": "Dose limits",
+    "stem": "Once a radiographer declares a pregnancy, the monthly equivalent dose limit for the embryo or fetus is",
+    "options": ["0.05 mSv", "0.5 mSv", "5 mSv", "50 mSv"],
+    "answer": 1,
+    "explanation": "After a declared pregnancy, the dose to the embryo or fetus is limited to 0.5 mSv per month."
+  },
+  {
+    "id": "safety-021",
+    "area": "safety",
+    "topic": "Dose limits",
+    "stem": "The annual effective dose limit for a member of the public who is exposed frequently is",
+    "options": ["0.1 mSv", "1 mSv", "5 mSv", "50 mSv"],
+    "answer": 1,
+    "explanation": "For continuous or frequent exposure of the general public the limit is 1 mSv a year, a fiftieth of the occupational limit."
+  },
+  {
+    "id": "safety-022",
+    "area": "safety",
+    "topic": "Dose limits",
+    "stem": "The annual equivalent dose limit for the skin and the hands of an occupationally exposed person is",
+    "options": ["50 mSv", "150 mSv", "500 mSv", "1000 mSv"],
+    "answer": 2,
+    "explanation": "Skin and extremities tolerate more radiation than the whole body, so their annual equivalent dose limit is 500 mSv."
+  },
+  {
+    "id": "safety-023",
+    "area": "safety",
+    "topic": "Dose limits",
+    "stem": "A radiography student under 18 years of age has an annual effective dose limit of",
+    "options": ["1 mSv", "5 mSv", "10 mSv", "50 mSv"],
+    "answer": 0,
+    "explanation": "Students under 18 in an educational setting are limited to 1 mSv a year, the same as frequently exposed members of the public."
+  },
+  {
+    "id": "safety-024",
+    "area": "safety",
+    "topic": "Dose limits",
+    "stem": "Under NCRP recommendations, the annual equivalent dose limit for the lens of the eye of a radiographer is",
+    "options": ["15 mSv", "50 mSv", "150 mSv", "500 mSv"],
+    "answer": 2,
+    "explanation": "NCRP recommends a limit of 150 mSv a year for the lens of the eye; some newer international guidance sets a lower value."
+  },
+  {
+    "id": "safety-025",
+    "area": "safety",
+    "topic": "Protection principles",
+    "stem": "The three cardinal principles of radiation protection for personnel are",
+    "options": [
+      "time, distance and shielding",
+      "kVp, mAs and SID",
+      "collimation, filtration and grids",
+      "speed, contrast and latitude"
+    ],
+    "answer": 0,
+    "explanation": "Spending less time near the source, moving farther from it and placing shielding between yourself and the source all reduce occupational exposure."
+  },
+  {
+    "id": "safety-026",
+    "area": "safety",
+    "topic": "Protection principles",
+    "stem": "ALARA stands for",
+    "options": [
+      "as low as reasonably achievable",
+      "always limit all radiation areas",
+      "annual limit at reasonable activity",
+      "as little as radiologically acceptable"
+    ],
+    "answer": 0,
+    "explanation": "ALARA means keeping radiation exposure as low as reasonably achievable, well below the dose limits."
+  },
+  {
+    "id": "safety-027",
+    "area": "safety",
+    "topic": "Inverse square law",
+    "stem": "A radiographer standing 2 m from a source receives 4 mGy per hour. If the radiographer moves to 4 m, the dose rate becomes",
+    "options": ["2 mGy per hour", "1 mGy per hour", "0.5 mGy per hour", "8 mGy per hour"],
+    "answer": 1,
+    "explanation": "Intensity varies inversely with the square of the distance. Doubling the distance cuts the dose rate to a quarter: 4 ÷ 4 = 1 mGy per hour."
+  },
+  {
+    "id": "safety-028",
+    "area": "safety",
+    "topic": "Inverse square law",
+    "stem": "Doubling the distance from a source of radiation reduces the exposure rate to",
+    "options": ["one half", "one quarter", "one eighth", "one sixteenth"],
+    "answer": 1,
+    "explanation": "By the inverse square law, twice the distance gives one quarter of the intensity."
+  },
+  {
+    "id": "safety-029",
+    "area": "safety",
+    "topic": "Protective barriers",
+    "stem": "A primary protective barrier in a radiographic room is typically lead of what thickness?",
+    "options": ["1/64 inch", "1/32 inch", "1/16 inch", "1/4 inch"],
+    "answer": 2,
+    "explanation": "Walls that the primary beam may strike usually contain 1/16 inch (about 1.5 mm) of lead."
+  },
+  {
+    "id": "safety-030",
+    "area": "safety",
+    "topic": "Protective barriers",
+    "stem": "The control booth wall protects only from scatter and leakage radiation. It is therefore a",
+    "options": ["primary barrier", "secondary barrier", "inherent filter", "beam restrictor"],
+    "answer": 1,
+    "explanation": "A secondary barrier protects from scattered and leakage radiation, never the primary beam, which must not be directed at it."
+  },
+  {
+    "id": "safety-031",
+    "area": "safety",
+    "topic": "Protective barriers",
+    "stem": "A secondary protective barrier is typically lead of what thickness?",
+    "options": ["1/64 inch", "1/32 inch", "1/16 inch", "1/8 inch"],
+    "answer": 1,
+    "explanation": "Secondary barriers usually contain 1/32 inch (about 0.8 mm) of lead, half the thickness of a primary barrier."
+  },
+  {
+    "id": "safety-032",
+    "area": "safety",
+    "topic": "Protective apparel",
+    "stem": "The minimum lead equivalent required for a protective apron worn during fluoroscopy is",
+    "options": ["0.25 mm Pb", "0.5 mm Pb", "1.0 mm Pb", "1.5 mm Pb"],
+    "answer": 1,
+    "explanation": "Lead aprons used in fluoroscopy must be at least 0.5 mm lead equivalent."
+  },
+  {
+    "id": "safety-033",
+    "area": "safety",
+    "topic": "Protective apparel",
+    "stem": "Protective lead gloves used in fluoroscopy must be at least",
+    "options": ["0.1 mm Pb equivalent", "0.25 mm Pb equivalent", "0.5 mm Pb equivalent", "1.0 mm Pb equivalent"],
+    "answer": 1,
+    "explanation": "Lead gloves must provide at least 0.25 mm lead equivalent."
+  },
+  {
+    "id": "safety-034",
+    "area": "safety",
+    "topic": "Fluoroscopy equipment",
+    "stem": "During fluoroscopy, the Bucky slot cover protects the operator by covering the opening left when the Bucky tray is moved to the end of the table. Its minimum lead equivalent is",
+    "options": ["0.1 mm Pb", "0.25 mm Pb", "0.5 mm Pb", "1.0 mm Pb"],
+    "answer": 1,
+    "explanation": "The Bucky slot shield must be at least 0.25 mm lead equivalent, and it blocks scatter at the operator's gonadal level."
+  },
+  {
+    "id": "safety-035",
+    "area": "safety",
+    "topic": "Fluoroscopy equipment",
+    "stem": "A fluoroscopic unit's cumulative timer sounds an alert after how many minutes of beam-on time?",
+    "options": ["1", "5", "10", "15"],
+    "answer": 1,
+    "explanation": "The cumulative timer signals after 5 minutes of fluoroscopy to make the operator aware of the time, and so the dose, accumulated."
+  },
+  {
+    "id": "safety-036",
+    "area": "safety",
+    "topic": "Fluoroscopy equipment",
+    "stem": "The exposure rate at the tabletop for standard fluoroscopy must not exceed",
+    "options": ["1 R/min", "5 R/min", "10 R/min", "20 R/min"],
+    "answer": 2,
+    "explanation": "Regulations limit the tabletop exposure rate of standard fluoroscopy to 10 R per minute."
+  },
+  {
+    "id": "safety-037",
+    "area": "safety",
+    "topic": "Fluoroscopy equipment",
+    "stem": "For a stationary fluoroscopic unit, the source-to-skin distance must be at least",
+    "options": ["12 inches (30 cm)", "15 inches (38 cm)", "24 inches (60 cm)", "40 inches (100 cm)"],
+    "answer": 1,
+    "explanation": "A stationary fluoroscope must keep the source at least 15 inches (38 cm) from the patient's skin; mobile units need at least 12 inches (30 cm)."
+  },
+  {
+    "id": "safety-038",
+    "area": "safety",
+    "topic": "Beam filtration",
+    "stem": "Equipment operating above 70 kVp must have total filtration of at least",
+    "options": ["0.5 mm Al equivalent", "1.5 mm Al equivalent", "2.5 mm Al equivalent", "5.0 mm Al equivalent"],
+    "answer": 2,
+    "explanation": "Total filtration, inherent plus added, must be at least 2.5 mm aluminum equivalent above 70 kVp. It removes low-energy photons that would only add to patient dose."
+  },
+  {
+    "id": "safety-039",
+    "area": "safety",
+    "topic": "Beam filtration",
+    "stem": "The thickness of material that reduces the intensity of an x-ray beam to half its original value is the",
+    "options": ["half-value layer", "tenth-value layer", "inherent filtration", "linear energy transfer"],
+    "answer": 0,
+    "explanation": "The half-value layer measures beam quality: the more penetrating the beam, the thicker the material needed to halve its intensity."
+  },
+  {
+    "id": "safety-040",
+    "area": "safety",
+    "topic": "Beam filtration",
+    "stem": "Adding aluminum filtration to the x-ray tube mainly reduces patient dose by",
+    "options": [
+      "removing low-energy photons that would be absorbed in the skin",
+      "shortening the exposure time",
+      "narrowing the field size",
+      "absorbing scatter leaving the patient"
+    ],
+    "answer": 0,
+    "explanation": "Filtration absorbs low-energy photons that cannot reach the image receptor and would only add to skin dose; the half-value layer rises as filtration is added."
+  },
+  {
+    "id": "safety-041",
+    "area": "safety",
+    "topic": "Patient protection",
+    "stem": "Restricting the beam to the area of clinical interest reduces patient dose and also",
+    "options": [
+      "improves contrast by reducing scatter",
+      "increases recorded detail through magnification",
+      "increases the density of the image",
+      "lengthens the exposure time"
+    ],
+    "answer": 0,
+    "explanation": "Collimation reduces the volume of tissue irradiated, which lowers dose and the amount of scatter produced, so image contrast improves."
+  },
+  {
+    "id": "safety-042",
+    "area": "safety",
+    "topic": "Patient protection",
+    "stem": "Which change in technique generally lowers patient dose while keeping image receptor exposure similar?",
+    "options": ["Higher kVp with lower mAs", "Lower kVp with higher mAs", "A higher-ratio grid", "A larger field size"],
+    "answer": 0,
+    "explanation": "Raising kVp makes the beam more penetrating, so less mAs is needed and fewer photons are absorbed by the patient."
+  },
+  {
+    "id": "safety-043",
+    "area": "safety",
+    "topic": "Patient protection",
+    "stem": "Using a grid instead of a nongrid technique for the same image has what effect on patient dose?",
+    "options": [
+      "It increases patient dose",
+      "It decreases patient dose",
+      "It has no effect on patient dose",
+      "It removes dose from the primary beam"
+    ],
+    "answer": 0,
+    "explanation": "A grid absorbs some useful radiation along with scatter, so the exposure, and the patient dose, must be increased to compensate."
+  },
+  {
+    "id": "safety-044",
+    "area": "safety",
+    "topic": "Personnel monitoring",
+    "stem": "Which personnel dosimeter uses aluminum oxide that is read with laser light?",
+    "options": [
+      "Pocket ionization dosimeter",
+      "Thermoluminescent dosimeter (TLD)",
+      "Optically stimulated luminescence (OSL) dosimeter",
+      "Film badge"
+    ],
+    "answer": 2,
+    "explanation": "An OSL dosimeter stores its reading in aluminum oxide and releases it as light when stimulated by a laser; a TLD uses lithium fluoride read by heating."
+  },
+  {
+    "id": "safety-045",
+    "area": "safety",
+    "topic": "Personnel monitoring",
+    "stem": "A thermoluminescent dosimeter (TLD) uses which crystal, read by heating?",
+    "options": ["Aluminum oxide", "Lithium fluoride", "Silver bromide", "Cesium iodide"],
+    "answer": 1,
+    "explanation": "Lithium fluoride crystals in a TLD give off light in proportion to the dose received when they are heated."
+  },
+  {
+    "id": "safety-046",
+    "area": "safety",
+    "topic": "Personnel monitoring",
+    "stem": "During fluoroscopy, where is the radiographer's single personnel dosimeter worn?",
+    "options": [
+      "At the collar, outside the lead apron",
+      "At the waist, under the lead apron",
+      "On the wrist",
+      "Inside the apron at chest level"
+    ],
+    "answer": 0,
+    "explanation": "Worn at the collar outside the apron, the dosimeter records the highest dose, the one reaching the unprotected head, neck and eyes."
+  },
+  {
+    "id": "safety-047",
+    "area": "safety",
+    "topic": "Personnel monitoring",
+    "stem": "Which dosimeter gives an immediate reading of exposure?",
+    "options": ["Film badge", "OSL dosimeter", "Pocket ionization dosimeter", "TLD"],
+    "answer": 2,
+    "explanation": "A pocket ionization dosimeter can be read on the spot. Film badges, OSLs and TLDs must be processed or read by a service."
+  },
+  {
+    "id": "safety-048",
+    "area": "safety",
+    "topic": "Pregnant radiographer",
+    "stem": "A radiographer declares her pregnancy. In addition to the collar dosimeter, she should wear a second dosimeter",
+    "options": [
+      "at waist level, under the lead apron",
+      "on the wrist",
+      "at the collar, under the thyroid shield",
+      "on the outside of the apron at the hip"
+    ],
+    "answer": 0,
+    "explanation": "A second dosimeter at the waist, under the apron, estimates the dose to the embryo or fetus."
+  },
+  {
+    "id": "safety-049",
+    "area": "safety",
+    "topic": "Mobile radiography",
+    "stem": "During a mobile exposure without a protective barrier, the radiographer should stand at least what distance from the patient and the tube, wearing a lead apron?",
+    "options": ["1 ft (30 cm)", "3 ft (90 cm)", "6 ft (2 m)", "20 ft (6 m)"],
+    "answer": 2,
+    "explanation": "The exposure cord allows the operator to stand at least 6 feet (2 m) away, and an apron must be worn."
+  },
+  {
+    "id": "safety-050",
+    "area": "safety",
+    "topic": "Equipment leakage",
+    "stem": "Leakage radiation from the tube housing must not exceed what rate at 1 m from the tube?",
+    "options": ["1 mR per hour", "10 mR per hour", "100 mR per hour", "1 R per hour"],
+    "answer": 2,
+    "explanation": "Tube housings must limit leakage radiation to 100 mR (1 mGy) per hour measured 1 m from the tube."
+  }
+]
