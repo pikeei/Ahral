@@ -1,18 +1,25 @@
 import { useEffect, useState } from 'react'
-import type { AppInfo, ExamSettings, ExamSummary, ExamView } from '../../shared/api'
+import type { AppInfo, ExamSummary, ExamView } from '../../shared/api'
 import { DocumentView } from './DocumentView'
 import { ExamRunner } from './ExamRunner'
 import { Library } from './Library'
+import { MockExamRunner } from './MockExamRunner'
 import { Results } from './Results'
+import { Study } from './Study'
+
+/** Starts the same exam again (same questions, same order) from its seed. */
+type Restart = (seed: number) => Promise<ExamView>
 
 type Screen =
+  | { name: 'loading' }
+  | { name: 'study' }
   | { name: 'library' }
   | { name: 'document'; documentId: number }
-  | { name: 'exam'; exam: ExamView; settings: ExamSettings }
-  | { name: 'results'; summary: ExamSummary; settings: ExamSettings }
+  | { name: 'exam'; exam: ExamView; restart: Restart }
+  | { name: 'results'; summary: ExamSummary; restart: Restart }
 
 export function App() {
-  const [screen, setScreen] = useState<Screen>({ name: 'library' })
+  const [screen, setScreen] = useState<Screen>({ name: 'loading' })
   const [info, setInfo] = useState<AppInfo | null>(null)
   const [backendError, setBackendError] = useState<string | null>(null)
 
@@ -21,29 +28,51 @@ export function App() {
       .getAppInfo()
       .then(setInfo)
       .catch((err: unknown) => setBackendError(String(err)))
+    // A new study set starts in the library, to import the PDFs; after that, at Study.
+    window.api
+      .listDocuments()
+      // Only if nothing was opened meanwhile: a tab clicked while this loads wins.
+      .then((documents) =>
+        setScreen((now) =>
+          now.name !== 'loading' ? now : documents.length > 0 ? { name: 'study' } : { name: 'library' }
+        )
+      )
+      .catch(() => setScreen((now) => (now.name === 'loading' ? { name: 'library' } : now)))
   }, [])
 
-  async function startExam(documentId: number, settings: ExamSettings) {
-    const exam = await window.api.startExam(documentId, settings)
-    setScreen({ name: 'exam', exam, settings })
+  async function run(start: Restart, seed?: number) {
+    const exam = await start(seed ?? Math.floor(Math.random() * 2 ** 31))
+    setScreen({ name: 'exam', exam, restart: start })
   }
 
+  /** Where an exam returns to: its document's page, or Study for the whole study set. */
+  const home = (documentId: number | null): Screen =>
+    documentId === null ? { name: 'study' } : { name: 'document', documentId }
+
   const inExam = screen.name === 'exam'
+  const tab =
+    screen.name === 'study' ? 'study' : screen.name === 'library' || screen.name === 'document' ? 'library' : null
 
   return (
     <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900">
       <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-3xl items-center gap-4 px-6 py-3">
-          <h1 className="text-xl font-bold tracking-tight">
-            {inExam ? (
-              'Ahral'
-            ) : (
-              <button type="button" onClick={() => setScreen({ name: 'library' })} className="hover:text-indigo-700">
-                Ahral
-              </button>
-            )}
-          </h1>
-          <span className="text-sm text-slate-500">Practice exams from your PDFs, offline</span>
+        <div className="mx-auto flex max-w-3xl flex-wrap items-center gap-x-6 gap-y-1 px-6 py-3">
+          <h1 className="text-xl font-bold tracking-tight">Ahral</h1>
+          {!inExam && (
+            <nav aria-label="Main" className="flex gap-4 text-sm">
+              {(['study', 'library'] as const).map((name) => (
+                <button
+                  key={name}
+                  type="button"
+                  aria-current={tab === name ? 'page' : undefined}
+                  onClick={() => setScreen(name === 'study' ? { name: 'study' } : { name: 'library' })}
+                  className={`py-1 ${tab === name ? 'font-semibold text-slate-900 underline decoration-2 underline-offset-8' : 'text-slate-600 hover:text-slate-900'}`}
+                >
+                  {name === 'study' ? 'Study' : 'Library'}
+                </button>
+              ))}
+            </nav>
+          )}
         </div>
       </header>
 
@@ -60,6 +89,15 @@ export function App() {
           </p>
         )}
 
+        {screen.name === 'loading' && <p className="text-slate-500">Loading…</p>}
+
+        {screen.name === 'study' && (
+          <Study
+            onStart={(settings) => run((seed) => window.api.startStudyExam({ ...settings, seed }))}
+            onOpenLibrary={() => setScreen({ name: 'library' })}
+          />
+        )}
+
         {screen.name === 'library' && <Library onOpen={(documentId) => setScreen({ name: 'document', documentId })} />}
 
         {screen.name === 'document' && (
@@ -68,31 +106,41 @@ export function App() {
             <DocumentView
               key={screen.documentId}
               documentId={screen.documentId}
-              onStart={(settings) => startExam(screen.documentId, settings)}
+              onStart={(settings) => run((seed) => window.api.startExam(screen.documentId, { ...settings, seed }))}
               onDeleted={() => setScreen({ name: 'library' })}
             />
           </>
         )}
 
-        {screen.name === 'exam' && (
+        {screen.name === 'exam' && screen.exam.mode === 'mock' && (
+          <MockExamRunner
+            key={screen.exam.examId}
+            exam={screen.exam}
+            onFinish={async () => {
+              const summary = await window.api.finishExam(screen.exam.examId)
+              setScreen({ name: 'results', summary, restart: screen.restart })
+            }}
+            onQuit={() => setScreen(home(screen.exam.documentId))}
+          />
+        )}
+
+        {screen.name === 'exam' && screen.exam.mode === 'practice' && (
           <ExamRunner
             key={screen.exam.examId}
             exam={screen.exam}
             onFinish={async () => {
               const summary = await window.api.finishExam(screen.exam.examId)
-              setScreen({ name: 'results', summary, settings: screen.settings })
+              setScreen({ name: 'results', summary, restart: screen.restart })
             }}
-            onQuit={() => setScreen({ name: 'document', documentId: screen.exam.documentId })}
+            onQuit={() => setScreen(home(screen.exam.documentId))}
           />
         )}
 
         {screen.name === 'results' && (
           <Results
             summary={screen.summary}
-            onRetake={() =>
-              void startExam(screen.summary.documentId, { ...screen.settings, seed: screen.summary.seed })
-            }
-            onDone={() => setScreen({ name: 'document', documentId: screen.summary.documentId })}
+            onRetake={() => void run(screen.restart, screen.summary.seed)}
+            onDone={() => setScreen(home(screen.summary.documentId))}
           />
         )}
       </main>

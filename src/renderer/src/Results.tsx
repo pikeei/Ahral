@@ -68,9 +68,9 @@ export function Results({ summary, onRetake, onDone }: Props) {
           </ul>
         </Card>
         <Card>
-          <h3 className="font-semibold">By section</h3>
-          <ul className="mt-3 space-y-3 text-sm">
-            {summary.bySection.map((s) => (
+          <h3 className="font-semibold">{summary.byArea.length > 0 ? 'By exam area' : 'By section'}</h3>
+          <ul className="mt-3 space-y-3 text-sm" data-testid="results-by-area">
+            {(summary.byArea.length > 0 ? summary.byArea : summary.bySection).map((s) => (
               <li key={s.label}>
                 <div className="flex justify-between gap-3">
                   <span className="min-w-0 truncate" title={s.label}>

@@ -49,6 +49,24 @@ upgrading keeps them; delete that folder to remove them.
    *Retake these questions* replays the same exam; the document page keeps your past attempts and
    your weak sections across all of them.
 
+## Board review
+
+The **Study** tab treats every imported PDF as one study set, organised by the four content areas
+of the radiography board exam (Patient Care, Safety, Image Production, Procedures).
+
+- **Readiness:** your score in each area over all attempts, how many questions the real exam gives
+  it, and which area to practise next.
+- **Practice:** 20 questions from one area or all of them, with an explanation after each answer.
+- **Mock exam:** 50, 100 or 200 multiple-choice questions in the official proportions, timed at the
+  real exam's pace (230 questions in 3 hours 30 minutes). Answers can be changed and questions
+  flagged; nothing is marked until the end.
+- **Exam version:** question counts follow ARRT's Radiography Examination Content Specifications,
+  for exams through February 28, 2027 (33 / 50 / 51 / 66) or from March 1, 2027 (31 / 46 / 51 / 72).
+
+Questions are placed in an area by their section or document title ("Radiation Protection",
+"Chapter 4: Image Production"), or for mixed practice tests by the topic words they use. A
+question that can't be placed is still used in practice, but not in mock exams.
+
 ## Where questions come from
 
 - **From the book.** If the PDF already has multiple-choice questions with an answer key, as review

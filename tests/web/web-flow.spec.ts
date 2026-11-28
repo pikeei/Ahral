@@ -66,12 +66,54 @@ test('takes an exam with feedback, and keeps the library after a reload', async 
 
   // The database lives in the browser's storage for the site: still there after a reload.
   await page.reload()
+  // With documents in the library the app opens on Study; the library is one tab away.
+  await page.getByRole('navigation', { name: 'Main' }).getByRole('button', { name: 'Library' }).click()
   await expect(page.getByText(/last of 1 attempt/)).toBeVisible()
 
   await page.getByRole('button', { name: /golden notes\.pdf/ }).click()
   await page.getByRole('button', { name: 'Delete document…' }).click()
   await page.getByRole('button', { name: 'Delete', exact: true }).click()
   await expect(page.getByText('No documents yet')).toBeVisible()
+})
+
+test('studies by board exam area: readiness, practice and a timed mock exam', async ({ page }) => {
+  await page.goto('./')
+  await importGoldenPdf(page)
+  const nav = page.getByRole('navigation', { name: 'Main' })
+  await nav.getByRole('button', { name: 'Study' }).click()
+
+  // Readiness lists the four areas, with the number of questions each has on the real exam.
+  await expect(page.getByRole('heading', { name: 'Readiness' })).toBeVisible()
+  await expect(page.getByTestId('area-patient-care')).toContainText('33')
+  await page.getByLabel('Your exam date').selectOption('2027')
+  await expect(page.getByTestId('area-patient-care')).toContainText('31')
+
+  // Practice: feedback after each answer.
+  await page.getByLabel('Area').selectOption('all')
+  await page.getByRole('button', { name: 'Practise All areas' }).click()
+  await expect(page.getByTestId('exam-progress')).toContainText('Question 1 of')
+  await page.getByRole('button', { name: 'Quit exam' }).click()
+  await page.getByRole('button', { name: 'Leave', exact: true }).click()
+
+  // Mock exam: timed, answers changeable, flags, nothing marked until the end.
+  await page.getByLabel('50 questions').check()
+  await page.getByRole('button', { name: 'Begin mock exam' }).click()
+  await expect(page.getByTestId('exam-timer')).toHaveText(/^\d:\d\d:\d\d$/)
+  const options = page.getByRole('radio')
+  await options.nth(1).click()
+  await options.first().click()
+  await expect(options.first()).toHaveAttribute('aria-checked', 'true')
+  await expect(page.getByTestId('feedback')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Flag for review' }).click()
+  await expect(page.getByRole('button', { name: /^Question 1, answered, flagged$/ })).toBeVisible()
+  await page.getByRole('button', { name: 'Finish exam' }).click()
+  await expect(page.getByRole('alertdialog')).toContainText('1 is flagged for review')
+  await page.getByRole('button', { name: 'Finish and see results' }).click()
+
+  await expect(page.getByTestId('score')).toHaveText(/^\d+%$/)
+  await expect(page.getByRole('heading', { name: 'By exam area' })).toBeVisible()
+  await page.getByRole('button', { name: 'Done' }).click()
+  await expect(page.getByRole('list', { name: 'Recent attempts' })).toContainText('Mock exam')
 })
 
 test('opens a real file input on the page, and choosing nothing leaves the app usable', async ({ page }) => {
