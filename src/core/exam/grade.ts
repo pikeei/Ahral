@@ -113,7 +113,8 @@ function isNearMiss(given: string, answer: string): boolean {
 /** Plain-language feedback, as shown after answering. */
 export function describeFeedback(result: AnswerResult): string[] {
   const { feedback } = result
-  const source = `${feedback.explanation} (p. ${feedback.page})`
+  // Built-in bank questions have no page (0): they come from no document.
+  const source = feedback.page > 0 ? `${feedback.explanation} (p. ${feedback.page})` : feedback.explanation
   switch (result.status) {
     case 'correct':
       return ['Correct.', source]

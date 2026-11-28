@@ -72,6 +72,10 @@ describe('studying from the bank', () => {
       1
     )
     expect(exam.questions.map((q) => q.prompt)).toEqual([entry.stem])
+    expect(exam.questions[0]?.bankId).toBe('x-3')
+    // Bank questions come from no document, so the explanation cites no page.
+    const feedback = service.answer(exam.examId, 0, { choice: 0 })
+    expect(feedback.lines.join(' ')).not.toContain('(p.')
     expect(exam.questions[0]?.area).toBe('Image Production')
   })
 })

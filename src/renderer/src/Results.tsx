@@ -20,16 +20,19 @@ export function Results({ summary, onRetake, onDone }: Props) {
 
   return (
     <div className="space-y-6">
-      <Card className="text-center">
-        <p className="text-sm text-slate-500">Your score</p>
-        <p className={`mt-1 text-5xl font-bold ${scoreColor(summary.percent)}`} data-testid="score">
+      <Card>
+        <p className="label">Your score</p>
+        <p
+          className={`mt-2 font-serif text-7xl leading-none font-medium ${scoreColor(summary.percent)}`}
+          data-testid="score"
+        >
           {summary.percent}%
         </p>
-        <p className="mt-2 text-slate-600">
+        <p className="mt-3 text-muted">
           {summary.correct} of {summary.total} correct
           {summary.answered < summary.total && ` · ${summary.total - summary.answered} skipped`}
         </p>
-        <div className="mt-4 flex justify-center gap-3">
+        <div className="mt-5 flex flex-wrap gap-3">
           <Button variant="secondary" onClick={onRetake}>
             Retake these questions
           </Button>
@@ -51,22 +54,24 @@ export function Results({ summary, onRetake, onDone }: Props) {
       )}
 
       <div className="grid gap-6 sm:grid-cols-2">
-        <Card>
-          <h3 className="font-semibold">By question type</h3>
-          <ul className="mt-3 space-y-3 text-sm">
-            {types.map(([type, t]) => (
-              <li key={type}>
-                <div className="flex justify-between">
-                  <span>{TYPE_LABELS[type]}</span>
-                  <span>
-                    {t.correct}/{t.total}
-                  </span>
-                </div>
-                <ScoreBar percent={(100 * t.correct) / t.total} />
-              </li>
-            ))}
-          </ul>
-        </Card>
+        {types.length > 1 && (
+          <Card>
+            <h3 className="font-semibold">By question type</h3>
+            <ul className="mt-3 space-y-3 text-sm">
+              {types.map(([type, t]) => (
+                <li key={type}>
+                  <div className="flex justify-between">
+                    <span>{TYPE_LABELS[type]}</span>
+                    <span>
+                      {t.correct}/{t.total}
+                    </span>
+                  </div>
+                  <ScoreBar percent={(100 * t.correct) / t.total} />
+                </li>
+              ))}
+            </ul>
+          </Card>
+        )}
         <Card>
           <h3 className="font-semibold">{summary.byArea.length > 0 ? 'By exam area' : 'By section'}</h3>
           <ul className="mt-3 space-y-3 text-sm" data-testid="results-by-area">

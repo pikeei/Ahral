@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ExamView } from '../../shared/api'
-import { Button, ErrorBanner, errorMessage } from './ui'
-
-const LETTERS = 'ABCDEFGH'
+import { Button, ChoiceRow, ErrorBanner, errorMessage, LETTERS, ReportLink } from './ui'
 
 interface Props {
   exam: ExamView
@@ -80,14 +78,11 @@ export function MockExamRunner({ exam, onFinish, onQuit }: Props) {
   const clock = `${Math.floor(secondsLeft / 3600)}:${String(Math.floor((secondsLeft % 3600) / 60)).padStart(2, '0')}:${String(secondsLeft % 60).padStart(2, '0')}`
 
   return (
-    <div className="space-y-5">
-      <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-slate-600">
-        <span data-testid="exam-progress">
-          Question {position + 1} of {total}
-          {question.area && <span className="text-slate-400"> · {question.area}</span>}
-        </span>
+    <div className="space-y-8">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-rule pb-3">
+        <span className="label grow">Mock exam · {total} questions · answers at the end</span>
         <span
-          className={`font-mono text-base font-semibold ${secondsLeft < 300 ? 'text-red-700' : 'text-slate-900'}`}
+          className={`font-mono text-[22px] font-medium tracking-wide ${secondsLeft < 300 ? 'text-incorrect' : 'text-ink'}`}
           role="timer"
           aria-label={`Time left ${clock}`}
           data-testid="exam-timer"
@@ -96,51 +91,66 @@ export function MockExamRunner({ exam, onFinish, onQuit }: Props) {
         </span>
       </div>
 
-      <div className="rounded-lg border border-slate-200 bg-white p-6">
-        <h2 className="text-lg leading-relaxed whitespace-pre-line" data-testid="question-prompt">
-          {question.prompt}
-        </h2>
-        <div role="radiogroup" aria-label="Options" className="mt-5 space-y-2">
-          {options.map((option, i) => (
-            // biome-ignore lint/a11y/useSemanticElements: styled option cards behave as a radio group
-            <button
-              key={option}
-              type="button"
-              role="radio"
-              aria-checked={chosen === i}
-              onClick={() => choose(i)}
-              className={`flex w-full gap-3 rounded-md border p-3 text-left transition-colors ${
-                chosen === i
-                  ? 'border-indigo-500 bg-indigo-50 ring-1 ring-indigo-500'
-                  : 'border-slate-200 bg-white hover:border-slate-300'
-              }`}
-            >
-              <span className="font-semibold text-slate-500">{LETTERS[i]}</span>
-              <span>{option}</span>
-            </button>
-          ))}
+      <div className="flex flex-wrap gap-x-16 gap-y-6">
+        <div className="flex flex-[0_0_160px] flex-wrap items-baseline gap-x-6 gap-y-1 sm:block">
+          <p className="font-serif text-6xl leading-[0.9] font-medium tracking-tight sm:text-8xl">{position + 1}</p>
+          <p className="label sm:mt-3" data-testid="exam-progress">
+            Question {position + 1} of {total}
+          </p>
+          {question.area && (
+            <>
+              <p className="label mt-7 hidden sm:block">Area</p>
+              <p className="text-[15px] font-medium sm:mt-1">{question.area}</p>
+            </>
+          )}
+          <p className="label mt-5 hidden sm:block">Flagged</p>
+          <p className="hidden font-mono text-[15px] sm:mt-1 sm:block">{flags.size}</p>
         </div>
+
+        <section className="min-w-0 max-w-3xl flex-[999_1_480px]">
+          <h2
+            className="text-xl leading-normal font-medium whitespace-pre-line sm:text-2xl"
+            data-testid="question-prompt"
+          >
+            {question.prompt}
+          </h2>
+          <div role="radiogroup" aria-label="Options" className="mt-8">
+            {options.map((option, i) => (
+              <ChoiceRow
+                key={option}
+                letter={LETTERS[i] ?? ''}
+                text={option}
+                state={chosen === i ? 'selected' : 'idle'}
+                checked={chosen === i}
+                onClick={() => choose(i)}
+              />
+            ))}
+          </div>
+
+          {error && <ErrorBanner message={error} onDismiss={() => setError(null)} />}
+
+          <div className="mt-8 flex flex-wrap items-center gap-3 border-t border-rule pt-5">
+            <Button variant="ghost" className="px-1" onClick={toggleFlag} aria-pressed={flags.has(position)}>
+              {flags.has(position) ? 'Unflag' : 'Flag for review'}
+            </Button>
+            <span className="grow" />
+            <Button variant="secondary" disabled={position === 0} onClick={() => setPosition(position - 1)}>
+              Previous
+            </Button>
+            {position < total - 1 ? (
+              <Button onClick={() => setPosition(position + 1)}>Next</Button>
+            ) : (
+              <Button onClick={() => setConfirming('finish')}>Review and finish</Button>
+            )}
+          </div>
+          <div className="mt-2">
+            <ReportLink question={question} />
+          </div>
+        </section>
       </div>
 
-      {error && <ErrorBanner message={error} onDismiss={() => setError(null)} />}
-
-      <div className="flex flex-wrap items-center gap-3">
-        <Button variant="ghost" onClick={toggleFlag} aria-pressed={flags.has(position)}>
-          {flags.has(position) ? 'Unflag' : 'Flag for review'}
-        </Button>
-        <span className="flex-grow" />
-        <Button variant="secondary" disabled={position === 0} onClick={() => setPosition(position - 1)}>
-          Previous
-        </Button>
-        {position < total - 1 ? (
-          <Button onClick={() => setPosition(position + 1)}>Next</Button>
-        ) : (
-          <Button onClick={() => setConfirming('finish')}>Review and finish</Button>
-        )}
-      </div>
-
-      <nav aria-label="Questions" className="rounded-lg border border-slate-200 bg-white p-4">
-        <div className="mb-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
+      <nav aria-label="Questions" className="border-t-[3px] border-ink pt-4">
+        <div className="mb-3 flex flex-wrap gap-x-5 gap-y-1 font-mono text-[11px] tracking-wide text-muted uppercase">
           <span>{answers.size} answered</span>
           <span>{flags.size} flagged</span>
           <span>{unanswered} unanswered</span>
@@ -156,11 +166,13 @@ export function MockExamRunner({ exam, onFinish, onQuit }: Props) {
                 onClick={() => setPosition(q.position)}
                 aria-label={`Question ${q.position + 1}${answered ? ', answered' : ''}${flagged ? ', flagged' : ''}`}
                 aria-current={q.position === position ? 'step' : undefined}
-                className={`h-8 min-w-8 rounded border px-1 text-xs tabular-nums ${
-                  q.position === position ? 'ring-2 ring-indigo-500' : ''
-                } ${answered ? 'border-slate-700 bg-slate-700 text-white' : 'border-slate-300 bg-white text-slate-600'} ${
-                  flagged ? 'outline-2 outline-amber-500' : ''
-                }`}
+                className={`h-8 min-w-8 px-1 font-mono text-xs tabular-nums ${
+                  flagged
+                    ? 'bg-accent text-ink'
+                    : answered
+                      ? 'bg-ink text-paper'
+                      : 'text-muted shadow-[inset_0_0_0_1px_var(--color-rule)]'
+                } ${q.position === position ? 'outline-2 outline-offset-1 outline-ink' : ''}`}
               >
                 {q.position + 1}
               </button>
@@ -193,21 +205,17 @@ export function MockExamRunner({ exam, onFinish, onQuit }: Props) {
       </div>
 
       {confirming === 'finish' && (
-        <div
-          role="alertdialog"
-          aria-labelledby="finish-title"
-          className="rounded-lg border border-slate-300 bg-white p-5"
-        >
-          <h3 id="finish-title" className="font-semibold">
+        <div role="alertdialog" aria-labelledby="finish-title" className="border-t-[3px] border-ink bg-white p-5">
+          <h3 id="finish-title" className="font-serif text-2xl font-medium">
             Finish the exam?
           </h3>
-          <p className="mt-1 text-sm text-slate-600">
+          <p className="mt-2 text-[15px] text-muted">
             {unanswered === 0
               ? 'Every question has an answer.'
               : `${unanswered} ${unanswered === 1 ? 'question has' : 'questions have'} no answer and will count as wrong.`}
             {flags.size > 0 && ` ${flags.size} ${flags.size === 1 ? 'is' : 'are'} flagged for review.`}
           </p>
-          <div className="mt-4 flex gap-3">
+          <div className="mt-4 flex flex-wrap gap-3">
             <Button onClick={() => void finish()} disabled={busy}>
               Finish and see results
             </Button>

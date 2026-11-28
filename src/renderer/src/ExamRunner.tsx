@@ -1,8 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import type { AnswerFeedback, ExamResponse, ExamView } from '../../shared/api'
-import { Button, ErrorBanner, errorMessage, explanationLines, TYPE_LABELS } from './ui'
-
-const LETTERS = 'ABCDEFGH'
+import {
+  Button,
+  ChoiceRow,
+  type ChoiceState,
+  ErrorBanner,
+  errorMessage,
+  explanationLines,
+  LETTERS,
+  questionLabel,
+  ReportLink
+} from './ui'
 
 interface Props {
   exam: ExamView
@@ -19,6 +27,7 @@ export function ExamRunner({ exam, onFinish, onQuit }: Props) {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [confirmQuit, setConfirmQuit] = useState(false)
+  const [answeredRight, setAnsweredRight] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
   const nextRef = useRef<HTMLButtonElement>(null)
   const optionsRef = useRef<HTMLDivElement>(null)
@@ -60,7 +69,9 @@ export function ExamRunner({ exam, onFinish, onQuit }: Props) {
     setBusy(true)
     setError(null)
     try {
-      setFeedback(await window.api.answerQuestion(exam.examId, position, response))
+      const result = await window.api.answerQuestion(exam.examId, position, response)
+      setFeedback(result)
+      if (result.correct) setAnsweredRight((n) => n + 1)
     } catch (err) {
       setError(errorMessage(err))
     } finally {
@@ -86,124 +97,93 @@ export function ExamRunner({ exam, onFinish, onQuit }: Props) {
   }
 
   /** After answering: the right option is green; a wrong pick is red; the rest fade. */
-  function optionResult(option: string): 'right' | 'wrong-pick' | 'other' {
-    if (option === feedback?.answer) return 'right'
-    if (option === feedback?.given) return 'wrong-pick'
-    return 'other'
-  }
-
-  function optionStyle(index: number, option: string): string {
-    if (!feedback) {
-      return choice === index
-        ? 'border-indigo-500 bg-indigo-50 ring-1 ring-indigo-500'
-        : 'border-slate-200 bg-white hover:border-slate-300'
-    }
-    return {
-      right: 'border-emerald-600 bg-emerald-50 text-emerald-950 ring-1 ring-emerald-600',
-      'wrong-pick': 'border-red-600 bg-red-100 text-red-950 ring-1 ring-red-600',
-      other: 'border-slate-200 bg-white text-slate-500'
-    }[optionResult(option)]
+  function choiceState(index: number, option: string): ChoiceState {
+    if (!feedback) return choice === index ? 'selected' : 'idle'
+    if (option === feedback.answer) return 'right'
+    if (option === feedback.given) return 'wrong'
+    return 'faded'
   }
 
   /** Words as well as colour, so the result is clear without telling red from green. */
-  function optionTag(option: string) {
-    if (!feedback) return null
-    const result = optionResult(option)
-    if (result === 'other') return null
+  function choiceTag(option: string): string | undefined {
+    if (!feedback) return undefined
     const picked = option === feedback.given
-    return (
-      <span
-        className={`ml-auto shrink-0 self-start rounded-full px-2 py-0.5 text-xs font-semibold ${
-          result === 'right' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'
-        }`}
-      >
-        {result === 'right' ? (picked ? '✓ Your answer' : '✓ Correct answer') : '✗ Your answer'}
-      </span>
-    )
+    if (option === feedback.answer) return picked ? '✓ Your answer' : '✓ Correct answer'
+    return picked ? '✗ Your answer' : undefined
   }
 
   const typedAnswerStyle = !feedback
-    ? 'border-slate-300'
+    ? 'border-ink'
     : feedback.correct
-      ? 'border-emerald-600 bg-emerald-50 ring-1 ring-emerald-600'
+      ? 'border-correct bg-white ring-1 ring-correct'
       : feedback.status === 'almost'
-        ? 'border-amber-500 bg-amber-50 ring-1 ring-amber-500'
-        : 'border-red-600 bg-red-50 text-red-950 ring-1 ring-red-600'
+        ? 'border-accent bg-white ring-1 ring-accent'
+        : 'border-incorrect bg-white ring-1 ring-incorrect'
 
-  const feedbackStyle = !feedback
+  const verdictColor = !feedback
     ? ''
     : feedback.correct
-      ? 'bg-emerald-50 text-emerald-950'
+      ? 'border-correct text-correct'
       : feedback.status === 'almost'
-        ? 'bg-amber-50 text-amber-950'
-        : 'bg-red-50 text-red-950'
+        ? 'border-accent text-amber-800'
+        : 'border-incorrect text-incorrect'
 
   const progress = ((position + (feedback ? 1 : 0)) / exam.questions.length) * 100
 
   return (
-    <div className="space-y-5">
-      <div>
-        <div className="flex items-center justify-between text-sm text-slate-500">
-          <span data-testid="exam-progress">
-            Question {position + 1} of {exam.questions.length}
-          </span>
-          {confirmQuit ? (
-            <span className="flex items-center gap-2">
-              Leave without saving this attempt?
-              <Button variant="danger" className="px-3 py-1" onClick={onQuit}>
-                Leave
-              </Button>
-              <Button variant="ghost" className="px-3 py-1" onClick={() => setConfirmQuit(false)}>
-                Stay
-              </Button>
-            </span>
-          ) : (
-            <Button variant="ghost" className="px-3 py-1" onClick={() => setConfirmQuit(true)}>
-              Quit exam
+    <div className="mx-auto max-w-3xl">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-rule pb-3">
+        <span className="label grow text-ink" data-testid="exam-progress">
+          Question {position + 1} of {exam.questions.length}
+        </span>
+        {answeredRight > 0 && <span className="label">{answeredRight} right</span>}
+        {confirmQuit ? (
+          <span className="flex items-center gap-2 text-sm">
+            Leave without saving this attempt?
+            <Button variant="danger" className="px-3" onClick={onQuit}>
+              Leave
             </Button>
-          )}
-        </div>
-        <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-200" aria-hidden="true">
-          <div className="h-full bg-indigo-500 transition-all" style={{ width: `${progress}%` }} />
-        </div>
+            <Button variant="ghost" className="px-3" onClick={() => setConfirmQuit(false)}>
+              Stay
+            </Button>
+          </span>
+        ) : (
+          <Button variant="ghost" className="px-3" onClick={() => setConfirmQuit(true)}>
+            Quit exam
+          </Button>
+        )}
+      </div>
+      <div className="h-1 bg-rule" aria-hidden="true">
+        <div className="h-full bg-ink transition-all" style={{ width: `${progress}%` }} />
       </div>
 
-      <div className="rounded-lg border border-slate-200 bg-white p-6">
-        <p className="text-xs font-medium tracking-wide text-slate-500 uppercase">
-          {TYPE_LABELS[question.type]} · {question.section}
-        </p>
-        <h2 className="mt-2 text-lg leading-relaxed whitespace-pre-line" data-testid="question-prompt">
+      <section className="mt-8">
+        <p className="label">{questionLabel(question)}</p>
+        <h2
+          className="mt-3 text-xl leading-normal font-medium whitespace-pre-line sm:text-2xl"
+          data-testid="question-prompt"
+        >
           {question.prompt}
         </h2>
 
         {options ? (
-          <div
-            role="radiogroup"
-            aria-label="Options"
-            ref={optionsRef}
-            tabIndex={-1}
-            className="mt-5 space-y-2 outline-none"
-          >
+          <div role="radiogroup" aria-label="Options" ref={optionsRef} tabIndex={-1} className="mt-7 outline-none">
             {options.map((option, i) => (
-              // biome-ignore lint/a11y/useSemanticElements: styled option cards behave as a radio group
-              <button
+              <ChoiceRow
                 key={option}
-                type="button"
-                role="radio"
-                aria-checked={choice === i}
+                letter={LETTERS[i] ?? ''}
+                text={option}
+                state={choiceState(i, option)}
+                tag={choiceTag(option)}
+                checked={choice === i}
                 disabled={feedback !== null}
                 onClick={() => setChoice(i)}
-                className={`flex w-full gap-3 rounded-md border p-3 text-left transition-colors ${optionStyle(i, option)}`}
-              >
-                <span className="font-semibold opacity-70">{LETTERS[i]}</span>
-                <span>{option}</span>
-                {optionTag(option)}
-              </button>
+              />
             ))}
           </div>
         ) : (
           <form
-            className="mt-5"
+            className="mt-7"
             onSubmit={(e) => {
               e.preventDefault()
               void submit({ text })
@@ -220,28 +200,31 @@ export function ExamRunner({ exam, onFinish, onQuit }: Props) {
               disabled={feedback !== null}
               autoComplete="off"
               spellCheck={false}
-              className={`mt-1 block w-full rounded-md border px-3 py-2 ${typedAnswerStyle}`}
+              className={`mt-1 block w-full rounded-[2px] border bg-white px-3 py-2.5 ${typedAnswerStyle}`}
             />
           </form>
         )}
 
         {feedback && (
-          <div aria-live="polite" data-testid="feedback" className={`mt-5 rounded-md p-4 text-sm ${feedbackStyle}`}>
+          <div aria-live="polite" data-testid="feedback" className={`mt-7 border-t-[3px] pt-3.5 ${verdictColor}`}>
             <p className="font-semibold">{feedback.lines[0]}</p>
-            {explanationLines(feedback.lines, options !== undefined).map((line) => (
-              <p key={line} className="mt-1">
-                {line}
-              </p>
-            ))}
+            <div className="text-[15px] leading-relaxed text-ink">
+              {explanationLines(feedback.lines, options !== undefined).map((line) => (
+                <p key={line} className="mt-2">
+                  {line}
+                </p>
+              ))}
+            </div>
+            <ReportLink question={question} answer={feedback.answer} />
           </div>
         )}
-      </div>
+      </section>
 
       {error && <ErrorBanner message={error} onDismiss={() => setError(null)} />}
 
-      <div className="flex justify-end gap-3">
+      <div className="mt-8 flex justify-end gap-3 border-t border-rule pt-5">
         {feedback ? (
-          <Button ref={nextRef} onClick={next} disabled={busy}>
+          <Button ref={nextRef} className="w-full sm:w-auto" onClick={next} disabled={busy}>
             {isLast ? 'See results' : 'Next question'}
           </Button>
         ) : (
@@ -250,6 +233,7 @@ export function ExamRunner({ exam, onFinish, onQuit }: Props) {
               Skip
             </Button>
             <Button
+              className="grow sm:grow-0"
               onClick={() => submit(options ? { choice: choice ?? -1 } : { text })}
               disabled={busy || (options ? choice === null : text.trim() === '')}
             >
@@ -259,7 +243,9 @@ export function ExamRunner({ exam, onFinish, onQuit }: Props) {
         )}
       </div>
       {options && !feedback && (
-        <p className="text-right text-xs text-slate-400">Keys: A–D or 1–4 to choose, Enter to check</p>
+        <p className="mt-3 hidden text-right font-mono text-[11px] text-muted sm:block">
+          KEYS: A–D OR 1–4 TO CHOOSE · ENTER TO CHECK
+        </p>
       )}
     </div>
   )

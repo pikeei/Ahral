@@ -121,6 +121,8 @@ export interface ExamQuestionView {
   section: string
   /** Board content area, when known ("Image Production"). */
   area?: string
+  /** Built-in bank questions only: the question's id ("safety-012"), used when reporting a problem. */
+  bankId?: string
 }
 
 export interface ExamView {

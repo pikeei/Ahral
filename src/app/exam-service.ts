@@ -23,7 +23,7 @@ import type {
   Readiness,
   StudySettings
 } from '../shared/api'
-import { BUILT_IN_BANK } from './bank'
+import { BANK_PREFIX, BUILT_IN_BANK } from './bank'
 import {
   type DocumentRecord,
   deleteDocument,
@@ -375,7 +375,8 @@ export class ExamService {
           ...(item.question.options ? { options } : {}),
           page: item.question.page,
           section: session.labelOf(item.question),
-          ...(item.question.area ? { area: AREA_LABELS[item.question.area] } : {})
+          ...(item.question.area ? { area: AREA_LABELS[item.question.area] } : {}),
+          ...(item.question.id.startsWith(BANK_PREFIX) ? { bankId: item.question.id.slice(BANK_PREFIX.length) } : {})
         }
       })
     }
