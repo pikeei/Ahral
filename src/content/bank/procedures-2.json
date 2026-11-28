@@ -1,0 +1,517 @@
+[
+  {
+    "id": "proc-051",
+    "area": "procedures",
+    "topic": "Landmarks",
+    "stem": "The uppermost portion of the iliac crest is at about the level of",
+    "options": ["L4–L5", "T12", "L1–L2", "S1–S2"],
+    "answer": 0,
+    "explanation": "The top of the iliac crest lies at about L4–L5, a common centering landmark for the abdomen and lumbar spine."
+  },
+  {
+    "id": "proc-052",
+    "area": "procedures",
+    "topic": "Shoulder",
+    "stem": "The AP shoulder in external rotation places which structure in profile laterally?",
+    "options": ["The lesser tubercle", "The greater tubercle", "The coracoid process", "The glenoid fossa"],
+    "answer": 1,
+    "explanation": "External rotation is the true AP position: the greater tubercle is in profile laterally and the lesser tubercle lies anteriorly."
+  },
+  {
+    "id": "proc-053",
+    "area": "procedures",
+    "topic": "Shoulder",
+    "stem": "Internal rotation of the arm, with the epicondyles perpendicular to the IR, places in profile the",
+    "options": [
+      "greater tubercle, laterally",
+      "glenoid fossa",
+      "lesser tubercle, medially",
+      "intertubercular groove, anteriorly"
+    ],
+    "answer": 2,
+    "explanation": "Internal rotation gives a lateral humerus, showing the lesser tubercle in profile medially."
+  },
+  {
+    "id": "proc-054",
+    "area": "procedures",
+    "topic": "Shoulder",
+    "stem": "When a trauma patient cannot abduct the arm, a lateral of the proximal humerus is obtained with the",
+    "options": [
+      "inferosuperior axial projection",
+      "AP in external rotation",
+      "AP oblique (Grashey)",
+      "transthoracic lateral projection"
+    ],
+    "answer": 3,
+    "explanation": "The transthoracic lateral shows the glenohumeral joint and upper humerus without moving the arm."
+  },
+  {
+    "id": "proc-055",
+    "area": "procedures",
+    "topic": "Shoulder",
+    "stem": "The inferosuperior axial projection of the shoulder requires that the patient",
+    "options": ["be able to abduct the arm", "lie prone", "hold the breath on expiration", "keep the arm at the side"],
+    "answer": 0,
+    "explanation": "The arm must be abducted so the beam can pass up through the axilla; patients who cannot abduct need a transthoracic lateral."
+  },
+  {
+    "id": "proc-056",
+    "area": "procedures",
+    "topic": "Wrist",
+    "stem": "The tangential projection of the wrist (Gaynor-Hart method) demonstrates the",
+    "options": ["scaphoid in profile", "carpal canal", "radial styloid", "distal radioulnar joint"],
+    "answer": 1,
+    "explanation": "The Gaynor-Hart tangential projection looks down the carpal canal and is used to detect carpal canal defects."
+  },
+  {
+    "id": "proc-057",
+    "area": "procedures",
+    "topic": "Elbow",
+    "stem": "With the elbow flexed 90 degrees and the central ray angled 45 degrees toward the shoulder, the projection shows the",
+    "options": [
+      "olecranon fossa",
+      "coronoid process in profile",
+      "joint space between the radial head and capitulum",
+      "trochlear notch"
+    ],
+    "answer": 2,
+    "explanation": "This trauma axial lateral (Coyle method) opens the radiocapitellar joint when the patient cannot extend the arm."
+  },
+  {
+    "id": "proc-058",
+    "area": "procedures",
+    "topic": "Elbow",
+    "stem": "The capitulum of the humerus articulates with the",
+    "options": ["ulna", "coronoid process", "olecranon process", "radial head"],
+    "answer": 3,
+    "explanation": "The capitulum, lateral to the trochlea, articulates with the head of the radius."
+  },
+  {
+    "id": "proc-059",
+    "area": "procedures",
+    "topic": "Foot",
+    "stem": "Which projection of the foot best shows the cuboid, the sinus tarsi and the tuberosity of the fifth metatarsal?",
+    "options": [
+      "Medial oblique, plantar surface 30 degrees to the IR",
+      "Lateral oblique",
+      "Lateral",
+      "AP with the central ray 10 degrees posteriorly"
+    ],
+    "answer": 0,
+    "explanation": "The medial oblique opens most of the tarsals and intertarsal spaces, including the cuboid and sinus tarsi."
+  },
+  {
+    "id": "proc-060",
+    "area": "procedures",
+    "topic": "Foot",
+    "stem": "Which projection of the foot shows the spaces between the first and second metatarsals and between the first and second cuneiforms?",
+    "options": ["Medial oblique", "Lateral oblique", "Lateral", "Axial plantodorsal"],
+    "answer": 1,
+    "explanation": "The lateral oblique opens the medial interspaces that the medial oblique closes."
+  },
+  {
+    "id": "proc-061",
+    "area": "procedures",
+    "topic": "Terminology",
+    "stem": "Turning the foot outward at the ankle is called",
+    "options": ["inversion", "plantar flexion", "eversion", "dorsiflexion"],
+    "answer": 2,
+    "explanation": "Eversion turns the sole outward; inversion turns it inward."
+  },
+  {
+    "id": "proc-062",
+    "area": "procedures",
+    "topic": "Pelvis",
+    "stem": "The posterior oblique projection of the acetabulum (Judet method) requires an obliquity of the midsagittal plane of",
+    "options": ["15 degrees", "25 degrees", "30 degrees", "45 degrees"],
+    "answer": 3,
+    "explanation": "The Judet method rotates the whole body 45 degrees to show the acetabular rim and columns."
+  },
+  {
+    "id": "proc-063",
+    "area": "procedures",
+    "topic": "Pelvis",
+    "stem": "For an AP projection of the sacrum, the central ray is directed",
+    "options": ["15 degrees cephalad", "10 degrees caudad", "perpendicular", "30 degrees caudad"],
+    "answer": 0,
+    "explanation": "A 15-degree cephalad angle, centered midway between the pubic symphysis and the ASIS, matches the sacrum's tilt."
+  },
+  {
+    "id": "proc-064",
+    "area": "procedures",
+    "topic": "Pelvis",
+    "stem": "For an AP projection of the coccyx, the central ray is directed",
+    "options": ["15 degrees cephalad", "10 degrees caudad", "perpendicular", "25 degrees cephalad"],
+    "answer": 1,
+    "explanation": "The coccyx curves forward, so the central ray is angled 10 degrees caudad, centered about 2 in above the pubic symphysis."
+  },
+  {
+    "id": "proc-065",
+    "area": "procedures",
+    "topic": "Lumbar spine",
+    "stem": "The articular facets of L5–S1 are best demonstrated in a",
+    "options": ["AP projection", "lateral projection", "30-degree oblique", "60-degree oblique"],
+    "answer": 2,
+    "explanation": "The L5–S1 facets lie at a smaller angle to the midsagittal plane than the upper lumbar facets, so a 30-degree oblique opens them."
+  },
+  {
+    "id": "proc-066",
+    "area": "procedures",
+    "topic": "Thoracic spine",
+    "stem": "The thoracic zygapophyseal joints are demonstrated in an oblique position with the",
+    "options": [
+      "MSP 45 degrees to the IR",
+      "patient in a true lateral",
+      "coronal plane 30 degrees to the IR",
+      "coronal plane 70 degrees to the IR"
+    ],
+    "answer": 3,
+    "explanation": "The thoracic facets lie 70 degrees to the MSP, so the patient is turned 20 degrees from lateral: coronal plane 70 degrees to the IR."
+  },
+  {
+    "id": "proc-067",
+    "area": "procedures",
+    "topic": "Thoracic spine",
+    "stem": "The thoracic intervertebral foramina are best demonstrated in the",
+    "options": ["lateral projection", "AP projection", "45-degree oblique", "70-degree oblique"],
+    "answer": 0,
+    "explanation": "The thoracic intervertebral foramina are 90 degrees to the MSP, so they are seen in the lateral."
+  },
+  {
+    "id": "proc-068",
+    "area": "procedures",
+    "topic": "Thoracic spine",
+    "stem": "A breathing technique for a lateral thoracic spine is used to",
+    "options": [
+      "freeze the patient's motion",
+      "blur the overlying lung markings and ribs with a long exposure time",
+      "reduce the patient dose",
+      "increase image contrast"
+    ],
+    "answer": 1,
+    "explanation": "An exposure long enough to cover a few breaths, with low mA, blurs the lung markings while the spine stays still."
+  },
+  {
+    "id": "proc-069",
+    "area": "procedures",
+    "topic": "Skull",
+    "stem": "For a lateral projection of the skull, the interpupillary line is placed",
+    "options": ["parallel to the IR", "at 45 degrees to the IR", "perpendicular to the IR", "at 15 degrees to the IR"],
+    "answer": 2,
+    "explanation": "With the interpupillary line perpendicular and the MSP parallel to the IR, the skull is in a true lateral."
+  },
+  {
+    "id": "proc-070",
+    "area": "procedures",
+    "topic": "Skull",
+    "stem": "The parietoorbital projection (Rhese method), with the zygoma, nose and chin touching the IR, demonstrates the",
+    "options": ["mastoid air cells", "sella turcica", "zygomatic arch", "optic canal"],
+    "answer": 3,
+    "explanation": "The three-point landing of the Rhese method shows the optic foramen (canal) end-on."
+  },
+  {
+    "id": "proc-071",
+    "area": "procedures",
+    "topic": "Facial bones",
+    "stem": "A depressed zygomatic arch may be demonstrated by modifying which projection?",
+    "options": ["Submentovertical (SMV)", "PA (Caldwell)", "Lateral", "Parietoacanthial (Waters)"],
+    "answer": 0,
+    "explanation": "Rotating the head slightly in the SMV projects the arch free of the skull, even when it is depressed or the cheekbones are flat."
+  },
+  {
+    "id": "proc-072",
+    "area": "procedures",
+    "topic": "Upper GI",
+    "stem": "In a patient with a hypersthenic body habitus, the stomach usually lies",
+    "options": ["low and vertical", "high and horizontal (transverse)", "low and horizontal", "high and vertical"],
+    "answer": 1,
+    "explanation": "Hypersthenic patients have a short, wide trunk with a high, transverse stomach."
+  },
+  {
+    "id": "proc-073",
+    "area": "procedures",
+    "topic": "Upper GI",
+    "stem": "In the PA projection of a hypersthenic stomach, which central ray angle opens up the stomach?",
+    "options": ["Perpendicular", "15 degrees caudad", "35 to 45 degrees cephalad", "45 degrees caudad"],
+    "answer": 2,
+    "explanation": "A 35- to 45-degree cephalad angle projects the overlapping parts of the high transverse stomach apart."
+  },
+  {
+    "id": "proc-074",
+    "area": "procedures",
+    "topic": "Special procedures",
+    "stem": "During myelography, contrast is introduced into the",
+    "options": ["epidural space", "joint capsule", "spinal veins", "subarachnoid space"],
+    "answer": 3,
+    "explanation": "Myelography uses an intrathecal injection into the subarachnoid space around the spinal cord."
+  },
+  {
+    "id": "proc-075",
+    "area": "procedures",
+    "topic": "Special procedures",
+    "stem": "In ERCP, contrast is introduced through a cannula placed in the",
+    "options": [
+      "hepatopancreatic ampulla (of Vater)",
+      "gallbladder, through the skin",
+      "cystic duct during surgery",
+      "tail of the pancreas"
+    ],
+    "answer": 0,
+    "explanation": "An endoscope is passed into the duodenum, and the hepatopancreatic ampulla is cannulated to fill the ducts."
+  },
+  {
+    "id": "proc-076",
+    "area": "procedures",
+    "topic": "Special procedures",
+    "stem": "ERCP is performed to investigate the",
+    "options": ["urinary system", "biliary system and pancreas", "esophagus", "large bowel"],
+    "answer": 1,
+    "explanation": "Endoscopic retrograde cholangiopancreatography images the bile ducts and the pancreatic duct."
+  },
+  {
+    "id": "proc-077",
+    "area": "procedures",
+    "topic": "Biliary",
+    "stem": "Which position moves the gallbladder away from the spine?",
+    "options": ["RAO", "LPO", "LAO", "AP supine"],
+    "answer": 2,
+    "explanation": "The LAO position (or a right lateral decubitus) moves the gallbladder away from the vertebral column."
+  },
+  {
+    "id": "proc-078",
+    "area": "procedures",
+    "topic": "Elbow",
+    "stem": "The capitulum of the humerus lies",
+    "options": [
+      "medial to the trochlea",
+      "behind the olecranon fossa",
+      "above the epicondyles",
+      "lateral to the trochlea"
+    ],
+    "answer": 3,
+    "explanation": "The capitulum is on the lateral side of the distal humerus, beside the trochlea."
+  },
+  {
+    "id": "proc-079",
+    "area": "procedures",
+    "topic": "Elbow",
+    "stem": "To show the radial head free of the ulna in an oblique elbow, the arm is rotated",
+    "options": [
+      "laterally (external oblique)",
+      "medially (internal oblique)",
+      "not at all",
+      "into a 90-degree lateral"
+    ],
+    "answer": 0,
+    "explanation": "The lateral oblique separates the radial head and neck from the ulna; the medial oblique shows the coronoid process."
+  },
+  {
+    "id": "proc-080",
+    "area": "procedures",
+    "topic": "Elbow",
+    "stem": "A patient cannot fully extend the elbow. The AP elbow is then taken as",
+    "options": [
+      "one projection through the forearm only",
+      "two projections: one with the humerus and one with the forearm parallel to the IR",
+      "a lateral projection only",
+      "a PA projection"
+    ],
+    "answer": 1,
+    "explanation": "With partial flexion, two APs are made, one for the distal humerus and one for the proximal forearm, each parallel to the IR."
+  },
+  {
+    "id": "proc-081",
+    "area": "procedures",
+    "topic": "Elbow",
+    "stem": "The lateral projection of the elbow, flexed 90 degrees, demonstrates which structure in profile?",
+    "options": ["Coronoid process", "Radial head, free of the ulna", "Olecranon process", "Capitulum"],
+    "answer": 2,
+    "explanation": "The lateral elbow shows the olecranon process in profile; the lateral oblique frees the radial head and the medial oblique shows the coronoid."
+  },
+  {
+    "id": "proc-082",
+    "area": "procedures",
+    "topic": "Spine",
+    "stem": "Which vertebral curves are primary curves, present at birth?",
+    "options": ["Cervical and lumbar", "Cervical only", "Lumbar and sacral", "Thoracic and sacral"],
+    "answer": 3,
+    "explanation": "The thoracic and sacral curves are kyphotic, primary curves; the cervical and lumbar lordotic curves develop after birth."
+  },
+  {
+    "id": "proc-083",
+    "area": "procedures",
+    "topic": "Spine",
+    "stem": "The cervical and lumbar curves of the spine are",
+    "options": [
+      "lordotic, secondary curves",
+      "kyphotic, primary curves",
+      "kyphotic, secondary curves",
+      "lordotic, primary curves"
+    ],
+    "answer": 0,
+    "explanation": "They are lordotic and develop after birth, as the child holds up the head and begins to walk."
+  },
+  {
+    "id": "proc-084",
+    "area": "procedures",
+    "topic": "Lumbar spine",
+    "stem": "For an AP lumbar spine, the patient's knees are flexed to",
+    "options": [
+      "open the sacroiliac joints",
+      "decrease the lordotic curve, bringing the back closer to the table",
+      "reduce the patient dose",
+      "open the zygapophyseal joints"
+    ],
+    "answer": 1,
+    "explanation": "Flexing the knees flattens the lumbar curve so the spine lies closer to the IR and the disk spaces open."
+  },
+  {
+    "id": "proc-085",
+    "area": "procedures",
+    "topic": "Wrist",
+    "stem": "The PA oblique projection of the wrist (lateral rotation, 45 degrees) best demonstrates the",
+    "options": ["pisiform", "hook of the hamate", "trapezium and scaphoid", "lunate and triquetrum"],
+    "answer": 2,
+    "explanation": "Lateral rotation shows the carpals on the lateral (thumb) side: the trapezium and scaphoid."
+  },
+  {
+    "id": "proc-086",
+    "area": "procedures",
+    "topic": "Wrist",
+    "stem": "The pisiform is best demonstrated free of the other carpals in which projection?",
+    "options": ["PA", "Lateral", "PA oblique, lateral rotation", "AP oblique, medial rotation"],
+    "answer": 3,
+    "explanation": "The AP oblique in medial rotation shows the pisiform and the medial carpals."
+  },
+  {
+    "id": "proc-087",
+    "area": "procedures",
+    "topic": "Ankle",
+    "stem": "In the lateral projection of the ankle, the foot is dorsiflexed to better demonstrate the",
+    "options": ["talotibial joint", "calcaneus", "sinus tarsi", "base of the fifth metatarsal"],
+    "answer": 0,
+    "explanation": "With the tibia and fibula superimposed and the foot dorsiflexed, the talotibial joint is shown best."
+  },
+  {
+    "id": "proc-088",
+    "area": "procedures",
+    "topic": "Abdomen",
+    "stem": "For an AP supine abdomen (KUB), the central ray is usually centered at the level of the",
+    "options": ["xiphoid process", "iliac crests", "ASIS", "pubic symphysis"],
+    "answer": 1,
+    "explanation": "Centering at the iliac crests includes the kidneys and the bladder on one receptor for most patients."
+  },
+  {
+    "id": "proc-089",
+    "area": "procedures",
+    "topic": "Upper GI",
+    "stem": "In the LPO position during an upper GI series, barium fills the",
+    "options": ["duodenal bulb", "pylorus", "fundus", "antrum"],
+    "answer": 2,
+    "explanation": "Barium sinks to the posterior fundus in the LPO, while air rises into the body, antrum and duodenal bulb for double contrast."
+  },
+  {
+    "id": "proc-090",
+    "area": "procedures",
+    "topic": "Small bowel",
+    "stem": "A small bowel series is complete when barium reaches the",
+    "options": ["duodenum", "jejunum", "stomach", "cecum, through the ileocecal valve"],
+    "answer": 3,
+    "explanation": "Images are taken until contrast passes the ileocecal valve into the large bowel."
+  },
+  {
+    "id": "proc-091",
+    "area": "procedures",
+    "topic": "Lower GI",
+    "stem": "Which projection is used especially for the rectum during a barium enema?",
+    "options": ["Lateral", "LAO", "AP axial", "RPO"],
+    "answer": 0,
+    "explanation": "The lateral shows the rectum and rectosigmoid in profile."
+  },
+  {
+    "id": "proc-092",
+    "area": "procedures",
+    "topic": "Lower GI",
+    "stem": "During a barium enema, the LAO (and RPO) position best demonstrates the",
+    "options": ["right colic (hepatic) flexure", "left colic (splenic) flexure", "cecum", "rectum"],
+    "answer": 1,
+    "explanation": "The LAO opens the splenic flexure; the RAO and LPO open the hepatic flexure."
+  },
+  {
+    "id": "proc-093",
+    "area": "procedures",
+    "topic": "Urinary",
+    "stem": "In cystography, contrast is introduced into the bladder",
+    "options": ["by intravenous injection", "by mouth", "through a urethral catheter", "through ureteral catheters"],
+    "answer": 2,
+    "explanation": "A retrograde cystogram fills the bladder through a catheter in the urethra."
+  },
+  {
+    "id": "proc-094",
+    "area": "procedures",
+    "topic": "Urinary",
+    "stem": "Which study shows the urethra while the patient voids?",
+    "options": ["Retrograde pyelogram", "IV urogram", "Cystogram", "Voiding cystourethrogram"],
+    "answer": 3,
+    "explanation": "A voiding cystourethrogram images the bladder and urethra during urination."
+  },
+  {
+    "id": "proc-095",
+    "area": "procedures",
+    "topic": "Special procedures",
+    "stem": "Arthrography evaluates which type of joint?",
+    "options": ["Synovial (diarthrotic)", "Fibrous", "Cartilaginous", "Sutures"],
+    "answer": 0,
+    "explanation": "Contrast is injected into the capsule of a freely movable synovial joint, such as the shoulder or knee."
+  },
+  {
+    "id": "proc-096",
+    "area": "procedures",
+    "topic": "Special procedures",
+    "stem": "During lower-limb venography, tourniquets above the knee and ankle are used to fill the",
+    "options": ["superficial veins", "deep veins", "arteries", "lymph vessels"],
+    "answer": 1,
+    "explanation": "The tourniquets suppress superficial filling and force contrast into the deep veins."
+  },
+  {
+    "id": "proc-097",
+    "area": "procedures",
+    "topic": "Elbow",
+    "stem": "The coronoid process is located on the",
+    "options": ["distal radius", "proximal posterior ulna", "proximal anterior ulna", "distal humerus"],
+    "answer": 2,
+    "explanation": "The coronoid process projects from the front of the proximal ulna; the olecranon is at the back."
+  },
+  {
+    "id": "proc-098",
+    "area": "procedures",
+    "topic": "Terminology",
+    "stem": "A decubitus position is one in which the patient is",
+    "options": [
+      "erect, with a vertical beam",
+      "seated",
+      "prone, with an angled beam",
+      "lying down, with a horizontal x-ray beam"
+    ],
+    "answer": 3,
+    "explanation": "Decubitus means lying down; the projection is made with a horizontal beam to show air or fluid levels."
+  },
+  {
+    "id": "proc-099",
+    "area": "procedures",
+    "topic": "Cervical spine",
+    "stem": "The dens (odontoid process) is part of",
+    "options": ["C2, the axis", "C1, the atlas", "C3", "the occipital bone"],
+    "answer": 0,
+    "explanation": "The dens projects up from the body of C2 and forms a pivot joint with C1."
+  },
+  {
+    "id": "proc-100",
+    "area": "procedures",
+    "topic": "Ribs",
+    "stem": "To demonstrate the right axillary ribs in an AP oblique projection, the patient is placed in which position?",
+    "options": ["LPO", "RPO", "RAO", "PA"],
+    "answer": 1,
+    "explanation": "AP obliques show the axillary ribs on the side nearer the IR, so the right side needs an RPO."
+  }
+]
