@@ -1,6 +1,7 @@
 import type { Definition } from '../analysis/definitions'
 import { phraseKey } from '../analysis/nlp'
 import { overlappingAnswers, sameAnswer } from '../text/answer'
+import { type Kind, kindOf } from './kind'
 import { contentWords, jaccard, termPattern } from './similarity'
 import type { OptionSource, Question } from './types'
 
@@ -22,7 +23,12 @@ import type { OptionSource, Question } from './types'
  * irradiation on water"), since that word alone would give the answer away.
  */
 
-export type McqRejection = 'answer-in-definition' | 'not-enough-distractors' | 'answer-gives-away'
+export type McqRejection =
+  | 'answer-in-definition'
+  | 'not-enough-distractors'
+  | 'answer-gives-away'
+  /** It isn't clear what kind of thing the term is, so wrong options of the same kind can't be chosen. */
+  | 'unknown-kind'
 
 export const DISTRACTOR_COUNT = 3
 /** Two definitions sharing more than this share of words are too alike to separate. */
@@ -42,6 +48,8 @@ interface DefinedTerm {
   head: string
   /** First word of the definition ("result" in "result of ..."): how it is described. */
   genus: string
+  /** Condition, procedure, device, ...: wrong options must be of the same kind. */
+  kind: Kind | undefined
 }
 
 function describeTerm(definition: Definition): DefinedTerm {
@@ -53,7 +61,8 @@ function describeTerm(definition: Definition): DefinedTerm {
     termWords,
     topic: new Set([...words, ...termWords]),
     head: [...termWords].at(-1) ?? '',
-    genus: [...words][0] ?? ''
+    genus: [...words][0] ?? '',
+    kind: kindOf(definition.term, definition.definition)
   }
 }
 
@@ -64,13 +73,17 @@ export function generateTermMcq(definitions: Definition[], onReject: (reason: Mc
 
   for (const target of defined) {
     const { definition } = target
+    if (!target.kind) {
+      onReject('unknown-kind')
+      continue
+    }
     if (termPattern([definition.term]).test(definition.definition)) {
       onReject('answer-in-definition')
       continue
     }
 
     const distractors = defined
-      .filter((other) => other !== target && isSafeTermDistractor(other, target))
+      .filter((other) => other !== target && other.kind === target.kind && isSafeTermDistractor(other, target))
       .sort(
         (a, b) =>
           distractorScore(b, target) - distractorScore(a, target) || a.definition.term.localeCompare(b.definition.term)
@@ -115,6 +128,10 @@ export function generateDefinitionMcq(definitions: Definition[], onReject: (reas
 
   for (const target of defined) {
     const { definition } = target
+    if (!target.kind) {
+      onReject('unknown-kind')
+      continue
+    }
     const answerLength = definition.definition.split(/\s+/).length
     // Words of the asked term that the right definition repeats ("irradiation"): a wrong
     // definition that also uses them hides that clue, so those are preferred.
@@ -122,7 +139,7 @@ export function generateDefinitionMcq(definitions: Definition[], onReject: (reas
     const sharesClue = (other: DefinedTerm) => clue.some((w) => other.words.has(w))
     const distractors = defined
       .filter((other) => {
-        if (other === target || !isSafeTermDistractor(other, target)) return false
+        if (other === target || other.kind !== target.kind || !isSafeTermDistractor(other, target)) return false
         // A wrong definition that mentions the term being asked about would confuse, not test.
         if (termPattern([definition.term]).test(other.definition.definition)) return false
         const ratio = other.definition.definition.split(/\s+/).length / answerLength

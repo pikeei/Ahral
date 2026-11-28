@@ -3,6 +3,7 @@ import type { Term } from '../analysis/terms'
 import type { ExtractedDocument } from '../pdf/layout'
 import { type ClozeRejection, type ClozeSource, generateCloze } from './cloze'
 import { dedupeQuestions } from './dedupe'
+import { isVagueDefinition } from './kind'
 import { generateDefinitionMcq, generateTermMcq, type McqRejection } from './mcq'
 import { checkSentence, type SentenceRejection } from './sentence-filter'
 import type { Question, QuestionType } from './types'
@@ -73,7 +74,8 @@ export function generateQuestions(
   // Definitions must come from a sentence that passes the same quality bar.
   const usable = new Set(sources.map((s) => s.sentence.id))
   const definitions = analysis.definitions.filter(
-    (d) => d.confidence >= settings.minDefinitionConfidence && usable.has(d.sentenceId)
+    (d) =>
+      d.confidence >= settings.minDefinitionConfidence && usable.has(d.sentenceId) && !isVagueDefinition(d.definition)
   )
   const mcq = [
     ...generateTermMcq(definitions, countQuestion),

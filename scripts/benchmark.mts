@@ -3,6 +3,7 @@
  *
  *   npm run benchmark -- samples/notes.pdf samples/book.pdf     score these PDFs
  *   npm run benchmark -- --per-type 40 samples/notes.pdf        a bigger sample per question type
+ *   npm run benchmark -- --types mcq-term,mcq-definition ...     only these question types
  *
  * For each PDF and question type, a fixed sample of questions is drawn and compared with the
  * grades in samples/benchmark/labels.json ("good", or "bad" with a reason). Questions without a
@@ -67,7 +68,12 @@ async function main(): Promise<void> {
   const args = process.argv.slice(2)
   const perTypeIndex = args.indexOf('--per-type')
   const perType = perTypeIndex >= 0 ? Number(args[perTypeIndex + 1]) : 25
-  const files = args.filter((a, i) => !a.startsWith('--') && args[i - 1] !== '--per-type')
+  const typesIndex = args.indexOf('--types')
+  const types =
+    typesIndex >= 0
+      ? (args[typesIndex + 1] ?? '').split(',').filter((t): t is QuestionType => TYPES.includes(t as QuestionType))
+      : TYPES
+  const files = args.filter((a, i) => !a.startsWith('--') && args[i - 1] !== '--per-type' && args[i - 1] !== '--types')
   if (files.length === 0) {
     console.error('Usage: npm run benchmark -- [--per-type N] <file.pdf> [more.pdf ...]')
     process.exitCode = 1
@@ -89,7 +95,7 @@ async function main(): Promise<void> {
       standardFontDataUrl: standardFontDataUrl(),
       isWord: (w) => dictionary.has(w)
     })
-    for (const type of TYPES) {
+    for (const type of types) {
       const all = content.questions.filter((q) => q.type === type)
       if (all.length === 0) continue
       const sample = all

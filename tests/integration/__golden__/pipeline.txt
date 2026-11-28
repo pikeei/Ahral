@@ -97,7 +97,7 @@ BOOK QUESTIONS (Imported 2 of the 2 questions in this PDF.)
     - 1, 2, and 3
     because: MRSA and wound infections spread by direct contact; influenza spreads by droplets. The portal of entry is the pathway by which infectious organisms enter the body. Proper body mechanics help prevent back injury when moving patients rom a stretcher. Hand hygiene is the single most effective way to prevent the spread of infection. Standard precautions apply to every patient regardless of the final diagnosis.
 
-QUESTIONS (36)
+QUESTIONS (24)
 [mcq-term p1 q0.93] Which term is best described as: "Narrow-mouthed container that is not used or medical purposes"?
     * Carafe
     - Syringe
@@ -172,67 +172,7 @@ QUESTIONS (36)
     = Ampoule
 [cloze p1 q0.74] _____ - a larger container that holds a number of doses of medication.
     = Vial
-[mcq-term p1 q0.72] Which term is best described as: "Fundamental part of patient care in every imaging department"?
-    * Infection control
-    - Vector
-    - Reservoir
-    - Hand hygiene
-[mcq-term p1 q0.72] Which term is best described as: "Site where an infectious organism can remain alive and rom which transmission can occur"?
-    * Reservoir
-    - Vector
-    - Infection control
-    - Thoracentesis
-[mcq-term p1 q0.72] Which term is best described as: "Animal host of an infectious organism that transmits the infection through a bite or sting"?
-    * Vector
-    - Reservoir
-    - Infection control
-    - Carafe
-[mcq-definition p1 q0.65] Which of the following best describes Infection control?
-    * Fundamental part of patient care in every imaging department
-    - Animal host of an infectious organism that transmits the infection through a bite or sting
-    - Site where an infectious organism can remain alive and rom which transmission can occur
-    - Single most effective way to prevent the spread of infection
-[mcq-definition p1 q0.65] Which of the following best describes reservoir?
-    * Site where an infectious organism can remain alive and rom which transmission can occur
-    - Animal host of an infectious organism that transmits the infection through a bite or sting
-    - Fundamental part of patient care in every imaging department
-    - Procedure used to remove fluid rom the pleural cavity of the chest
-[mcq-definition p1 q0.65] Which of the following best describes vector?
-    * Animal host of an infectious organism that transmits the infection through a bite or sting
-    - Site where an infectious organism can remain alive and rom which transmission can occur
-    - Fundamental part of patient care in every imaging department
-    - Narrow-mouthed container that is not used or medical purposes
-[mcq-term p4 q0.62] Which term is best described as: "Pathway by which infectious organisms enter the body"?
-    * Portal of entry
-    - Hand hygiene
-    - Half value layer
-    - Reservoir
-[mcq-term p4 q0.62] Which term is best described as: "Single most effective way to prevent the spread of infection"?
-    * Hand hygiene
-    - Portal of entry
-    - Infection control
-    - Ampoule
-[mcq-term p3 q0.56] Which term is best described as: "Procedure used to remove fluid rom the pleural cavity of the chest"?
-    * Thoracentesis
-    - Syringe
-    - Catheter
-    - Carafe
-[mcq-definition p4 q0.55] Which of the following best describes portal of entry?
-    * Pathway by which infectious organisms enter the body
-    - Single most effective way to prevent the spread of infection
-    - Thickness of any absorber that reduces beam intensity to one half of its original value
-    - Site where an infectious organism can remain alive and rom which transmission can occur
-[mcq-definition p4 q0.55] Which of the following best describes Hand hygiene?
-    * Single most effective way to prevent the spread of infection
-    - Pathway by which infectious organisms enter the body
-    - Fundamental part of patient care in every imaging department
-    - Small sealed container that usually holds a single dose of medication
 [cloze p4 q0.49] _____ and wound infections spread by direct contact; influenza spreads by droplets.
     = MRSA
 [cloze p1 q0.48] Contact precautions require gloves and gowns or anyone coming in _____ with the infected patient.
     = direct contact
-[mcq-definition p3 q0.48] Which of the following best describes Thoracentesis?
-    * Procedure used to remove fluid rom the pleural cavity of the chest
-    - Device used to inject fluids into the body or withdraw them
-    - Flexible tube inserted into the body to deliver or drain fluids
-    - Narrow-mouthed container that is not used or medical purposes

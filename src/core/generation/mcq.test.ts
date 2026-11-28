@@ -10,6 +10,13 @@ const TOOLS = [
   definition('Cypress', 'JavaScript end-to-end framework that runs inside the browser', { page: 6 })
 ]
 
+/** Measures (the same kind as a half value layer) that don't use the word "half". */
+const GRID_MEASURES = [
+  definition('Grid ratio', 'ratio of the height of the lead strips to the distance between them'),
+  definition('Grid frequency', 'number of lead strips per inch of the grid'),
+  definition('Focusing distance', 'distance range at which a focused grid can be used')
+]
+
 function terms(defs = TOOLS) {
   const rejected: McqRejection[] = []
   return { questions: generateTermMcq(defs, (r) => rejected.push(r)), rejected }
@@ -56,8 +63,8 @@ describe('generateTermMcq', () => {
   it('never offers a distractor that overlaps the answer ("API" vs "API testing")', () => {
     const defs = [
       ...TOOLS,
-      definition('API testing', 'checking requests and responses of a service interface'),
-      definition('API', 'contract that lets two programs talk to each other')
+      definition('API testing', 'framework for checking requests and responses of a service interface'),
+      definition('API', 'library that lets two programs talk to each other')
     ]
     const q = terms(defs).questions.find((x) => x.answer === 'API testing')!
     expect(texts(q)).not.toContain('API')
@@ -143,7 +150,7 @@ describe('choosing plausible wrong options', () => {
   it('drops the question when only the right option repeats a word of the term', () => {
     const giveaway = [
       definition('Half value layer', 'thickness of absorber that reduces the beam to one half'),
-      ...TOOLS
+      ...GRID_MEASURES
     ]
     const { questions, rejected } = rejectedFor(giveaway)
     expect(questions.find((x) => x.termKey === 'half value layer')).toBeUndefined()
@@ -153,7 +160,7 @@ describe('choosing plausible wrong options', () => {
   it('drops a "which term" question whose prompt repeats a word of the answer only', () => {
     const giveaway = [
       definition('Half value layer', 'thickness of absorber that reduces the beam to one half'),
-      ...TOOLS
+      ...GRID_MEASURES
     ]
     const rejected: McqRejection[] = []
     const questions = generateTermMcq(giveaway, (r) => rejected.push(r))
