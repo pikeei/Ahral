@@ -46,6 +46,9 @@ function study(value: unknown): StudySettings {
   id(s.questionCount, 'question count')
   if (!Array.isArray(s.areas) || !s.areas.every((a) => CONTENT_AREAS.includes(a))) throw new TypeError('Invalid areas')
   if (!Array.isArray(s.types)) throw new TypeError('Invalid question types')
+  if (s.topics !== undefined && !(Array.isArray(s.topics) && s.topics.every((t) => typeof t === 'string'))) {
+    throw new TypeError('Invalid topics')
+  }
   if (s.seed !== undefined) id(s.seed, 'seed')
   return { ...s, blueprint: blueprint(s.blueprint), acceptTypos: s.acceptTypos === true }
 }

@@ -23,6 +23,12 @@ test.beforeAll(async () => {
   expectedQuestions = content.questions.length
 })
 
+/** The app opens at Study (the built-in bank); importing happens in the Library. */
+async function openLibrary(page: Page): Promise<void> {
+  await page.goto('./')
+  await page.getByRole('navigation', { name: 'Main' }).getByRole('button', { name: 'Library' }).click()
+}
+
 async function importGoldenPdf(page: Page): Promise<void> {
   const chooser = page.waitForEvent('filechooser')
   await page.getByRole('button', { name: 'Import PDF' }).click()
@@ -31,7 +37,7 @@ async function importGoldenPdf(page: Page): Promise<void> {
 }
 
 test('imports a PDF in the browser exactly as the pipeline does', async ({ page }) => {
-  await page.goto('./')
+  await openLibrary(page)
   await expect(page.getByText('No documents yet')).toBeVisible()
   await expect(page.getByTestId('sqlite-version')).toHaveText(/^3\.\d+\.\d+$/)
   // The browser kept storage available: no "nothing is saved" warning.
@@ -43,7 +49,7 @@ test('imports a PDF in the browser exactly as the pipeline does', async ({ page 
 })
 
 test('takes an exam with feedback, and keeps the library after a reload', async ({ page }) => {
-  await page.goto('./')
+  await openLibrary(page)
   await importGoldenPdf(page)
 
   await page.getByLabel('Number of questions').fill('3')
@@ -77,7 +83,7 @@ test('takes an exam with feedback, and keeps the library after a reload', async 
 })
 
 test('studies by board exam area: readiness, practice and a timed mock exam', async ({ page }) => {
-  await page.goto('./')
+  await openLibrary(page)
   await importGoldenPdf(page)
   const nav = page.getByRole('navigation', { name: 'Main' })
   await nav.getByRole('button', { name: 'Study' }).click()
@@ -116,8 +122,21 @@ test('studies by board exam area: readiness, practice and a timed mock exam', as
   await expect(page.getByRole('list', { name: 'Recent attempts' })).toContainText('Mock exam')
 })
 
-test('opens a real file input on the page, and choosing nothing leaves the app usable', async ({ page }) => {
+test('studies the built-in question bank by topic without importing anything', async ({ page }) => {
   await page.goto('./')
+  await expect(page.getByRole('heading', { name: 'Readiness' })).toBeVisible()
+  await expect(page.getByText(/\d+ built-in questions/)).toBeVisible()
+  await page.getByLabel('Area').selectOption('safety')
+  await page.getByLabel('Topic').selectOption('Dose limits')
+  await page.getByRole('button', { name: 'Practise Dose limits' }).click()
+  await expect(page.getByTestId('exam-progress')).toContainText('Question 1 of')
+  await page.getByRole('radio').first().click()
+  await page.getByRole('button', { name: 'Check answer' }).click()
+  await expect(page.getByTestId('feedback')).toBeVisible()
+})
+
+test('opens a real file input on the page, and choosing nothing leaves the app usable', async ({ page }) => {
+  await openLibrary(page)
   await expect(page.getByText('No documents yet')).toBeVisible()
   // Phones only open a file picker for an input that is part of the page (not one made on the fly).
   const input = page.getByTestId('file-input')
@@ -137,14 +156,14 @@ test('says so in a second tab, which can’t use the saved library at the same t
   await page.goto('./')
   await expect(page.getByTestId('sqlite-version')).toBeVisible()
   const second = await context.newPage()
-  await second.goto('./')
+  await openLibrary(second)
   await expect(second.getByText(/can.t save in this tab/)).toBeVisible()
   // The second tab still works, without saving.
   await expect(second.getByText('No documents yet')).toBeVisible()
 })
 
 test('fits a phone screen without sideways scrolling', async ({ page }) => {
-  await page.goto('./')
+  await openLibrary(page)
   await importGoldenPdf(page)
   const overflow = await page.evaluate<number>('document.documentElement.scrollWidth - window.innerWidth')
   expect(overflow).toBeLessThanOrEqual(0)

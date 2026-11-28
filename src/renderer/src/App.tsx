@@ -28,16 +28,8 @@ export function App() {
       .getAppInfo()
       .then(setInfo)
       .catch((err: unknown) => setBackendError(String(err)))
-    // A new study set starts in the library, to import the PDFs; after that, at Study.
-    window.api
-      .listDocuments()
-      // Only if nothing was opened meanwhile: a tab clicked while this loads wins.
-      .then((documents) =>
-        setScreen((now) =>
-          now.name !== 'loading' ? now : documents.length > 0 ? { name: 'study' } : { name: 'library' }
-        )
-      )
-      .catch(() => setScreen((now) => (now.name === 'loading' ? { name: 'library' } : now)))
+    // The built-in question bank means there is always something to study, so start there.
+    setScreen((now) => (now.name === 'loading' ? { name: 'study' } : now))
   }, [])
 
   async function run(start: Restart, seed?: number) {

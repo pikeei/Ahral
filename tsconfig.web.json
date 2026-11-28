@@ -14,9 +14,17 @@
     "noUncheckedIndexedAccess": true,
     "noFallthroughCasesInSwitch": true,
     "isolatedModules": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true
   },
-  "include": ["src/renderer/src/**/*", "src/web/**/*", "src/shared/**/*", "src/core/**/*", "src/app/**/*"],
+  "include": [
+    "src/renderer/src/**/*",
+    "src/web/**/*",
+    "src/shared/**/*",
+    "src/core/**/*",
+    "src/app/**/*",
+    "src/content/**/*.json"
+  ],
   // Node-only files: the website opens SQLite through src/app/db/wasm.ts instead.
   "exclude": ["src/**/*.test.ts", "src/app/db/connection.ts", "src/app/db/test-helpers.ts"]
 }

@@ -197,6 +197,8 @@ export interface StudySettings {
   mode: ExamMode
   /** Practice only: areas to draw from, all when empty. A mock exam covers all four. */
   areas: ContentArea[]
+  /** Practice only: built-in bank topics to draw from, all when empty or missing. */
+  topics?: string[]
   questionCount: number
   /** Practice only: question types, all when empty. A mock exam is multiple choice, like the real one. */
   types: QuestionType[]
@@ -218,6 +220,8 @@ export interface AreaReadiness {
   mockAvailable: number
   /** Scored questions on the real exam (the chosen blueprint). */
   onExam: number
+  /** Built-in bank topics in this area, with their question counts. */
+  topics: { name: string; available: number }[]
 }
 
 export interface StudyAttemptView extends AttemptView {
@@ -231,6 +235,9 @@ export interface Readiness {
   /** The area to practise next: the lowest score with enough answers, else the least practised. */
   weakest: ContentArea | null
   documentCount: number
+  /** Every question available: the built-in bank plus imported PDFs. */
   questionCount: number
+  /** Questions from the built-in bank. */
+  bankCount: number
   recent: StudyAttemptView[]
 }

@@ -36,7 +36,7 @@ const practice = (over: Partial<StudySettings> = {}): StudySettings => ({
 
 beforeEach(() => {
   db = memoryDb()
-  service = new ExamService(db)
+  service = new ExamService(db, [])
   // Two PDFs whose question ids overlap ("q0" in both), as real documents' ids do.
   insertDocument(
     db,
@@ -77,8 +77,8 @@ describe('practice over the whole study set', () => {
   })
 
   it('says so when there is nothing to study', () => {
-    const empty = new ExamService(memoryDb())
-    expect(() => empty.startStudyExam(practice(), 1)).toThrow('Import your study PDFs first')
+    const empty = new ExamService(memoryDb(), [])
+    expect(() => empty.startStudyExam(practice(), 1)).toThrow('There are no questions yet')
   })
 })
 

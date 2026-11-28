@@ -23,6 +23,7 @@ import type {
   Readiness,
   StudySettings
 } from '../shared/api'
+import { BUILT_IN_BANK } from './bank'
 import {
   type DocumentRecord,
   deleteDocument,
@@ -77,7 +78,11 @@ interface PooledQuestion {
 export class ExamService {
   private readonly sessions = new Map<number, Session>()
 
-  constructor(private readonly db: SqlDatabase) {}
+  /** bank: the built-in questions everyone gets (tests pass their own). */
+  constructor(
+    private readonly db: SqlDatabase,
+    private readonly bank: Question[] = BUILT_IN_BANK
+  ) {}
 
   listDocuments(): DocumentSummary[] {
     return listDocuments(this.db).map((d) => this.summarize(d))
@@ -154,15 +159,21 @@ export class ExamService {
     })
   }
 
-  /** Practice or a mock exam drawn from every imported document together. */
+  /** Practice or a mock exam drawn from the built-in bank and every imported document together. */
   startStudyExam(settings: StudySettings, seed: number = settings.seed ?? newSeed()): ExamView {
     const { questions, labels, glossary } = this.studySet()
-    if (questions.length === 0) throw new Error('Import your study PDFs first: there are no questions yet.')
+    if (questions.length === 0) throw new Error('There are no questions yet: import your study PDFs first.')
+    const topics = settings.topics ?? []
+    const practisable = questions.filter(
+      (q) =>
+        (settings.areas.length === 0 || (q.area && settings.areas.includes(q.area))) &&
+        (topics.length === 0 || (q.topic !== undefined && topics.includes(q.topic)))
+    )
     const assembled =
       settings.mode === 'mock'
         ? assembleMock(questions, settings.questionCount, settings.blueprint, seed)
         : assembleExam(
-            settings.areas.length > 0 ? questions.filter((q) => q.area && settings.areas.includes(q.area)) : questions,
+            practisable,
             { questionCount: settings.questionCount, ...(settings.types.length > 0 ? { types: settings.types } : {}) },
             seed
           )
@@ -278,7 +289,8 @@ export class ExamService {
         percent: h?.percent ?? 0,
         available: inArea.length,
         mockAvailable: inArea.filter((q) => MOCK_TYPES.includes(q.type)).length,
-        onExam: blueprint.counts[area]
+        onExam: blueprint.counts[area],
+        topics: topicCounts(inArea)
       }
     })
     const practisable = areas.filter((a) => a.available > 0)
@@ -295,6 +307,7 @@ export class ExamService {
       weakest,
       documentCount: documents.length,
       questionCount: questions.length,
+      bankCount: this.bank.length,
       recent: listStudyAttempts(this.db, 8).map((a) => ({
         id: a.id,
         seed: a.seed,
@@ -310,12 +323,15 @@ export class ExamService {
   }
 
   /**
-   * Every document's questions together. Ids, term keys and section ids are only unique within
+   * The built-in bank (labelled by topic), then every document's questions. Ids, term keys and section ids are only unique within
    * a document, so each question gets "<document id>/" in front of its id and term key, and a
    * label naming its document and section.
    */
   private studySet(): { questions: Question[]; labels: Map<string, string>; glossary: GlossaryEntry[] } {
-    const pooled: PooledQuestion[] = []
+    const pooled: PooledQuestion[] = this.bank.map((question) => ({
+      question,
+      label: question.topic ?? 'Question bank'
+    }))
     const glossary: GlossaryEntry[] = []
     for (const document of listDocuments(this.db)) {
       const sections = loadSections(this.db, document.id)
@@ -451,6 +467,13 @@ export function assembleMock(questions: Question[], count: number, blueprintId: 
     items: shuffle(picked, createRandom(seed)),
     warnings
   }
+}
+
+/** Bank topics among these questions, with counts, in the order they first appear. */
+function topicCounts(questions: Question[]): { name: string; available: number }[] {
+  const counts = new Map<string, number>()
+  for (const q of questions) if (q.topic) counts.set(q.topic, (counts.get(q.topic) ?? 0) + 1)
+  return [...counts].map(([name, available]) => ({ name, available }))
 }
 
 function percentOf(correct: number, total: number): number {

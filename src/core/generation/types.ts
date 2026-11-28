@@ -37,6 +37,8 @@ export interface Question {
   quality: number
   /** Board exam content area, when it can be told (see core/exam/assign-areas.ts). */
   area?: ContentArea
+  /** Topic within the area, for built-in bank questions ("Dose limits", "Grids"). */
+  topic?: string
 }
 
 /** Where an option comes from: every option is a term defined somewhere in the document. */

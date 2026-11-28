@@ -13,6 +13,7 @@
     "noUncheckedIndexedAccess": true,
     "noFallthroughCasesInSwitch": true,
     "isolatedModules": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true
   },
   "include": [
@@ -23,6 +24,7 @@
     "playwright.web.config.ts",
     "src/main/**/*",
     "src/app/**/*",
+    "src/content/**/*.json",
     "src/preload/**/*",
     "src/shared/**/*",
     "src/core/**/*",

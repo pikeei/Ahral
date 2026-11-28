@@ -29,6 +29,7 @@ export function Study({ onStart, onOpenLibrary }: Props) {
   const [blueprint, setBlueprint] = useState<BlueprintId>(savedBlueprint)
   const [readiness, setReadiness] = useState<Readiness | null>(null)
   const [practiceArea, setPracticeArea] = useState<ContentArea | 'all' | null>(null)
+  const [practiceTopic, setPracticeTopic] = useState('all')
   const [mockLength, setMockLength] = useState(200)
   const [error, setError] = useState<string | null>(null)
   const [starting, setStarting] = useState(false)
@@ -47,7 +48,7 @@ export function Study({ onStart, onOpenLibrary }: Props) {
 
   if (!readiness) return error ? <ErrorBanner message={error} /> : <p className="text-slate-500">Loading…</p>
 
-  if (readiness.documentCount === 0) {
+  if (readiness.questionCount === 0) {
     return (
       <Card>
         <h2 className="text-lg font-semibold">Set up your study set</h2>
@@ -65,6 +66,9 @@ export function Study({ onStart, onOpenLibrary }: Props) {
   const areaLabel = (a: ContentArea | 'all') =>
     a === 'all' ? 'All areas' : (readiness.areas.find((x) => x.area === a)?.label ?? a)
   const mockAvailable = readiness.areas.reduce((sum, a) => sum + a.mockAvailable, 0)
+  const topics = area === 'all' ? [] : (readiness.areas.find((x) => x.area === area)?.topics ?? [])
+  const topic = topics.some((t) => t.name === practiceTopic) ? practiceTopic : 'all'
+  const fromPdfs = readiness.questionCount - readiness.bankCount
 
   async function start(settings: Omit<StudySettings, 'seed'>) {
     setError(null)
@@ -83,8 +87,8 @@ export function Study({ onStart, onOpenLibrary }: Props) {
         <div>
           <h2 className="text-xl font-semibold">Readiness</h2>
           <p className="mt-1 text-sm text-slate-500">
-            {readiness.questionCount.toLocaleString()} questions from {readiness.documentCount}{' '}
-            {readiness.documentCount === 1 ? 'PDF' : 'PDFs'}, by board exam content area.
+            {readiness.bankCount.toLocaleString()} built-in questions
+            {fromPdfs > 0 && ` and ${fromPdfs.toLocaleString()} from your PDFs`}, by board exam content area.
           </p>
         </div>
         <label className="text-sm">
@@ -158,7 +162,10 @@ export function Study({ onStart, onOpenLibrary }: Props) {
             <span className="font-medium">Area</span>
             <select
               value={area}
-              onChange={(e) => setPracticeArea(e.target.value as ContentArea | 'all')}
+              onChange={(e) => {
+                setPracticeArea(e.target.value as ContentArea | 'all')
+                setPracticeTopic('all')
+              }}
               className="mt-1 block w-full rounded-md border border-slate-300 bg-white px-2 py-1.5"
             >
               <option value="all">All areas</option>
@@ -169,6 +176,23 @@ export function Study({ onStart, onOpenLibrary }: Props) {
               ))}
             </select>
           </label>
+          {topics.length > 0 && (
+            <label className="mt-3 block text-sm">
+              <span className="font-medium">Topic</span>
+              <select
+                value={topic}
+                onChange={(e) => setPracticeTopic(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-slate-300 bg-white px-2 py-1.5"
+              >
+                <option value="all">All topics</option>
+                {topics.map((t) => (
+                  <option key={t.name} value={t.name}>
+                    {t.name} ({t.available})
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
           <Button
             className="mt-4 w-full"
             disabled={starting}
@@ -176,6 +200,7 @@ export function Study({ onStart, onOpenLibrary }: Props) {
               start({
                 mode: 'practice',
                 areas: area === 'all' ? [] : [area],
+                topics: topic === 'all' ? [] : [topic],
                 questionCount: PRACTICE_LENGTH,
                 types: [],
                 acceptTypos: false,
@@ -183,7 +208,7 @@ export function Study({ onStart, onOpenLibrary }: Props) {
               })
             }
           >
-            Practise {areaLabel(area)}
+            Practise {topic === 'all' ? areaLabel(area) : topic}
           </Button>
         </Card>
 

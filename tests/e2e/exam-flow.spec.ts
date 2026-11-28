@@ -41,7 +41,9 @@ async function pickFile(path: string | null): Promise<void> {
 
 test.describe.configure({ mode: 'serial' })
 
-test('starts with an empty library', async () => {
+test('opens at Study with the built-in bank, and starts with an empty library', async () => {
+  await expect(page.getByText(/\d+ built-in questions/)).toBeVisible()
+  await page.getByRole('navigation', { name: 'Main' }).getByRole('button', { name: 'Library' }).click()
   await expect(page.getByText('No documents yet')).toBeVisible()
 })
 
