@@ -1,0 +1,492 @@
+[
+  {
+    "id": "safety-051",
+    "area": "safety",
+    "topic": "Shielding design",
+    "stem": "The exposure rate in an uncontrolled area, occupied by the general public, must not exceed",
+    "options": ["10 mR per week", "100 mR per week", "1 R per week", "50 mR per week"],
+    "answer": 0,
+    "explanation": "Uncontrolled areas are limited to 10 mR per week; controlled areas, used by trained radiation workers, to 100 mR per week."
+  },
+  {
+    "id": "safety-052",
+    "area": "safety",
+    "topic": "Shielding design",
+    "stem": "The exposure rate in a controlled area, occupied by monitored radiation workers, must not exceed",
+    "options": ["10 mR per week", "100 mR per week", "1 R per week", "5 mR per week"],
+    "answer": 1,
+    "explanation": "A controlled area may receive up to 100 mR per week; its occupancy factor is taken as 1."
+  },
+  {
+    "id": "safety-053",
+    "area": "safety",
+    "topic": "Shielding design",
+    "stem": "In shielding design, workload refers to",
+    "options": [
+      "who occupies the area beyond the wall",
+      "how often the beam is pointed at a wall",
+      "the amount of x-ray use per week",
+      "the thickness of the barrier"
+    ],
+    "answer": 2,
+    "explanation": "Workload reflects how much the unit is used each week, such as the number of exposures; with use and occupancy factors it sets barrier thickness."
+  },
+  {
+    "id": "safety-054",
+    "area": "safety",
+    "topic": "Shielding design",
+    "stem": "The occupancy factor used in shielding design reflects",
+    "options": [
+      "how long the beam is on",
+      "the direction of the beam",
+      "the weekly number of exposures",
+      "who occupies the area: radiation workers or the public"
+    ],
+    "answer": 3,
+    "explanation": "Areas used by the public, or occupied all the time, need more shielding than areas used by radiation workers or rarely occupied."
+  },
+  {
+    "id": "safety-055",
+    "area": "safety",
+    "topic": "Protective barriers",
+    "stem": "Which of these is a secondary protective barrier?",
+    "options": [
+      "The radiographic room ceiling",
+      "A wall the primary beam can be directed at",
+      "The upright chest-stand wall",
+      "The floor beneath a horizontal-beam exam"
+    ],
+    "answer": 0,
+    "explanation": "Secondary barriers, such as the ceiling, aprons, gloves and thyroid shields, protect only from scatter and leakage."
+  },
+  {
+    "id": "safety-056",
+    "area": "safety",
+    "topic": "Fluoroscopy equipment",
+    "stem": "With high-level fluoroscopy, the tabletop exposure rate may be up to",
+    "options": ["5 R/min", "20 R/min", "50 R/min", "100 R/min"],
+    "answer": 1,
+    "explanation": "Standard fluoroscopy is limited to 10 R/min at the tabletop; high-level fluoroscopy allows up to 20 R/min."
+  },
+  {
+    "id": "safety-057",
+    "area": "safety",
+    "topic": "Fluoroscopy equipment",
+    "stem": "To meet radiation safety standards, the fluoroscopic exposure switch must be",
+    "options": [
+      "able to lock on",
+      "foot-operated only",
+      "a dead-man type that ends the exposure when released",
+      "timed automatically"
+    ],
+    "answer": 2,
+    "explanation": "A dead-man switch stops the exposure as soon as the operator lets go."
+  },
+  {
+    "id": "safety-058",
+    "area": "safety",
+    "topic": "Dose limits",
+    "stem": "The total gestational equivalent dose limit for the embryo or fetus of a pregnant radiographer is",
+    "options": ["0.05 mSv", "0.5 mSv", "1 mSv", "5 mSv"],
+    "answer": 3,
+    "explanation": "The total limit is 5 mSv (500 mrem) for the pregnancy, and no more than 0.5 mSv in any month."
+  },
+  {
+    "id": "safety-059",
+    "area": "safety",
+    "topic": "Pregnancy",
+    "stem": "The embryo is most sensitive to radiation-induced malformations during",
+    "options": [
+      "weeks 2 to 10, the period of major organogenesis",
+      "the third trimester",
+      "the last month of pregnancy",
+      "weeks 30 to 36"
+    ],
+    "answer": 0,
+    "explanation": "Organs form during the 2nd to 10th weeks, much of which can pass before a pregnancy is known."
+  },
+  {
+    "id": "safety-060",
+    "area": "safety",
+    "topic": "Pregnancy",
+    "stem": "Which examination is considered high risk for a pregnant patient?",
+    "options": ["Chest", "Lumbar spine", "Hand", "Skull"],
+    "answer": 1,
+    "explanation": "High-risk examinations irradiate the pelvis: pelvis, hip, femur, lumbar spine, urograms, cystograms and GI series."
+  },
+  {
+    "id": "safety-061",
+    "area": "safety",
+    "topic": "Radiation quantities",
+    "stem": "The roentgen is the traditional unit of",
+    "options": ["absorbed dose", "radioactivity", "exposure, the ionization produced in air", "effective dose"],
+    "answer": 2,
+    "explanation": "The roentgen measures the quantity of ionization in air; the rad measures absorbed dose."
+  },
+  {
+    "id": "safety-062",
+    "area": "safety",
+    "topic": "Radiation quantities",
+    "stem": "The rad (radiation absorbed dose) measures",
+    "options": [
+      "ionization in air",
+      "disintegrations per second",
+      "biologic effect in humans",
+      "energy deposited in any material"
+    ],
+    "answer": 3,
+    "explanation": "The rad, like its SI equivalent the gray, measures energy absorbed per unit mass of any material."
+  },
+  {
+    "id": "safety-063",
+    "area": "safety",
+    "topic": "Radiation quantities",
+    "stem": "The curie is the unit of",
+    "options": ["radioactivity (disintegrations per second)", "exposure", "absorbed dose", "effective dose"],
+    "answer": 0,
+    "explanation": "The curie describes the activity of a radioactive source; its SI counterpart is the becquerel."
+  },
+  {
+    "id": "safety-064",
+    "area": "safety",
+    "topic": "Radiation quantities",
+    "stem": "Air kerma is measured in joules per kilogram. One joule per kilogram of air equals",
+    "options": ["1 rad", "1 Gy", "1 Sv", "1 R"],
+    "answer": 1,
+    "explanation": "1 J/kg = 1 Gy (written Gya when air is the absorber)."
+  },
+  {
+    "id": "safety-065",
+    "area": "safety",
+    "topic": "Radiation quantities",
+    "stem": "The product of absorbed dose, the radiation weighting factor and the tissue weighting factor gives the",
+    "options": ["exposure", "air kerma", "effective dose", "linear energy transfer"],
+    "answer": 2,
+    "explanation": "Effective dose accounts for both the type of radiation and the sensitivity of the tissues exposed."
+  },
+  {
+    "id": "safety-066",
+    "area": "safety",
+    "topic": "Radiation quantities",
+    "stem": "The tissue weighting factor (Wt) represents",
+    "options": [
+      "the type of radiation",
+      "the exposure time",
+      "the distance from the source",
+      "the relative radiosensitivity of the tissue irradiated"
+    ],
+    "answer": 3,
+    "explanation": "Wt reflects how sensitive each tissue is, for example intestinal epithelium compared with bone."
+  },
+  {
+    "id": "safety-067",
+    "area": "safety",
+    "topic": "Radiation quantities",
+    "stem": "The radiation weighting factor (Wr) depends on",
+    "options": ["the type of ionizing radiation", "the tissue irradiated", "the patient's age", "the exposure time"],
+    "answer": 0,
+    "explanation": "Wr reflects how damaging each kind of radiation is, for example alpha particles compared with x-rays."
+  },
+  {
+    "id": "safety-068",
+    "area": "safety",
+    "topic": "Radiobiology",
+    "stem": "According to the target theory, the key radiosensitive molecule in the cell is",
+    "options": ["water", "DNA", "protein", "the cell membrane"],
+    "answer": 1,
+    "explanation": "Target theory holds that DNA is the most important and sensitive target in the cell."
+  },
+  {
+    "id": "safety-069",
+    "area": "safety",
+    "topic": "Radiobiology",
+    "stem": "Because the body is 65% to 80% water, most interactions between ionizing radiation and the body occur",
+    "options": ["as direct hits on DNA", "with proteins", "with water molecules", "with bone mineral"],
+    "answer": 2,
+    "explanation": "Most interactions are with water, producing free radicals that damage other molecules: the indirect effect."
+  },
+  {
+    "id": "safety-070",
+    "area": "safety",
+    "topic": "Radiobiology",
+    "stem": "Faulty repair of main-chain breakage in DNA can result in",
+    "options": ["a point mutation", "a base deletion only", "faster cell division", "cross-linking"],
+    "answer": 3,
+    "explanation": "Broken chains that rejoin incorrectly can link to other chains or molecules: cross-linking."
+  },
+  {
+    "id": "safety-071",
+    "area": "safety",
+    "topic": "Late effects",
+    "stem": "Which of the following is a late somatic effect of radiation?",
+    "options": ["Thyroid cancer", "Erythema within a day", "Nausea within hours", "A drop in lymphocytes within days"],
+    "answer": 0,
+    "explanation": "Late somatic effects, such as cancers, cataracts and life-span shortening, appear months or years after exposure."
+  },
+  {
+    "id": "safety-072",
+    "area": "safety",
+    "topic": "Patient protection",
+    "stem": "Performing an examination PA rather than AP generally",
+    "options": [
+      "increases dose to the breasts and thyroid",
+      "decreases exposure to radiosensitive anterior organs",
+      "has no effect on patient dose",
+      "increases magnification only"
+    ],
+    "answer": 1,
+    "explanation": "In the PA projection, anterior organs such as the breasts, thyroid and lens are farther from the source and receive less dose."
+  },
+  {
+    "id": "safety-073",
+    "area": "safety",
+    "topic": "Protective apparel",
+    "stem": "Lead aprons, gloves and thyroid shields protect the wearer from",
+    "options": ["the primary beam", "leakage radiation only", "scattered radiation only", "all radiation equally"],
+    "answer": 2,
+    "explanation": "Protective apparel is a secondary barrier; it is not meant to be placed in the primary beam."
+  },
+  {
+    "id": "safety-074",
+    "area": "safety",
+    "topic": "Personnel monitoring",
+    "stem": "A pocket dosimeter measures exposure with",
+    "options": ["lithium fluoride crystals", "aluminum oxide", "photographic film", "an air-filled ionization chamber"],
+    "answer": 3,
+    "explanation": "The ions formed in the air of its chamber are equated to the exposure received."
+  },
+  {
+    "id": "safety-075",
+    "area": "safety",
+    "topic": "Late effects",
+    "stem": "Effects noted among early radiology pioneers included",
+    "options": [
+      "skin erythema, cataracts and genetic damage",
+      "only leukemia",
+      "no measurable effects",
+      "immunity to further radiation"
+    ],
+    "answer": 0,
+    "explanation": "Erythema, cataractogenesis and genetic damage were among the physiologic effects seen in early workers."
+  },
+  {
+    "id": "safety-076",
+    "area": "safety",
+    "topic": "Inverse square law",
+    "stem": "The exposure rate 2 m from a source is 100 mR per hour. At 1 m, it will be",
+    "options": ["25 mR per hour", "400 mR per hour", "800 mR per hour", "1,600 mR per hour"],
+    "answer": 1,
+    "explanation": "Halving the distance quadruples the intensity: 100 × 4 = 400 mR per hour."
+  },
+  {
+    "id": "safety-077",
+    "area": "safety",
+    "topic": "Protection principles",
+    "stem": "A radiographer stands where the exposure rate is 30 mR per hour for 20 minutes. The exposure received is",
+    "options": ["1.5 mR", "5 mR", "10 mR", "30 mR"],
+    "answer": 2,
+    "explanation": "Exposure = rate × time = 30 mR/h × 1/3 h = 10 mR."
+  },
+  {
+    "id": "safety-078",
+    "area": "safety",
+    "topic": "Beam filtration",
+    "stem": "Two half-value layers reduce a beam's intensity to",
+    "options": ["6.25%", "12.5%", "20%", "25%"],
+    "answer": 3,
+    "explanation": "Each HVL halves the intensity: 100% → 50% → 25%."
+  },
+  {
+    "id": "safety-079",
+    "area": "safety",
+    "topic": "Beam filtration",
+    "stem": "How many half-value layers are needed to reduce the intensity of a beam to less than 15% of its original value?",
+    "options": ["3", "4", "5", "6"],
+    "answer": 0,
+    "explanation": "Three HVLs leave 12.5% (100 → 50 → 25 → 12.5)."
+  },
+  {
+    "id": "safety-080",
+    "area": "safety",
+    "topic": "Fluoroscopy equipment",
+    "stem": "The protective curtain (drape) hanging from the fluoroscopic tower must be at least",
+    "options": ["0.1 mm Pb equivalent", "0.25 mm Pb equivalent", "0.5 mm Pb equivalent", "1.0 mm Pb equivalent"],
+    "answer": 1,
+    "explanation": "The curtain, like the Bucky slot cover, must be at least 0.25 mm lead equivalent to block scatter from the patient."
+  },
+  {
+    "id": "safety-081",
+    "area": "safety",
+    "topic": "Fluoroscopy equipment",
+    "stem": "A mobile C-arm is used to obtain",
+    "options": [
+      "static images only",
+      "CT slices",
+      "fluoroscopic (dynamic) and static images in surgery and other areas",
+      "MRI images"
+    ],
+    "answer": 2,
+    "explanation": "C-arms provide fluoroscopy and still images in surgery, the emergency department and critical care units."
+  },
+  {
+    "id": "safety-082",
+    "area": "safety",
+    "topic": "Radiation quantities",
+    "stem": "Compared with x-rays, alpha particles have a radiation weighting factor that is",
+    "options": ["lower", "the same", "zero", "higher"],
+    "answer": 3,
+    "explanation": "Alpha particles are high-LET radiation and do more damage per unit dose, so their Wr is much higher (20 versus 1)."
+  },
+  {
+    "id": "safety-083",
+    "area": "safety",
+    "topic": "Radiobiology",
+    "stem": "Linear energy transfer increases with the ionizing potential of the radiation. Which has the highest LET?",
+    "options": ["Alpha particles", "X-rays", "Gamma rays", "Diagnostic scattered radiation"],
+    "answer": 0,
+    "explanation": "Alpha particles ionize densely along a short track, giving them a high LET."
+  },
+  {
+    "id": "safety-084",
+    "area": "safety",
+    "topic": "Protective barriers",
+    "stem": "The useful x-ray beam must never be directed at",
+    "options": [
+      "a primary barrier",
+      "a secondary barrier, such as the control booth",
+      "the image receptor",
+      "the part being examined"
+    ],
+    "answer": 1,
+    "explanation": "Secondary barriers are designed for scatter and leakage only, not the primary beam."
+  },
+  {
+    "id": "safety-085",
+    "area": "safety",
+    "topic": "Protective barriers",
+    "stem": "Any wall toward which the useful x-ray beam can be directed is a",
+    "options": ["secondary barrier", "control booth", "primary barrier", "leakage barrier"],
+    "answer": 2,
+    "explanation": "Walls the primary beam can strike are primary barriers and need more lead."
+  },
+  {
+    "id": "safety-086",
+    "area": "safety",
+    "topic": "Protective barriers",
+    "stem": "Secondary radiation, which secondary barriers protect against, consists of",
+    "options": [
+      "the primary beam only",
+      "characteristic radiation only",
+      "remnant radiation reaching the IR",
+      "leakage and scattered radiation"
+    ],
+    "answer": 3,
+    "explanation": "Secondary radiation is leakage from the tube housing plus radiation scattered by the patient and other objects."
+  },
+  {
+    "id": "safety-087",
+    "area": "safety",
+    "topic": "Pregnancy",
+    "stem": "Which practice helps avoid irradiating an unsuspected pregnancy?",
+    "options": [
+      "Asking about possible pregnancy before the exam (patient questionnaire)",
+      "Using a higher-ratio grid",
+      "Shortening the SID",
+      "Using a larger field size"
+    ],
+    "answer": 0,
+    "explanation": "Patient questioning, questionnaires and posted signs help identify pregnancy; they have replaced the older 10-day rule."
+  },
+  {
+    "id": "safety-088",
+    "area": "safety",
+    "topic": "Radiobiology",
+    "stem": "Which group of tissues is particularly radiosensitive?",
+    "options": [
+      "Muscle, nerve and brain",
+      "The gonads, the lens of the eye and the blood-forming organs",
+      "Bone, cartilage and tendon",
+      "Fat and ligaments"
+    ],
+    "answer": 1,
+    "explanation": "The gonads, the lens of the eye and the blood-forming organs are especially sensitive to radiation."
+  },
+  {
+    "id": "safety-089",
+    "area": "safety",
+    "topic": "Radiobiology",
+    "stem": "Which cells are highly radiosensitive according to Bergonié and Tribondeau?",
+    "options": ["Nerve cells", "Muscle cells", "Intestinal crypt cells and spermatogonia", "Mature red blood cells"],
+    "answer": 2,
+    "explanation": "Undifferentiated, rapidly dividing cells such as lymphocytes, intestinal crypt cells and spermatogonia are the most radiosensitive."
+  },
+  {
+    "id": "safety-090",
+    "area": "safety",
+    "topic": "Inverse square law",
+    "stem": "A worker standing 3 ft from a source receives 120 mR per hour. Standing 6 ft away for 30 minutes, the worker receives",
+    "options": ["60 mR", "30 mR", "7.5 mR", "15 mR"],
+    "answer": 3,
+    "explanation": "At twice the distance the rate is 120 ÷ 4 = 30 mR/h; for half an hour that is 15 mR."
+  },
+  {
+    "id": "safety-091",
+    "area": "safety",
+    "topic": "Radiobiology",
+    "stem": "Linear energy transfer (LET) describes",
+    "options": [
+      "the rate at which energy is deposited along the radiation's path",
+      "the penetrating power of the beam",
+      "the dose per minute",
+      "the number of photons in the beam"
+    ],
+    "answer": 0,
+    "explanation": "LET is energy deposited per unit length of track; higher LET means more biologic damage."
+  },
+  {
+    "id": "safety-092",
+    "area": "safety",
+    "topic": "Radiobiology",
+    "stem": "Relative biologic effectiveness (RBE) compares",
+    "options": [
+      "the dose needed with and without oxygen",
+      "the effect of a test radiation with that of standard x-rays at the same dose",
+      "exposure in air with absorbed dose",
+      "primary radiation with scatter"
+    ],
+    "answer": 1,
+    "explanation": "RBE is the ratio of doses of standard x-rays and of the test radiation that produce the same biologic effect."
+  },
+  {
+    "id": "safety-093",
+    "area": "safety",
+    "topic": "Protection principles",
+    "stem": "Along with lead shielding, the most important way to protect yourself from radiation exposure is",
+    "options": ["added filtration", "a high-ratio grid", "distance", "a faster imaging system"],
+    "answer": 2,
+    "explanation": "Lead and distance are the two most effective protections: by the inverse square law, each doubling of distance cuts exposure to a quarter."
+  },
+  {
+    "id": "safety-094",
+    "area": "safety",
+    "topic": "Patient protection",
+    "stem": "The most effective way for the radiographer to avoid repeat exposures caused by motion is",
+    "options": [
+      "increasing the mAs",
+      "shortening the SID",
+      "using a high-ratio grid",
+      "giving clear instructions and good immobilization"
+    ],
+    "answer": 3,
+    "explanation": "Communication and immobilization prevent motion, and every avoided repeat saves the patient a whole exposure."
+  },
+  {
+    "id": "safety-095",
+    "area": "safety",
+    "topic": "Patient protection",
+    "stem": "Using a faster (more sensitive) imaging system generally",
+    "options": ["reduces patient dose", "increases patient dose", "improves recorded detail", "has no effect on dose"],
+    "answer": 0,
+    "explanation": "A more sensitive receptor needs less exposure to make the image, so patient dose falls."
+  }
+]

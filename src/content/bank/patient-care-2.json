@@ -1,0 +1,52 @@
+[
+  {
+    "id": "care-051",
+    "area": "patient-care",
+    "topic": "Legal and ethics",
+    "stem": "Immobilizing a patient against the patient's will is an example of",
+    "options": ["an intentional tort", "an unintentional tort", "libel", "res ipsa loquitur"],
+    "answer": 0,
+    "explanation": "Restraining a patient against the patient's will is an intentional tort, which can be charged as false imprisonment."
+  },
+  {
+    "id": "care-052",
+    "area": "patient-care",
+    "topic": "Contrast media",
+    "stem": "A vasovagal reaction to a contrast injection typically causes",
+    "options": ["tachycardia and hypertension", "bradycardia and hypotension", "hives only", "fever and chills"],
+    "answer": 1,
+    "explanation": "Vasovagal reactions slow the heart and drop the blood pressure, sometimes to an undetectable pulse; they can be life-threatening."
+  },
+  {
+    "id": "care-053",
+    "area": "patient-care",
+    "topic": "Medications",
+    "stem": "An intermittent injection port, used for patients who need repeated injections, is also called a",
+    "options": ["central venous line", "Swan-Ganz catheter", "saline (heparin) lock", "arterial line"],
+    "answer": 2,
+    "explanation": "An IV catheter with a diaphragm adapter, the saline or heparin lock, allows repeated injections without new venipunctures."
+  },
+  {
+    "id": "care-054",
+    "area": "patient-care",
+    "topic": "Infection control",
+    "stem": "The CDC estimates that what share of hospital patients acquire a health care–associated infection?",
+    "options": ["Less than 1%", "1% to 2%", "25% to 35%", "5% to 15%"],
+    "answer": 3,
+    "explanation": "About 5% to 15% of hospital patients acquire an HAI, and staff can be infected too."
+  },
+  {
+    "id": "care-055",
+    "area": "patient-care",
+    "topic": "Infection control",
+    "stem": "In the stages of an infection, the latent period is when the",
+    "options": [
+      "infection has been introduced and lies dormant",
+      "patient has full symptoms",
+      "patient is recovering",
+      "microbes are first shed"
+    ],
+    "answer": 0,
+    "explanation": "During the latent period the infection is present but dormant; once microbes begin to shed, it becomes communicable."
+  }
+]
