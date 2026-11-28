@@ -1,6 +1,95 @@
+/* RadReady's type, bundled with the app so it works offline (Latin only, the weights in use). */
+@import "@fontsource/ibm-plex-sans/latin-400.css";
+@import "@fontsource/ibm-plex-sans/latin-500.css";
+@import "@fontsource/ibm-plex-sans/latin-600.css";
+@import "@fontsource/ibm-plex-mono/latin-400.css";
+@import "@fontsource/ibm-plex-mono/latin-500.css";
+@import "@fontsource/newsreader/latin-500.css";
+@import "@fontsource/newsreader/latin-600.css";
 @import "tailwindcss";
 /* Scan the screens for class names wherever the build starts from (the desktop app or the website). */
 @source ".";
+
+/*
+ * The RadReady palette: warm film-paper, ink, one amber accent, and a green and a red kept
+ * for right and wrong answers. The screens were written with Tailwind's stock color names,
+ * so those names are pointed at the palette here instead of being renamed everywhere.
+ */
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-serif: "Newsreader", Georgia, serif;
+
+  --color-paper: #f4f1ea;
+  --color-ink: #16150f;
+  --color-muted: #5e5b52;
+  --color-rule: #d8d2c3;
+  --color-accent: #f2b705;
+  --color-correct: #0e6b5c;
+  --color-incorrect: #a3311f;
+
+  --color-white: #fffdf8;
+  --color-slate-50: #f4f1ea;
+  --color-slate-100: #ebe6da;
+  --color-slate-200: #d8d2c3;
+  --color-slate-300: #c6bba2;
+  --color-slate-400: #8a8475;
+  --color-slate-500: #5e5b52;
+  --color-slate-600: #5e5b52;
+  --color-slate-700: #3b3932;
+  --color-slate-800: #24221c;
+  --color-slate-900: #16150f;
+
+  /* The old "brand" blue becomes ink: primary buttons are black on paper. */
+  --color-indigo-50: #fbf3d6;
+  --color-indigo-100: #f7e7ad;
+  --color-indigo-300: #8a8475;
+  --color-indigo-500: #16150f;
+  --color-indigo-600: #16150f;
+  --color-indigo-700: #3b3932;
+  --color-indigo-900: #16150f;
+
+  --color-emerald-50: #e3f0ec;
+  --color-emerald-500: #0e6b5c;
+  --color-emerald-600: #0e6b5c;
+  --color-emerald-700: #0e6b5c;
+  --color-emerald-800: #0a5246;
+  --color-emerald-950: #06352d;
+
+  --color-red-50: #f6e5e1;
+  --color-red-100: #efd2cb;
+  --color-red-300: #d49a8e;
+  --color-red-500: #a3311f;
+  --color-red-600: #a3311f;
+  --color-red-700: #a3311f;
+  --color-red-800: #7f2618;
+  --color-red-950: #4d170e;
+
+  --color-amber-50: #fbf3d6;
+  --color-amber-100: #f7e7ad;
+  --color-amber-500: #f2b705;
+  --color-amber-700: #8a6a00;
+  --color-amber-800: #6b5200;
+  --color-amber-900: #4f3c00;
+  --color-amber-950: #33270a;
+
+  --radius-md: 2px;
+  --radius-lg: 2px;
+}
+
+/* Small capitals-style labels from the mockup: "READINESS", "NEXT SESSION". */
+@utility label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
 
 /* iPhones and iPads zoom the page into any text box under 16px when it's tapped. */
 @media (pointer: coarse) {

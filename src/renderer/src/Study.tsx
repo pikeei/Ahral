@@ -1,22 +1,56 @@
 import { useEffect, useState } from 'react'
-import type { BlueprintId, ContentArea, Readiness, StudySettings } from '../../shared/api'
-import { Button, Card, ErrorBanner, errorMessage, formatDate, ScoreBar, scoreColor } from './ui'
+import type { AreaReadiness, BlueprintId, ContentArea, Readiness, StudySettings } from '../../shared/api'
+import { Button, ErrorBanner, errorMessage, formatDate } from './ui'
 
-const BLUEPRINT_KEY = 'ahral.blueprint'
-const BLUEPRINT_LABELS: Record<BlueprintId, string> = {
-  '2022': 'Through February 28, 2027',
-  '2027': 'From March 1, 2027'
-}
 const MOCK_LENGTHS = [200, 100, 50]
 const PRACTICE_LENGTH = 20
+/** ARRT's new content outline takes effect on this date. */
+const NEW_OUTLINE_FROM = new Date('2027-03-01T00:00:00')
 
-/** Which exam version the person is sitting; kept on this device only. */
-function savedBlueprint(): BlueprintId {
-  try {
-    return window.localStorage.getItem(BLUEPRINT_KEY) === '2027' ? '2027' : '2022'
-  } catch {
-    return '2022'
-  }
+/** The exam outline in force today, so the question counts switch by themselves in March 2027. */
+function currentBlueprint(today = new Date()): BlueprintId {
+  return today >= NEW_OUTLINE_FROM ? '2027' : '2022'
+}
+
+/** Film step-wedge shades, lightest to darkest: the more cells filled, the better the score. */
+const WEDGE = [
+  '#e9e3d3',
+  '#d9d0bb',
+  '#c6bba2',
+  '#afa28a',
+  '#968972',
+  '#7c705c',
+  '#625847',
+  '#4a4235',
+  '#332d24',
+  '#16150f'
+]
+
+function StepWedge({ area }: { area: AreaReadiness }) {
+  const filled = area.total === 0 ? 0 : Math.round(area.percent / 10)
+  return (
+    <div
+      role="img"
+      aria-label={
+        area.total === 0 ? `${area.label}: not practised yet` : `${area.label}: ${area.percent} percent correct`
+      }
+      className="grid h-7 grid-cols-10 gap-0.5"
+    >
+      {WEDGE.map((shade, i) => (
+        <div key={shade} style={i < filled ? { background: shade } : { boxShadow: 'inset 0 0 0 1px #d8d2c3' }} />
+      ))}
+    </div>
+  )
+}
+
+/** One line that sums up where the person stands. */
+function headline(readiness: Readiness): string {
+  const scored = readiness.areas.filter((a) => a.total > 0)
+  if (scored.length === 0) return 'Pick an area and start practising.'
+  const best = [...scored].sort((a, b) => b.percent - a.percent)[0]
+  const weakest = readiness.areas.find((a) => a.area === readiness.weakest)
+  if (!best || !weakest || best.area === weakest.area) return `${best?.label ?? 'Your areas'}: keep going.`
+  return `Strong on ${best.label.toLowerCase()}. ${weakest.label} needs work.`
 }
 
 interface Props {
@@ -24,9 +58,9 @@ interface Props {
   onOpenLibrary: () => void
 }
 
-/** Readiness by board content area, and the ways to study: practice by area or a timed mock exam. */
+/** Readiness by board content area, and the ways to study: practice by area or topic, or a timed mock exam. */
 export function Study({ onStart, onOpenLibrary }: Props) {
-  const [blueprint, setBlueprint] = useState<BlueprintId>(savedBlueprint)
+  const blueprint = currentBlueprint()
   const [readiness, setReadiness] = useState<Readiness | null>(null)
   const [practiceArea, setPracticeArea] = useState<ContentArea | 'all' | null>(null)
   const [practiceTopic, setPracticeTopic] = useState('all')
@@ -39,26 +73,19 @@ export function Study({ onStart, onOpenLibrary }: Props) {
       .getReadiness(blueprint)
       .then(setReadiness)
       .catch((err: unknown) => setError(errorMessage(err)))
-    try {
-      window.localStorage.setItem(BLUEPRINT_KEY, blueprint)
-    } catch {
-      // Storage may be off (a private window): the choice just isn't remembered.
-    }
   }, [blueprint])
 
-  if (!readiness) return error ? <ErrorBanner message={error} /> : <p className="text-slate-500">Loading…</p>
+  if (!readiness) return error ? <ErrorBanner message={error} /> : <p className="text-muted">Loading…</p>
 
   if (readiness.questionCount === 0) {
     return (
-      <Card>
-        <h2 className="text-lg font-semibold">Set up your study set</h2>
-        <p className="mt-1 text-sm text-slate-600">
-          Import your review PDFs once on this device. Ahral sorts their questions into the four board exam areas.
-        </p>
-        <Button className="mt-4" onClick={onOpenLibrary}>
+      <section className="max-w-xl border-t-[3px] border-ink pt-5">
+        <h2 className="font-serif text-3xl font-medium">Set up your study set</h2>
+        <p className="mt-2 text-muted">Import your review PDFs once on this device.</p>
+        <Button className="mt-5" onClick={onOpenLibrary}>
           Go to Library
         </Button>
-      </Card>
+      </section>
     )
   }
 
@@ -69,6 +96,7 @@ export function Study({ onStart, onOpenLibrary }: Props) {
   const topics = area === 'all' ? [] : (readiness.areas.find((x) => x.area === area)?.topics ?? [])
   const topic = topics.some((t) => t.name === practiceTopic) ? practiceTopic : 'all'
   const fromPdfs = readiness.questionCount - readiness.bankCount
+  const mockMinutes = Math.round((mockLength * 210) / 230)
 
   async function start(settings: Omit<StudySettings, 'seed'>) {
     setError(null)
@@ -81,92 +109,104 @@ export function Study({ onStart, onOpenLibrary }: Props) {
     }
   }
 
-  return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h2 className="text-xl font-semibold">Readiness</h2>
-          <p className="mt-1 text-sm text-slate-500">
-            {readiness.bankCount.toLocaleString()} built-in questions
-            {fromPdfs > 0 && ` and ${fromPdfs.toLocaleString()} from your PDFs`}, by board exam content area.
-          </p>
-        </div>
-        <label className="text-sm">
-          <span className="block text-slate-500">Your exam date</span>
-          <select
-            value={blueprint}
-            onChange={(e) => setBlueprint(e.target.value as BlueprintId)}
-            className="mt-1 rounded-md border border-slate-300 bg-white px-2 py-1.5"
-          >
-            {(Object.keys(BLUEPRINT_LABELS) as BlueprintId[]).map((id) => (
-              <option key={id} value={id}>
-                {BLUEPRINT_LABELS[id]}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
+  const select = 'mt-1 block w-full rounded-[2px] border border-ink bg-white px-2 py-2 text-[15px]'
 
+  return (
+    <div className="space-y-8">
       {error && <ErrorBanner message={error} onDismiss={() => setError(null)} />}
 
-      <Card>
-        <table className="w-full text-sm">
-          <caption className="sr-only">Score by content area</caption>
-          <thead>
-            <tr className="text-left text-xs text-slate-500">
-              <th scope="col" className="pb-2 font-medium">
-                Area
-              </th>
-              <th scope="col" className="pb-2 font-medium">
-                Correct
-              </th>
-              <th scope="col" className="w-2/5 pb-2 font-medium">
-                <span className="sr-only">Score bar</span>
-              </th>
-              <th scope="col" className="pb-2 text-right font-medium">
-                On the exam
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {readiness.areas.map((a) => (
-              <tr key={a.area} className="border-t border-slate-100" data-testid={`area-${a.area}`}>
-                <th scope="row" className="py-3 pr-3 text-left font-medium">
-                  {a.label}
-                  {a.area === readiness.weakest && (
-                    <span className="ml-2 rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-900">
-                      Practise next
-                    </span>
-                  )}
-                  <span className="block text-xs font-normal text-slate-500">{a.available} questions</span>
-                </th>
-                <td className={`py-3 pr-3 font-semibold ${a.total === 0 ? 'text-slate-400' : scoreColor(a.percent)}`}>
-                  {a.total === 0 ? '–' : `${a.percent}%`}
-                  <span className="block text-xs font-normal text-slate-500">{a.total} answered</span>
-                </td>
-                <td className="py-3 pr-3">{a.total > 0 && <ScoreBar percent={a.percent} />}</td>
-                <td className="py-3 text-right tabular-nums">{a.onExam}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </Card>
-
-      <div className="grid gap-6 sm:grid-cols-2">
-        <Card>
-          <h3 className="font-semibold">Practice</h3>
-          <p className="mt-1 text-sm text-slate-600">
-            {PRACTICE_LENGTH} questions with an explanation after each answer.
+      <div className="flex flex-wrap items-start gap-x-16 gap-y-12">
+        <section aria-labelledby="readiness" className="min-w-0 flex-[999_1_520px]">
+          <p className="label">Readiness</p>
+          <h2
+            id="readiness"
+            className="mt-3 max-w-[16ch] font-serif text-4xl leading-[1.05] font-medium tracking-tight sm:text-[52px]"
+          >
+            {headline(readiness)}
+          </h2>
+          <p className="mt-5 max-w-[56ch] text-[17px] leading-relaxed text-muted">
+            {readiness.bankCount.toLocaleString()} built-in questions
+            {fromPdfs > 0 && ` and ${fromPdfs.toLocaleString()} from your PDFs`}, by board exam content area. Each strip
+            is a step wedge: the darker it gets, the more you answer correctly.
           </p>
-          <label className="mt-4 block text-sm">
-            <span className="font-medium">Area</span>
+
+          <table className="mt-10 w-full border-collapse text-[15px]">
+            <caption className="sr-only">Score by content area</caption>
+            <thead>
+              <tr className="text-left">
+                <th scope="col" className="label border-b border-ink pr-3 pb-2.5 font-medium">
+                  Area
+                </th>
+                <th scope="col" className="label border-b border-ink pr-3 pb-2.5 font-medium">
+                  Correct
+                </th>
+                <th scope="col" className="label w-[42%] border-b border-ink pr-3 pb-2.5 font-medium">
+                  <span className="sr-only">Score as a </span>Step wedge
+                </th>
+                <th scope="col" className="label border-b border-ink pb-2.5 text-right font-medium">
+                  On exam
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {readiness.areas.map((a) => (
+                <tr key={a.area} data-testid={`area-${a.area}`}>
+                  <th scope="row" className="border-b border-rule py-4 pr-4 text-left align-middle font-medium">
+                    <span className="block">{a.label}</span>
+                    {a.area === readiness.weakest && (
+                      <span className="mt-1.5 inline-block bg-accent px-1.5 py-0.5 font-mono text-[11px] font-medium tracking-wide">
+                        PRACTISE NEXT
+                      </span>
+                    )}
+                    <span className="mt-1 block font-mono text-[11px] font-normal text-muted">
+                      {a.available} questions
+                    </span>
+                  </th>
+                  <td className="border-b border-rule py-4 pr-4 font-serif text-3xl font-medium">
+                    {a.total === 0 ? (
+                      <span className="text-rule">–</span>
+                    ) : (
+                      <>
+                        {a.percent}
+                        <span className="text-base text-muted">%</span>
+                      </>
+                    )}
+                  </td>
+                  <td className="border-b border-rule py-4 pr-4">
+                    <StepWedge area={a} />
+                    <span className="mt-1.5 block font-mono text-[11px] text-muted">{a.total} answered</span>
+                  </td>
+                  <td className="border-b border-rule py-4 text-right font-mono text-sm">{a.onExam}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="mt-3 font-mono text-[11px] text-muted">
+            Scored questions per area on the ARRT radiography exam
+            {blueprint === '2027' ? ' (outline from March 1, 2027)' : ' (outline through February 28, 2027)'}.
+          </p>
+        </section>
+
+        <aside aria-label="Next session" className="min-w-0 flex-[1_1_300px] border-t-[3px] border-ink pt-5">
+          <p className="label">Next session</p>
+          <h3 className="mt-2.5 font-serif text-3xl leading-tight font-medium">
+            {topic === 'all' ? areaLabel(area) : topic}, {PRACTICE_LENGTH} questions
+          </h3>
+          <p className="mt-2.5 text-[15px] leading-relaxed text-muted">
+            An explanation after each answer. About 15 minutes.
+          </p>
+          <div className="mt-5 text-sm">
+            <label htmlFor="practice-area" className="font-medium">
+              Area
+            </label>
             <select
+              id="practice-area"
               value={area}
               onChange={(e) => {
                 setPracticeArea(e.target.value as ContentArea | 'all')
                 setPracticeTopic('all')
               }}
-              className="mt-1 block w-full rounded-md border border-slate-300 bg-white px-2 py-1.5"
+              className={select}
             >
               <option value="all">All areas</option>
               {readiness.areas.map((a) => (
@@ -175,14 +215,17 @@ export function Study({ onStart, onOpenLibrary }: Props) {
                 </option>
               ))}
             </select>
-          </label>
+          </div>
           {topics.length > 0 && (
-            <label className="mt-3 block text-sm">
-              <span className="font-medium">Topic</span>
+            <div className="mt-3 text-sm">
+              <label htmlFor="practice-topic" className="font-medium">
+                Topic
+              </label>
               <select
+                id="practice-topic"
                 value={topic}
                 onChange={(e) => setPracticeTopic(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-slate-300 bg-white px-2 py-1.5"
+                className={select}
               >
                 <option value="all">All topics</option>
                 {topics.map((t) => (
@@ -191,10 +234,10 @@ export function Study({ onStart, onOpenLibrary }: Props) {
                   </option>
                 ))}
               </select>
-            </label>
+            </div>
           )}
           <Button
-            className="mt-4 w-full"
+            className="mt-5 w-full"
             disabled={starting}
             onClick={() =>
               start({
@@ -210,58 +253,71 @@ export function Study({ onStart, onOpenLibrary }: Props) {
           >
             Practise {topic === 'all' ? areaLabel(area) : topic}
           </Button>
-        </Card>
 
-        <Card>
-          <h3 className="font-semibold">Mock exam</h3>
-          <p className="mt-1 text-sm text-slate-600">
-            Multiple choice in the board exam&rsquo;s proportions, timed at its pace. Answers at the end.
-          </p>
-          <fieldset className="mt-4 text-sm">
-            <legend className="font-medium">Length</legend>
-            <div className="mt-1 flex flex-wrap gap-4">
-              {MOCK_LENGTHS.map((n) => (
-                <label key={n} className="flex items-center gap-2">
-                  <input type="radio" name="mock-length" checked={mockLength === n} onChange={() => setMockLength(n)} />
-                  {n} questions
-                </label>
-              ))}
+          <div className="mt-9 border-t border-rule pt-5">
+            <p className="label">Full mock exam</p>
+            <p className="mt-2.5 text-[15px] leading-relaxed">
+              <span className="font-mono">{mockLength}</span> questions in the board exam&rsquo;s proportions, timed at{' '}
+              <span className="font-mono">
+                {Math.floor(mockMinutes / 60)} h {String(mockMinutes % 60).padStart(2, '0')} min
+              </span>
+              . Answers shown at the end.
+            </p>
+            <fieldset className="mt-3 text-sm">
+              <legend className="sr-only">Length</legend>
+              <div className="flex flex-wrap gap-x-5 gap-y-2">
+                {MOCK_LENGTHS.map((n) => (
+                  <label key={n} className="flex min-h-11 items-center gap-2">
+                    <input
+                      type="radio"
+                      name="mock-length"
+                      className="accent-ink"
+                      checked={mockLength === n}
+                      onChange={() => setMockLength(n)}
+                    />
+                    {n} questions
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+            <Button
+              className="mt-3 w-full"
+              variant="secondary"
+              disabled={starting || mockAvailable === 0}
+              onClick={() =>
+                start({ mode: 'mock', areas: [], questionCount: mockLength, types: [], acceptTypos: false, blueprint })
+              }
+            >
+              Begin mock exam
+            </Button>
+          </div>
+
+          {readiness.recent.length > 0 && (
+            <div className="mt-9">
+              <p className="label mb-2">Recent</p>
+              <ul aria-label="Recent attempts">
+                {readiness.recent.map((r) => (
+                  <li
+                    key={r.id}
+                    className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-3 border-b border-rule py-2.5 text-sm"
+                  >
+                    <span>
+                      {r.label}
+                      <span className="block font-mono text-[11px] text-muted">{formatDate(r.finishedAt)}</span>
+                    </span>
+                    <span className="text-right font-mono">
+                      {r.percent}%{' '}
+                      <span className="text-muted">
+                        ({r.correct}/{r.total})
+                      </span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </fieldset>
-          <Button
-            className="mt-4 w-full"
-            variant="secondary"
-            disabled={starting || mockAvailable === 0}
-            onClick={() =>
-              start({ mode: 'mock', areas: [], questionCount: mockLength, types: [], acceptTypos: false, blueprint })
-            }
-          >
-            Begin mock exam
-          </Button>
-        </Card>
+          )}
+        </aside>
       </div>
-
-      {readiness.recent.length > 0 && (
-        <Card>
-          <h3 className="font-semibold">Recent</h3>
-          <ul className="mt-2 divide-y divide-slate-100 text-sm" aria-label="Recent attempts">
-            {readiness.recent.map((r) => (
-              <li key={r.id} className="flex justify-between gap-4 py-2">
-                <span>
-                  {r.label}
-                  <span className="text-slate-500"> · {formatDate(r.finishedAt)}</span>
-                </span>
-                <span className={`font-medium ${scoreColor(r.percent)}`}>
-                  {r.percent}%{' '}
-                  <span className="font-normal text-slate-500">
-                    ({r.correct}/{r.total})
-                  </span>
-                </span>
-              </li>
-            ))}
-          </ul>
-        </Card>
-      )}
     </div>
   )
 }

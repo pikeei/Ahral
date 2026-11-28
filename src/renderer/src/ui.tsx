@@ -6,10 +6,11 @@ import type { ImportStage, QuestionType } from '../../shared/api'
 type Variant = 'primary' | 'secondary' | 'danger' | 'ghost'
 
 const VARIANTS: Record<Variant, string> = {
-  primary: 'bg-indigo-600 text-white hover:bg-indigo-700 disabled:bg-indigo-300',
-  secondary: 'border border-slate-300 bg-white text-slate-800 hover:bg-slate-50 disabled:text-slate-400',
-  danger: 'bg-red-600 text-white hover:bg-red-700 disabled:bg-red-300',
-  ghost: 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+  primary: 'border border-ink bg-ink text-paper hover:bg-slate-700 disabled:border-slate-400 disabled:bg-slate-400',
+  secondary:
+    'border border-ink bg-transparent text-ink hover:bg-white disabled:border-slate-300 disabled:text-slate-400',
+  danger: 'border border-incorrect bg-incorrect text-white hover:bg-red-800 disabled:bg-red-300',
+  ghost: 'text-muted hover:bg-slate-100 hover:text-ink'
 }
 
 export function Button({
@@ -20,14 +21,14 @@ export function Button({
   return (
     <button
       type="button"
-      className={`rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed ${VARIANTS[variant]} ${className}`}
+      className={`min-h-11 rounded-[2px] px-5 py-2 text-[15px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:cursor-not-allowed ${VARIANTS[variant]} ${className}`}
       {...props}
     />
   )
 }
 
 export function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <section className={`rounded-lg border border-slate-200 bg-white p-5 ${className}`}>{children}</section>
+  return <section className={`border-t-[3px] border-ink pt-5 ${className}`}>{children}</section>
 }
 
 export function ErrorBanner({ message, onDismiss }: { message: string; onDismiss?: () => void }) {

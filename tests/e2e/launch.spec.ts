@@ -26,8 +26,8 @@ test.afterAll(async () => {
 })
 
 test('opens the main window', async () => {
-  await expect(page).toHaveTitle('Ahral')
-  await expect(page.getByRole('heading', { level: 1, name: 'Ahral' })).toBeVisible()
+  await expect(page).toHaveTitle('RadReady')
+  await expect(page.getByRole('heading', { level: 1, name: 'RadReady' })).toBeVisible()
 })
 
 test('UI reaches SQLite in the main process through the preload bridge', async () => {

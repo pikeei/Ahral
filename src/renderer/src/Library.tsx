@@ -110,7 +110,7 @@ export function Library({ onOpen }: { onOpen: (documentId: number) => void }) {
         <Card className="text-center">
           <p className="font-medium">No documents yet</p>
           <p className="mt-1 text-sm text-slate-600">
-            Import a PDF with selectable text (lecture notes, a reviewer, a textbook). Ahral finds its terms and
+            Import a PDF with selectable text (lecture notes, a reviewer, a textbook). RadReady finds its terms and
             definitions and turns them into practice questions, all on this device.
           </p>
         </Card>

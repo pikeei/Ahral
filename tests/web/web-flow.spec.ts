@@ -89,13 +89,12 @@ test('studies by board exam area: readiness, practice and a timed mock exam', as
   await nav.getByRole('button', { name: 'Study' }).click()
 
   // Readiness lists the four areas, with the number of questions each has on the real exam.
-  await expect(page.getByRole('heading', { name: 'Readiness' })).toBeVisible()
-  await expect(page.getByTestId('area-patient-care')).toContainText('33')
-  await page.getByLabel('Your exam date').selectOption('2027')
-  await expect(page.getByTestId('area-patient-care')).toContainText('31')
+  await expect(page.getByText('Readiness', { exact: true })).toBeVisible()
+  // 33 Patient Care questions on the current outline, 31 from March 2027 (picked by date).
+  await expect(page.getByTestId('area-patient-care')).toContainText(new Date() < new Date('2027-03-01') ? '33' : '31')
 
   // Practice: feedback after each answer.
-  await page.getByLabel('Area').selectOption('all')
+  await page.getByLabel('Area', { exact: true }).selectOption('all')
   await page.getByRole('button', { name: 'Practise All areas' }).click()
   await expect(page.getByTestId('exam-progress')).toContainText('Question 1 of')
   await page.getByRole('button', { name: 'Quit exam' }).click()
@@ -124,9 +123,9 @@ test('studies by board exam area: readiness, practice and a timed mock exam', as
 
 test('studies the built-in question bank by topic without importing anything', async ({ page }) => {
   await page.goto('./')
-  await expect(page.getByRole('heading', { name: 'Readiness' })).toBeVisible()
+  await expect(page.getByText('Readiness', { exact: true })).toBeVisible()
   await expect(page.getByText(/\d+ built-in questions/)).toBeVisible()
-  await page.getByLabel('Area').selectOption('safety')
+  await page.getByLabel('Area', { exact: true }).selectOption('safety')
   await page.getByLabel('Topic').selectOption('Dose limits')
   await page.getByRole('button', { name: 'Practise Dose limits' }).click()
   await expect(page.getByTestId('exam-progress')).toContainText('Question 1 of')

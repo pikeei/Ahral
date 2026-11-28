@@ -85,7 +85,7 @@ export function DocumentView({ documentId, onStart, onDeleted }: Props) {
         <Card>
           <p className="font-medium">No questions could be made from this PDF.</p>
           <p className="mt-1 text-sm text-slate-600">
-            It may be scanned images without a text layer, or have no definitions Ahral can recognise.
+            It may be scanned images without a text layer, or have no definitions RadReady can recognise.
           </p>
         </Card>
       ) : (

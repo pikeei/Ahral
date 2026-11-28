@@ -46,29 +46,30 @@ export function App() {
     screen.name === 'study' ? 'study' : screen.name === 'library' || screen.name === 'document' ? 'library' : null
 
   return (
-    <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900">
-      <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-3xl flex-wrap items-center gap-x-6 gap-y-1 px-6 py-3">
-          <h1 className="text-xl font-bold tracking-tight">Ahral</h1>
+    <div className="flex min-h-screen flex-col bg-paper font-sans text-ink">
+      <header className="border-b border-rule">
+        <div className="mx-auto flex min-h-16 max-w-6xl flex-wrap items-center gap-x-10 gap-y-1 px-4 sm:px-8">
+          <h1 className="font-serif text-[26px] font-semibold tracking-tight">RadReady</h1>
           {!inExam && (
-            <nav aria-label="Main" className="flex gap-4 text-sm">
+            <nav aria-label="Main" className="flex grow gap-7 text-[15px]">
               {(['study', 'library'] as const).map((name) => (
                 <button
                   key={name}
                   type="button"
                   aria-current={tab === name ? 'page' : undefined}
                   onClick={() => setScreen(name === 'study' ? { name: 'study' } : { name: 'library' })}
-                  className={`py-1 ${tab === name ? 'font-semibold text-slate-900 underline decoration-2 underline-offset-8' : 'text-slate-600 hover:text-slate-900'}`}
+                  className={`border-b-[3px] pt-5 pb-[17px] ${tab === name ? 'border-accent font-semibold' : 'border-transparent text-muted hover:text-ink'}`}
                 >
                   {name === 'study' ? 'Study' : 'Library'}
                 </button>
               ))}
             </nav>
           )}
+          {!inExam && <span className="label hidden md:inline">Board review · on this device</span>}
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-8">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-8 sm:py-12">
         {backendError && (
           <p role="alert" className="mb-6 rounded-md bg-red-50 p-3 text-sm text-red-800">
             Could not reach the app backend: {backendError}
@@ -76,8 +77,8 @@ export function App() {
         )}
         {info && !info.persistent && (
           <p role="status" className="mb-6 rounded-md bg-amber-50 p-3 text-sm text-amber-900">
-            Ahral can&rsquo;t save in this tab: it may already be open in another tab, or this is a private window. You
-            can still practise, but anything you do here will be gone when you close this tab.
+            RadReady can&rsquo;t save in this tab: it may already be open in another tab, or this is a private window.
+            You can still practise, but anything you do here will be gone when you close this tab.
           </p>
         )}
 
@@ -140,7 +141,7 @@ export function App() {
       <footer className="border-t border-slate-200 py-2 text-center text-xs text-slate-400">
         {info && (
           <>
-            Ahral <span data-testid="app-version">{info.appVersion}</span> · {info.platform} · SQLite{' '}
+            RadReady <span data-testid="app-version">{info.appVersion}</span> · {info.platform} · SQLite{' '}
             <span data-testid="sqlite-version">{info.sqlite}</span> · everything stays on this device
           </>
         )}
