@@ -1,0 +1,552 @@
+[
+  {
+    "id": "image-001",
+    "area": "image-production",
+    "topic": "Exposure factors",
+    "stem": "Which exposure factor directly controls the quantity of x-ray photons produced, and so the exposure reaching the image receptor?",
+    "options": ["mAs", "kVp", "SID", "Focal spot size"],
+    "answer": 0,
+    "explanation": "Milliampere-seconds sets the number of photons produced; doubling the mAs doubles the exposure."
+  },
+  {
+    "id": "image-002",
+    "area": "image-production",
+    "topic": "Exposure factors",
+    "stem": "According to the 15% rule, increasing the kilovoltage by 15% will",
+    "options": [
+      "halve the receptor exposure",
+      "double the receptor exposure",
+      "have no effect on receptor exposure",
+      "quadruple the receptor exposure"
+    ],
+    "answer": 1,
+    "explanation": "A 15% increase in kVp doubles the exposure at the receptor, so the mAs can be halved to keep it the same."
+  },
+  {
+    "id": "image-003",
+    "area": "image-production",
+    "topic": "Technique conversion",
+    "stem": "A good image is made at 70 kVp and 10 mAs. To use 80 kVp while keeping the same receptor exposure, the mAs should be about",
+    "options": ["20 mAs", "10 mAs", "5 mAs", "2.5 mAs"],
+    "answer": 2,
+    "explanation": "Going from 70 to about 80 kVp is a 15% increase, which doubles the exposure, so the mAs is halved to 5."
+  },
+  {
+    "id": "image-004",
+    "area": "image-production",
+    "topic": "Grids",
+    "stem": "Compared with a nongrid exposure, an 8:1 grid requires the mAs to be multiplied by",
+    "options": ["2", "3", "3.5", "4"],
+    "answer": 3,
+    "explanation": "Common grid conversion factors: 5:1 = 2, 6:1 = 3, 8:1 = 4, 12:1 = 5 and 16:1 = 6."
+  },
+  {
+    "id": "image-005",
+    "area": "image-production",
+    "topic": "Grids",
+    "stem": "A nongrid exposure uses 5 mAs. If a 12:1 grid is added, the new mAs should be",
+    "options": ["25 mAs", "10 mAs", "15 mAs", "20 mAs"],
+    "answer": 0,
+    "explanation": "The 12:1 grid factor is 5, so 5 mAs × 5 = 25 mAs."
+  },
+  {
+    "id": "image-006",
+    "area": "image-production",
+    "topic": "Technique conversion",
+    "stem": "An exposure at 40 in SID uses 10 mAs. If the SID is changed to 80 in, what mAs will keep the same receptor exposure?",
+    "options": ["20 mAs", "40 mAs", "5 mAs", "2.5 mAs"],
+    "answer": 1,
+    "explanation": "By the exposure maintenance (direct square) formula, doubling the SID needs four times the mAs: 10 × 4 = 40 mAs."
+  },
+  {
+    "id": "image-007",
+    "area": "image-production",
+    "topic": "Contrast",
+    "stem": "Raising the kVp, with the mAs adjusted to keep receptor exposure the same, produces",
+    "options": [
+      "higher contrast",
+      "no change in contrast",
+      "lower contrast (a longer scale)",
+      "less scattered radiation"
+    ],
+    "answer": 2,
+    "explanation": "Higher kVp penetrates tissues more evenly and produces more scatter, so there are more shades of gray and contrast is lower."
+  },
+  {
+    "id": "image-008",
+    "area": "image-production",
+    "topic": "Geometric factors",
+    "stem": "Which change increases magnification of the part being imaged?",
+    "options": ["Decreasing the OID", "Increasing the SID", "Using a smaller focal spot", "Increasing the OID"],
+    "answer": 3,
+    "explanation": "The farther the part is from the image receptor, the more it is magnified. Short OID and long SID reduce magnification."
+  },
+  {
+    "id": "image-009",
+    "area": "image-production",
+    "topic": "Geometric factors",
+    "stem": "Which focal spot setting gives the best recorded detail (spatial resolution)?",
+    "options": [
+      "The small focal spot",
+      "The large focal spot",
+      "Either, because focal spot size does not affect detail",
+      "The focal spot that allows the shortest SID"
+    ],
+    "answer": 0,
+    "explanation": "A smaller focal spot produces less geometric unsharpness (penumbra), so detail is better."
+  },
+  {
+    "id": "image-010",
+    "area": "image-production",
+    "topic": "Geometric factors",
+    "stem": "Shape distortion (elongation or foreshortening) is caused by",
+    "options": [
+      "too little mAs",
+      "misalignment of the tube, part and image receptor",
+      "a large focal spot",
+      "patient motion"
+    ],
+    "answer": 1,
+    "explanation": "When the central ray, the part and the receptor are not properly aligned, the part's shape is distorted. Size distortion (magnification) comes from SID and OID."
+  },
+  {
+    "id": "image-011",
+    "area": "image-production",
+    "topic": "X-ray tube",
+    "stem": "Because the target is angled, the effective focal spot is smaller than the actual focal spot. This is the",
+    "options": ["anode heel effect", "inverse square law", "line focus principle", "space charge effect"],
+    "answer": 2,
+    "explanation": "The line focus principle lets a large area of the target take the heat while a small effective focal spot gives good detail."
+  },
+  {
+    "id": "image-012",
+    "area": "image-production",
+    "topic": "X-ray tube",
+    "stem": "Because of the anode heel effect, the thicker part of the anatomy should be placed under the",
+    "options": ["anode end of the tube", "center of the field only", "collimator", "cathode end of the tube"],
+    "answer": 3,
+    "explanation": "Beam intensity is greater on the cathode side, so the thicker part goes toward the cathode to even out the exposure."
+  },
+  {
+    "id": "image-013",
+    "area": "image-production",
+    "topic": "X-ray tube",
+    "stem": "Tungsten is used for the target because it has a high melting point and a high atomic number of",
+    "options": ["74", "42", "56", "82"],
+    "answer": 0,
+    "explanation": "Tungsten (Z = 74) produces x-rays efficiently, and its melting point of 3,410 °C helps it withstand the heat."
+  },
+  {
+    "id": "image-014",
+    "area": "image-production",
+    "topic": "X-ray production",
+    "stem": "Most of the x-rays in the diagnostic beam are produced when incoming electrons",
+    "options": [
+      "eject inner-shell electrons of the target",
+      "are slowed and deflected by the nucleus of a target atom",
+      "combine with positrons",
+      "strike the filament"
+    ],
+    "answer": 1,
+    "explanation": "Bremsstrahlung (braking) radiation is produced when electrons are slowed by the nuclear field; it makes up most of the beam."
+  },
+  {
+    "id": "image-015",
+    "area": "image-production",
+    "topic": "X-ray production",
+    "stem": "Characteristic radiation is produced when",
+    "options": [
+      "an electron is slowed by the nucleus",
+      "a photon scatters without ionizing",
+      "an inner-shell electron is ejected and an outer-shell electron fills the vacancy",
+      "the filament is heated"
+    ],
+    "answer": 2,
+    "explanation": "When an outer-shell electron drops into the inner-shell vacancy, the energy difference is given off as a characteristic x-ray photon."
+  },
+  {
+    "id": "image-016",
+    "area": "image-production",
+    "topic": "X-ray tube",
+    "stem": "Electrons are freed from the heated cathode filament by",
+    "options": ["photoelectric absorption", "rectification", "the line focus principle", "thermionic emission"],
+    "answer": 3,
+    "explanation": "Heating the tungsten filament boils off electrons: thermionic emission."
+  },
+  {
+    "id": "image-017",
+    "area": "image-production",
+    "topic": "X-ray tube",
+    "stem": "The anode heel effect is most pronounced with",
+    "options": [
+      "a short SID and a large image receptor",
+      "a long SID and a small image receptor",
+      "a large anode angle",
+      "a high mAs"
+    ],
+    "answer": 0,
+    "explanation": "A short SID and a large receptor use more of the beam on the anode side, where the heel absorbs the most, so the difference in intensity is greatest."
+  },
+  {
+    "id": "image-018",
+    "area": "image-production",
+    "topic": "X-ray tube",
+    "stem": "The main advantage of a rotating anode is that it",
+    "options": [
+      "reduces the focal spot size",
+      "spreads the heat over a larger area of the target",
+      "removes the need for filtration",
+      "increases the heel effect"
+    ],
+    "answer": 1,
+    "explanation": "Rotation spreads the heat over the whole focal track, so the tube can take higher exposures."
+  },
+  {
+    "id": "image-019",
+    "area": "image-production",
+    "topic": "Tube heat",
+    "stem": "For single-phase equipment, heat units are calculated as",
+    "options": ["kVp × mAs × 1.35", "mA × time ÷ kVp", "kVp × mA × time", "kVp ÷ mAs"],
+    "answer": 2,
+    "explanation": "Heat units for single-phase equipment equal kVp × mA × seconds; three-phase and high-frequency equipment use a multiplier."
+  },
+  {
+    "id": "image-020",
+    "area": "image-production",
+    "topic": "Grids",
+    "stem": "Increasing the grid ratio changes",
+    "options": [
+      "the amount of scatter produced in the patient",
+      "the kVp the exam requires",
+      "the size of the focal spot",
+      "the amount of scatter reaching the image receptor"
+    ],
+    "answer": 3,
+    "explanation": "Grid ratio has no effect on how much scatter the patient produces, but a higher ratio absorbs more of it before it reaches the receptor."
+  },
+  {
+    "id": "image-021",
+    "area": "image-production",
+    "topic": "X-ray circuit",
+    "stem": "Which transformer raises the voltage to the kilovolt level the x-ray tube needs?",
+    "options": [
+      "Step-up (high-voltage) transformer",
+      "Step-down (filament) transformer",
+      "Autotransformer",
+      "Rheostat"
+    ],
+    "answer": 0,
+    "explanation": "The step-up transformer raises the voltage to the kilovolts needed to drive electrons across the tube; the step-down transformer supplies the filament."
+  },
+  {
+    "id": "image-022",
+    "area": "image-production",
+    "topic": "X-ray circuit",
+    "stem": "Which type of generator has the lowest voltage ripple?",
+    "options": ["Single-phase, half-wave", "High-frequency", "Single-phase, full-wave", "Three-phase, six-pulse"],
+    "answer": 1,
+    "explanation": "High-frequency generators produce nearly constant voltage, with less than 1% ripple, giving a more efficient beam."
+  },
+  {
+    "id": "image-023",
+    "area": "image-production",
+    "topic": "Automatic exposure control",
+    "stem": "The backup timer of an automatic exposure control (AEC) serves to",
+    "options": [
+      "start the exposure",
+      "select the kVp",
+      "protect the patient from overexposure",
+      "adjust the field size"
+    ],
+    "answer": 2,
+    "explanation": "If the AEC fails to end the exposure, the backup timer stops it, protecting the patient and the tube."
+  },
+  {
+    "id": "image-024",
+    "area": "image-production",
+    "topic": "Automatic exposure control",
+    "stem": "In most automatic exposure control systems, the ionization chambers are located",
+    "options": [
+      "in the collimator",
+      "behind the image receptor",
+      "inside the x-ray tube",
+      "between the patient and the image receptor"
+    ],
+    "answer": 3,
+    "explanation": "The chambers sit just in front of the image receptor and end the exposure when a preset amount of radiation reaches them."
+  },
+  {
+    "id": "image-025",
+    "area": "image-production",
+    "topic": "Quality control",
+    "stem": "The collimator light field and the actual irradiated area must agree to within",
+    "options": ["2% of the SID", "5% of the SID", "10% of the SID", "15% of the SID"],
+    "answer": 0,
+    "explanation": "Collimator and beam alignment must be accurate to within 2% of the SID."
+  },
+  {
+    "id": "image-026",
+    "area": "image-production",
+    "topic": "Quality control",
+    "stem": "Repeated exposures at the same technique settings must give consistent intensity. This requirement is called",
+    "options": ["linearity", "reproducibility", "resolution", "filtration"],
+    "answer": 1,
+    "explanation": "Reproducibility means the same technique always produces the same output."
+  },
+  {
+    "id": "image-027",
+    "area": "image-production",
+    "topic": "Quality control",
+    "stem": "The same mAs produced with different mA stations and matching exposure times must give the same intensity. This is",
+    "options": ["reproducibility", "beam alignment", "linearity", "the reciprocity of kVp"],
+    "answer": 2,
+    "explanation": "Linearity means a given mAs gives the same output whichever mA station is used."
+  },
+  {
+    "id": "image-028",
+    "area": "image-production",
+    "topic": "Quality control",
+    "stem": "Which test tool is used to measure the size of the focal spot?",
+    "options": ["Penetrometer", "Spinning top", "Wire mesh", "Star pattern"],
+    "answer": 3,
+    "explanation": "A star pattern (or slit or pinhole camera) shows the effective focal spot size."
+  },
+  {
+    "id": "image-029",
+    "area": "image-production",
+    "topic": "Quality control",
+    "stem": "On single-phase equipment, a spinning top test checks the accuracy of the",
+    "options": ["exposure timer", "kVp", "focal spot size", "collimator"],
+    "answer": 0,
+    "explanation": "The number of dots imaged by the spinning top shows whether the timer gives the exposure time selected."
+  },
+  {
+    "id": "image-030",
+    "area": "image-production",
+    "topic": "Quality control",
+    "stem": "A wire mesh test is used to evaluate",
+    "options": ["timer accuracy", "screen-film contact", "beam alignment", "kVp accuracy"],
+    "answer": 1,
+    "explanation": "Areas of blurring in the image of the wire mesh show poor contact between the screen and the film."
+  },
+  {
+    "id": "image-031",
+    "area": "image-production",
+    "topic": "Grids",
+    "stem": "A focused grid placed upside down produces",
+    "options": [
+      "higher contrast throughout",
+      "uniform density",
+      "severe grid cutoff toward the edges",
+      "a moiré pattern"
+    ],
+    "answer": 2,
+    "explanation": "The lead strips then slant away from the divergent beam, absorbing it toward the edges while the center is exposed."
+  },
+  {
+    "id": "image-032",
+    "area": "image-production",
+    "topic": "Grids",
+    "stem": "Grid ratio is the",
+    "options": [
+      "number of lead strips per inch",
+      "thickness of the interspace material",
+      "distance at which the grid is focused",
+      "height of the lead strips divided by the distance between them"
+    ],
+    "answer": 3,
+    "explanation": "Grid ratio is strip height divided by interspace width; higher ratios remove more scatter."
+  },
+  {
+    "id": "image-033",
+    "area": "image-production",
+    "topic": "Grids",
+    "stem": "Compared with a 6:1 grid, a 12:1 grid",
+    "options": [
+      "removes more scatter but needs more exposure",
+      "removes less scatter and needs less exposure",
+      "removes the same scatter with less exposure",
+      "does not affect patient dose"
+    ],
+    "answer": 0,
+    "explanation": "A higher grid ratio cleans up more scatter, but the mAs must rise to compensate, which raises patient dose."
+  },
+  {
+    "id": "image-034",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "In computed radiography (CR), the photostimulable phosphor imaging plate is usually made of",
+    "options": ["cesium iodide", "barium fluorohalide", "amorphous selenium", "calcium tungstate"],
+    "answer": 1,
+    "explanation": "Barium fluorohalide stores the latent image, which is released as light when the plate is scanned by a laser."
+  },
+  {
+    "id": "image-035",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "A direct-capture flat-panel detector changes x-ray photons straight into electric charge using",
+    "options": ["cesium iodide", "gadolinium oxysulfide", "amorphous selenium", "barium fluorohalide"],
+    "answer": 2,
+    "explanation": "Amorphous selenium converts x-rays directly to charge; indirect systems first convert x-rays to light in a scintillator."
+  },
+  {
+    "id": "image-036",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "An indirect-capture flat-panel detector uses a scintillator that changes x-rays into light. The scintillator is",
+    "options": [
+      "amorphous selenium",
+      "barium fluorohalide",
+      "silver bromide",
+      "cesium iodide or gadolinium oxysulfide"
+    ],
+    "answer": 3,
+    "explanation": "Cesium iodide or gadolinium oxysulfide emits light, which a photodetector then converts to an electric signal."
+  },
+  {
+    "id": "image-037",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "On a digital display, changing the window level changes the image's",
+    "options": ["brightness", "contrast", "spatial resolution", "magnification"],
+    "answer": 0,
+    "explanation": "Window level sets brightness; window width sets contrast."
+  },
+  {
+    "id": "image-038",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "On a digital display, narrowing the window width",
+    "options": ["makes the image brighter", "increases contrast", "improves spatial resolution", "adds noise"],
+    "answer": 1,
+    "explanation": "A narrower window spreads fewer gray values across the display, so contrast increases."
+  },
+  {
+    "id": "image-039",
+    "area": "image-production",
+    "topic": "Image quality",
+    "stem": "A grainy, freckled appearance (quantum mottle) in an image is most often caused by",
+    "options": ["too much kVp", "a long SID", "too few photons, such as too little mAs", "a small focal spot"],
+    "answer": 2,
+    "explanation": "Quantum noise appears when too few photons reach the receptor, usually from insufficient mAs."
+  },
+  {
+    "id": "image-040",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "In a digital image, spatial resolution improves as",
+    "options": [
+      "the pixel size increases",
+      "the matrix size decreases",
+      "the window width increases",
+      "the pixel size decreases"
+    ],
+    "answer": 3,
+    "explanation": "Smaller pixels show finer detail; for the same field of view, a larger matrix means smaller pixels."
+  },
+  {
+    "id": "image-041",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "For the same field of view, increasing the matrix size gives",
+    "options": [
+      "smaller pixels and better spatial resolution",
+      "larger pixels and better resolution",
+      "larger pixels and worse resolution",
+      "no change in pixel size"
+    ],
+    "answer": 0,
+    "explanation": "More pixels across the same field means each pixel is smaller, so detail improves."
+  },
+  {
+    "id": "image-042",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "Compared with film-screen imaging, CR and DR systems have",
+    "options": ["a narrower dynamic range", "a wider dynamic range", "no exposure latitude", "fewer shades of gray"],
+    "answer": 1,
+    "explanation": "Digital receptors respond over a much wider range of exposures, which gives them a wide dynamic range and exposure latitude."
+  },
+  {
+    "id": "image-043",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "Digital systems display an exposure indicator mainly to",
+    "options": [
+      "measure the patient's skin dose",
+      "set the kVp automatically",
+      "help avoid dose creep by showing the exposure that reached the receptor",
+      "replace the AEC"
+    ],
+    "answer": 2,
+    "explanation": "Because software corrects image brightness, overexposure is not visible; the exposure indicator (S number, EI or REX, by manufacturer) shows it and helps prevent dose creep."
+  },
+  {
+    "id": "image-044",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "In a digital system, the device that changes the detector's analog signal into digital data is the",
+    "options": ["CCD", "DEL", "PACS", "ADC"],
+    "answer": 3,
+    "explanation": "The analog-to-digital converter (ADC) turns the electric signal from the detector into numbers the computer can process."
+  },
+  {
+    "id": "image-045",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "The system that stores digital images and distributes them for viewing is the",
+    "options": ["PACS", "ADC", "CCD", "AEC"],
+    "answer": 0,
+    "explanation": "A picture archiving and communication system (PACS) stores, retrieves and displays images across the facility."
+  },
+  {
+    "id": "image-046",
+    "area": "image-production",
+    "topic": "Image quality",
+    "stem": "The best way to reduce blur from involuntary motion, such as peristalsis, is to use",
+    "options": ["a longer SID", "the shortest possible exposure time", "a higher grid ratio", "a smaller focal spot"],
+    "answer": 1,
+    "explanation": "Involuntary motion cannot be stopped by instructions, so a short exposure time is the main defense."
+  },
+  {
+    "id": "image-047",
+    "area": "image-production",
+    "topic": "Geometric factors",
+    "stem": "Increasing the SID, with the technique adjusted, will",
+    "options": [
+      "increase magnification",
+      "decrease recorded detail",
+      "decrease magnification and improve recorded detail",
+      "increase geometric unsharpness"
+    ],
+    "answer": 2,
+    "explanation": "A longer SID makes the beam less divergent, which reduces magnification and unsharpness."
+  },
+  {
+    "id": "image-048",
+    "area": "image-production",
+    "topic": "Pathology and technique",
+    "stem": "Which condition generally requires an increase in exposure factors?",
+    "options": ["Emphysema", "Osteoporosis", "Pneumothorax", "Ascites"],
+    "answer": 3,
+    "explanation": "Ascites adds fluid to the abdomen, making it harder to penetrate (an additive condition). The other three make tissue easier to penetrate."
+  },
+  {
+    "id": "image-049",
+    "area": "image-production",
+    "topic": "Pathology and technique",
+    "stem": "Which condition generally requires a decrease in exposure factors?",
+    "options": ["Osteoporosis", "Paget disease", "Pleural effusion", "Pneumonia"],
+    "answer": 0,
+    "explanation": "Osteoporosis reduces bone density (a destructive condition), so less exposure is needed."
+  },
+  {
+    "id": "image-050",
+    "area": "image-production",
+    "topic": "Beam restriction",
+    "stem": "Collimators that automatically adjust the field to the size of the image receptor are called",
+    "options": ["cones", "positive beam limitation", "aperture diaphragms", "compensating filters"],
+    "answer": 1,
+    "explanation": "Positive beam limitation (PBL) senses the receptor size and collimates the beam to it."
+  }
+]
