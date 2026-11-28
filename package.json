@@ -28,6 +28,7 @@
     "lint:fix": "biome check --write .",
     "test:coverage": "vitest run --coverage",
     "exam": "tsx scripts/exam.mts",
+    "benchmark": "tsx scripts/benchmark.mts",
     "web:dev": "vite --config vite.web.config.mts",
     "web:build": "vite build --config vite.web.config.mts",
     "web:preview": "vite preview --config vite.web.config.mts",

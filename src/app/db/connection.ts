@@ -4,7 +4,7 @@ import type { SqlDatabase } from './sql'
 /**
  * Opens (or creates) the database file with Node's built-in `node:sqlite`, which ships
  * inside Electron: no native npm module to compile. Used by the desktop app, tests and CLIs;
- * the website opens SQLite compiled to WebAssembly instead (src/web/wasm-database.ts).
+ * the website opens SQLite compiled to WebAssembly instead (src/app/db/wasm.ts).
  */
 /** A database opened from a file (or :memory:), which can be closed. */
 export type NodeDatabase = SqlDatabase & { close(): void }

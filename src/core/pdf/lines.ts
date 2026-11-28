@@ -1,4 +1,4 @@
-import { normalizeText } from '../text/normalize'
+import { hasSubstitutedSpaces, normalizeText, repairSubstitutedSpaces } from '../text/normalize'
 import { largestKey } from './font-size'
 import type { Line } from './layout-types'
 import type { RawPage, RawTextItem } from './types'
@@ -57,7 +57,21 @@ export function buildLines(page: RawPage): Line[] {
     }
     if (segment.length > 0) lines.push(toLine(segment, page.pageNumber))
   }
-  return lines.filter((line) => line.text !== '')
+  return repairDamagedPage(lines).filter((line) => line.text !== '')
+}
+
+/** Lines with this damage that make a whole page count as damaged. */
+const DAMAGED_LINES_PER_PAGE = 3
+
+/**
+ * Some text layers saved spaces as "(" or "$" (see repairSubstitutedSpaces). That damage
+ * comes from a font, so it covers whole pages; short lines on such a page ("Ans.$C$ $")
+ * don't show enough of it on their own. So once a page clearly has it, every line is repaired.
+ */
+function repairDamagedPage(lines: Line[]): Line[] {
+  const damaged = lines.filter((line) => hasSubstitutedSpaces(line.text)).length
+  if (damaged < DAMAGED_LINES_PER_PAGE) return lines
+  return lines.map((line) => ({ ...line, text: repairSubstitutedSpaces(line.text, { force: true }) }))
 }
 
 /**

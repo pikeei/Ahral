@@ -271,6 +271,30 @@ describe('rules typed as characters', () => {
   })
 })
 
+describe('text layers that saved spaces as "(" or "$"', () => {
+  it('repairs every line of a damaged page, even short ones', () => {
+    const lines = [
+      '1. The$dose$of$radiation$that$will$cause$a$skin$reaction(is(referred(to(as(the(',
+      '(A) linear(energy(transfer((LET).(',
+      'The(xEray$tube(and(the$doseDresponse$curve(are(shown.',
+      'Ans.$C$ $'
+    ]
+    const doc = analyzeLayout([page(1, paragraph(lines, 72, 700, { spacing: 40 }))])
+    expect(doc.blocks.map((b) => b.text)).toEqual([
+      '1. The dose of radiation that will cause a skin reaction is referred to as the',
+      '(A) linear energy transfer (LET).',
+      'The x-ray tube and the dose-response curve are shown.',
+      'Ans. C'
+    ])
+  })
+
+  it('leaves a page alone when only one line looks like that', () => {
+    const lines = ['Which is (are) characteristic(s) of$a(grid?', 'An ordinary sentence about grids.']
+    const doc = analyzeLayout([page(1, paragraph(lines, 72, 700, { spacing: 40 }))])
+    expect(doc.blocks.map((b) => b.text)).toEqual(lines)
+  })
+})
+
 describe('sections without a heading', () => {
   it('are labelled by their pages instead of "(untitled)"', () => {
     const doc = analyzeLayout([1, 2, 3].map((n) => page(n, paragraph([`Plain notes on page ${n}.`], 72, 600))))
