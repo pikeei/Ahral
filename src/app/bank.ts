@@ -1,5 +1,6 @@
 import imageProduction from '../content/bank/image-production.json'
 import patientCare from '../content/bank/patient-care.json'
+import procedures from '../content/bank/procedures.json'
 import safety from '../content/bank/safety.json'
 import { CONTENT_AREAS, type ContentArea } from '../core/exam/areas'
 import type { Question } from '../core/generation/types'
@@ -55,4 +56,4 @@ export function toQuestion(entry: BankEntry): Question {
   }
 }
 
-export const BUILT_IN_BANK: Question[] = [...safety, ...patientCare, ...imageProduction].map(toQuestion)
+export const BUILT_IN_BANK: Question[] = [...patientCare, ...safety, ...imageProduction, ...procedures].map(toQuestion)

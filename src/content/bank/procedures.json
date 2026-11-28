@@ -1,0 +1,532 @@
+[
+  {
+    "id": "proc-001",
+    "area": "procedures",
+    "topic": "Chest",
+    "stem": "Why is a PA chest exposure made at the end of deep inspiration?",
+    "options": [
+      "To depress the diaphragm and show as much lung as possible",
+      "To magnify the heart",
+      "To reduce the exposure time",
+      "To show the ribs below the diaphragm"
+    ],
+    "answer": 0,
+    "explanation": "Deep inspiration moves the diaphragm down so the lungs are fully expanded and more ribs show above the diaphragm."
+  },
+  {
+    "id": "proc-002",
+    "area": "procedures",
+    "topic": "Chest",
+    "stem": "Chest radiographs are taken with the patient erect mainly so that",
+    "options": [
+      "the heart is magnified",
+      "the diaphragm moves to its lowest position and air-fluid levels are shown",
+      "the patient is more comfortable",
+      "less mAs is needed"
+    ],
+    "answer": 1,
+    "explanation": "Erect, the abdominal organs drop, letting the diaphragm descend, and any air or fluid settles into visible levels."
+  },
+  {
+    "id": "proc-003",
+    "area": "procedures",
+    "topic": "Chest",
+    "stem": "A routine lateral chest is usually taken with which side against the image receptor?",
+    "options": ["Right side", "Either side, it makes no difference", "Left side", "Posterior surface"],
+    "answer": 2,
+    "explanation": "With the left side against the receptor, the heart is closer to it and less magnified."
+  },
+  {
+    "id": "proc-004",
+    "area": "procedures",
+    "topic": "Abdomen",
+    "stem": "A small amount of free air in the abdomen is best shown with an AP projection in which position?",
+    "options": ["Right lateral decubitus", "Dorsal decubitus", "Supine", "Left lateral decubitus"],
+    "answer": 3,
+    "explanation": "Lying on the left side, free air rises to the right side and is seen against the liver."
+  },
+  {
+    "id": "proc-005",
+    "area": "procedures",
+    "topic": "Chest",
+    "stem": "A small amount of fluid in the pleural cavity is best shown in the lateral decubitus position with the",
+    "options": ["affected side down", "affected side up", "patient supine", "patient prone"],
+    "answer": 0,
+    "explanation": "Fluid settles to the dependent side, so the affected side goes down; air rises, so for air the affected side goes up."
+  },
+  {
+    "id": "proc-006",
+    "area": "procedures",
+    "topic": "Chest",
+    "stem": "A small pneumothorax is best shown in the lateral decubitus position with the",
+    "options": ["affected side down", "affected side up", "patient prone", "patient in Trendelenburg"],
+    "answer": 1,
+    "explanation": "Air rises to the uppermost side, so the affected side is placed up."
+  },
+  {
+    "id": "proc-007",
+    "area": "procedures",
+    "topic": "Shoulder",
+    "stem": "The scapular Y projection of the shoulder is used mainly to show",
+    "options": [
+      "the glenoid fossa in profile",
+      "the acromioclavicular joint",
+      "anterior or posterior dislocation of the humerus",
+      "the intertubercular groove"
+    ],
+    "answer": 2,
+    "explanation": "The Y is formed by the acromion, coracoid and scapular body; a dislocated humeral head lies off its center, anterior or posterior."
+  },
+  {
+    "id": "proc-008",
+    "area": "procedures",
+    "topic": "Shoulder",
+    "stem": "For the AP oblique projection (Grashey method) of the glenoid fossa, the patient is rotated",
+    "options": [
+      "15 degrees away from the affected side",
+      "30 degrees away from the affected side",
+      "90 degrees into a lateral",
+      "45 degrees toward the affected side"
+    ],
+    "answer": 3,
+    "explanation": "Turning about 35 to 45 degrees toward the affected side opens the glenohumeral joint and shows the glenoid fossa in profile."
+  },
+  {
+    "id": "proc-009",
+    "area": "procedures",
+    "topic": "Knee",
+    "stem": "The tunnel view (PA axial, Camp-Coventry method) of the knee demonstrates the",
+    "options": ["intercondyloid fossa", "patellofemoral joint", "fibular head", "tibial tuberosity"],
+    "answer": 0,
+    "explanation": "The tunnel view is used to demonstrate the intercondyloid fossa."
+  },
+  {
+    "id": "proc-010",
+    "area": "procedures",
+    "topic": "Knee",
+    "stem": "For a lateral knee, the central ray is usually angled",
+    "options": ["0 degrees (perpendicular)", "5 degrees cephalad", "15 degrees caudad", "25 degrees cephalad"],
+    "answer": 1,
+    "explanation": "About 5 degrees cephalad keeps the medial femoral condyle from obscuring the joint space."
+  },
+  {
+    "id": "proc-011",
+    "area": "procedures",
+    "topic": "Lumbar spine",
+    "stem": "A 45-degree oblique of the lumbar spine is performed mainly to show the",
+    "options": ["intervertebral foramina", "spinous processes", "zygapophyseal joints", "sacroiliac joints"],
+    "answer": 2,
+    "explanation": "The lumbar zygapophyseal (apophyseal) joints lie at an angle to the midsagittal plane and open in the 45-degree oblique."
+  },
+  {
+    "id": "proc-012",
+    "area": "procedures",
+    "topic": "Lumbar spine",
+    "stem": "The lumbar intervertebral foramina are best demonstrated in which projection?",
+    "options": ["AP", "45-degree oblique", "AP axial", "Lateral"],
+    "answer": 3,
+    "explanation": "Lumbar intervertebral foramina lie at 90 degrees to the midsagittal plane, so they are parallel to the central ray in the lateral."
+  },
+  {
+    "id": "proc-013",
+    "area": "procedures",
+    "topic": "Cervical spine",
+    "stem": "The cervical intervertebral foramina are best demonstrated in",
+    "options": [
+      "45-degree oblique projections",
+      "the AP projection",
+      "the lateral projection",
+      "the open-mouth projection"
+    ],
+    "answer": 0,
+    "explanation": "Cervical intervertebral foramina lie at about 45 degrees to the midsagittal plane, so they open in 45-degree obliques."
+  },
+  {
+    "id": "proc-014",
+    "area": "procedures",
+    "topic": "Cervical spine",
+    "stem": "The AP open-mouth projection demonstrates",
+    "options": [
+      "the bodies of C3 to C7",
+      "the atlas and axis (C1 and C2)",
+      "the intervertebral foramina",
+      "the cervicothoracic junction"
+    ],
+    "answer": 1,
+    "explanation": "With the mouth open, the teeth and skull are moved out of the way of C1, C2 and the odontoid process."
+  },
+  {
+    "id": "proc-015",
+    "area": "procedures",
+    "topic": "Sinuses",
+    "stem": "In the parietoacanthial projection (Waters method), the orbitomeatal line forms what angle with the image receptor?",
+    "options": ["15 degrees", "23 degrees", "37 degrees", "53 degrees"],
+    "answer": 2,
+    "explanation": "With the chin raised so the OML is 37 degrees to the IR, the petrous pyramids project below the maxillary sinuses."
+  },
+  {
+    "id": "proc-016",
+    "area": "procedures",
+    "topic": "Sinuses",
+    "stem": "The PA projection (Caldwell method) is used to demonstrate the",
+    "options": [
+      "sphenoid sinuses",
+      "maxillary sinuses free of the petrous ridges",
+      "mastoid air cells",
+      "frontal and anterior ethmoid sinuses"
+    ],
+    "answer": 3,
+    "explanation": "The Caldwell PA shows the frontal sinuses and the anterior ethmoid sinuses."
+  },
+  {
+    "id": "proc-017",
+    "area": "procedures",
+    "topic": "Skull",
+    "stem": "The AP axial projection (Towne method) of the skull, with the central ray 30 degrees caudad to the OML, best demonstrates the",
+    "options": ["occipital bone", "frontal bone", "facial bones", "nasal bones"],
+    "answer": 0,
+    "explanation": "The caudal angle projects the frontal and facial bones downward, so the occipital bone is seen without superimposition."
+  },
+  {
+    "id": "proc-018",
+    "area": "procedures",
+    "topic": "Skull",
+    "stem": "Which skull projection demonstrates the cranial base, sphenoid sinuses, atlas and odontoid process?",
+    "options": ["PA (Caldwell)", "Submentovertical (SMV)", "Parietoacanthial (Waters)", "Lateral"],
+    "answer": 1,
+    "explanation": "In the submentovertical projection the central ray passes up through the base of the skull."
+  },
+  {
+    "id": "proc-019",
+    "area": "procedures",
+    "topic": "Wrist",
+    "stem": "Which maneuver better demonstrates the carpal scaphoid?",
+    "options": ["Radial flexion", "Dorsiflexion", "Ulnar flexion (deviation)", "Pronation with the fingers extended"],
+    "answer": 2,
+    "explanation": "Ulnar flexion, often with the fist clenched, straightens the scaphoid and opens the spaces around it."
+  },
+  {
+    "id": "proc-020",
+    "area": "procedures",
+    "topic": "Elbow",
+    "stem": "The medial (internal) oblique projection of the elbow best demonstrates the",
+    "options": ["radial head free of the ulna", "olecranon process in profile", "capitulum", "coronoid process"],
+    "answer": 3,
+    "explanation": "Internal rotation projects the coronoid process free of superimposition; the lateral (external) oblique frees the radial head."
+  },
+  {
+    "id": "proc-021",
+    "area": "procedures",
+    "topic": "Humerus",
+    "stem": "For a lateral projection of the humerus, the epicondyles are placed",
+    "options": ["perpendicular to the IR", "parallel to the IR", "at 45 degrees to the IR", "at 20 degrees to the IR"],
+    "answer": 0,
+    "explanation": "Internal rotation puts the epicondyles perpendicular to the IR and superimposed, giving a true lateral."
+  },
+  {
+    "id": "proc-022",
+    "area": "procedures",
+    "topic": "Forearm",
+    "stem": "For an AP projection of the forearm, the hand is",
+    "options": ["pronated", "supinated", "placed in a lateral position", "in ulnar flexion"],
+    "answer": 1,
+    "explanation": "Supination keeps the radius and ulna parallel; pronation would cross the radius over the ulna."
+  },
+  {
+    "id": "proc-023",
+    "area": "procedures",
+    "topic": "Ankle",
+    "stem": "For the mortise projection of the ankle, the leg and foot are rotated",
+    "options": ["45 degrees laterally", "90 degrees into a lateral", "15 to 20 degrees medially", "not at all"],
+    "answer": 2,
+    "explanation": "Medial rotation of 15 to 20 degrees places the malleoli parallel to the IR and opens the whole mortise joint."
+  },
+  {
+    "id": "proc-024",
+    "area": "procedures",
+    "topic": "Ankle",
+    "stem": "The ankle mortise is formed by the",
+    "options": ["tibia, fibula and calcaneus", "talus and calcaneus", "tibia and navicular", "tibia, fibula and talus"],
+    "answer": 3,
+    "explanation": "The ankle joint is formed by the tibia, the fibula and the talus; the calcaneus is not part of it."
+  },
+  {
+    "id": "proc-025",
+    "area": "procedures",
+    "topic": "Foot",
+    "stem": "The subtalar joint is formed by the",
+    "options": ["talus and calcaneus", "talus and navicular", "calcaneus and cuboid", "tibia and talus"],
+    "answer": 0,
+    "explanation": "The talocalcaneal (subtalar) joint is a three-faceted joint between the talus and the calcaneus."
+  },
+  {
+    "id": "proc-026",
+    "area": "procedures",
+    "topic": "Foot",
+    "stem": "For the axial (plantodorsal) projection of the calcaneus, the central ray is directed",
+    "options": ["15 degrees cephalad", "40 degrees cephalad", "55 degrees caudad", "perpendicular"],
+    "answer": 1,
+    "explanation": "The central ray is angled 40 degrees cephalad to the long axis of the foot."
+  },
+  {
+    "id": "proc-027",
+    "area": "procedures",
+    "topic": "Hip",
+    "stem": "For an AP hip, the affected leg is rotated internally 15 to 20 degrees to",
+    "options": [
+      "show the lesser trochanter in profile",
+      "demonstrate the acetabulum",
+      "place the femoral neck parallel to the IR",
+      "show the sacroiliac joint"
+    ],
+    "answer": 2,
+    "explanation": "Internal rotation brings the femoral neck parallel to the IR so its full length is shown without foreshortening."
+  },
+  {
+    "id": "proc-028",
+    "area": "procedures",
+    "topic": "Hip",
+    "stem": "If a hip fracture is suspected, the lateral projection taken without moving the leg is the",
+    "options": [
+      "frog-leg lateral",
+      "AP with internal rotation",
+      "AP pelvis with the legs abducted",
+      "axiolateral (Danelius-Miller method)"
+    ],
+    "answer": 3,
+    "explanation": "The cross-table axiolateral is done without moving the injured leg; the frog-leg position requires moving it."
+  },
+  {
+    "id": "proc-029",
+    "area": "procedures",
+    "topic": "Upper GI",
+    "stem": "During an upper GI series, which position shows a barium-filled pylorus and duodenum?",
+    "options": ["RAO", "LPO", "Left lateral", "AP supine"],
+    "answer": 0,
+    "explanation": "In the RAO position, barium drains toward the pylorus and duodenum."
+  },
+  {
+    "id": "proc-030",
+    "area": "procedures",
+    "topic": "Esophagus",
+    "stem": "For an esophagram, which oblique position places the esophagus between the spine and the heart?",
+    "options": ["LAO", "RAO", "LPO", "RPO"],
+    "answer": 1,
+    "explanation": "The RAO position projects the barium-filled esophagus between the vertebral column and the heart."
+  },
+  {
+    "id": "proc-031",
+    "area": "procedures",
+    "topic": "Lower GI",
+    "stem": "During a barium enema, the LPO position best demonstrates the",
+    "options": ["left colic (splenic) flexure", "rectum", "right colic (hepatic) flexure", "sigmoid colon in profile"],
+    "answer": 2,
+    "explanation": "The LPO (and its counterpart the RAO) opens the right colic flexure; the RPO and LAO open the left colic flexure."
+  },
+  {
+    "id": "proc-032",
+    "area": "procedures",
+    "topic": "Urinary",
+    "stem": "During IV urography, the prone position is recommended mainly to demonstrate",
+    "options": ["the upper poles of the kidneys", "the bladder neck", "the renal arteries", "filling of the ureters"],
+    "answer": 3,
+    "explanation": "Prone, the ureters are dependent and fill better with contrast."
+  },
+  {
+    "id": "proc-033",
+    "area": "procedures",
+    "topic": "Urinary",
+    "stem": "In retrograde pyelography, the contrast agent is introduced",
+    "options": [
+      "into the ureters through a cystoscope",
+      "by intravenous injection",
+      "by mouth",
+      "by intramuscular injection"
+    ],
+    "answer": 0,
+    "explanation": "A retrograde pyelogram fills the collecting system through ureteral catheters placed during cystoscopy; an IVU uses an intravenous injection."
+  },
+  {
+    "id": "proc-034",
+    "area": "procedures",
+    "topic": "Terminology",
+    "stem": "A patient lying on the back is in which position?",
+    "options": ["Prone", "Supine", "Lateral recumbent", "Fowler"],
+    "answer": 1,
+    "explanation": "Supine means lying on the back; prone means lying face down."
+  },
+  {
+    "id": "proc-035",
+    "area": "procedures",
+    "topic": "Terminology",
+    "stem": "In the RAO position, which surface of the patient is against the image receptor?",
+    "options": ["Left posterior", "Right posterior", "Right anterior", "Left anterior"],
+    "answer": 2,
+    "explanation": "Right anterior oblique: the right front of the body is closest to the receptor."
+  },
+  {
+    "id": "proc-036",
+    "area": "procedures",
+    "topic": "Chest",
+    "stem": "For a PA chest, the shoulders are relaxed and depressed in order to",
+    "options": [
+      "reduce magnification of the heart",
+      "show the costophrenic angles",
+      "raise the diaphragm",
+      "move the clavicles below the lung apices"
+    ],
+    "answer": 3,
+    "explanation": "Relaxed, depressed shoulders bring the clavicles down below the apices, so the tops of the lungs are not hidden."
+  },
+  {
+    "id": "proc-037",
+    "area": "procedures",
+    "topic": "Ribs",
+    "stem": "Ribs below the diaphragm are radiographed on",
+    "options": ["expiration", "inspiration", "shallow breathing", "a Valsalva maneuver"],
+    "answer": 0,
+    "explanation": "Expiration raises the diaphragm, showing the lower ribs against the abdomen; ribs above the diaphragm are taken on inspiration."
+  },
+  {
+    "id": "proc-038",
+    "area": "procedures",
+    "topic": "Lower GI",
+    "stem": "To open the S-shaped sigmoid colon in an AP projection during a barium enema, the central ray is directed",
+    "options": ["perpendicular", "30 to 40 degrees cephalad", "10 degrees caudad", "45 degrees caudad"],
+    "answer": 1,
+    "explanation": "A 30- to 40-degree cephalad angle elongates the sigmoid so its loops do not overlap; for a PA projection the angle is reversed."
+  },
+  {
+    "id": "proc-039",
+    "area": "procedures",
+    "topic": "Sternum",
+    "stem": "The sternum is radiographed in which position, so that it is projected over the heart shadow?",
+    "options": ["LPO 45 degrees", "Left lateral", "RAO 15 to 20 degrees", "PA without rotation"],
+    "answer": 2,
+    "explanation": "A slight RAO projects the sternum over the heart, whose uniform density makes it visible; in a PA it would be hidden by the spine."
+  },
+  {
+    "id": "proc-040",
+    "area": "procedures",
+    "topic": "Pelvis",
+    "stem": "In an AP oblique (LPO) projection of the sacroiliac joints, which joint is demonstrated?",
+    "options": ["The left", "Both, equally", "Neither", "The right, the side farther from the IR"],
+    "answer": 3,
+    "explanation": "For the sacroiliac joints, the AP obliques show the joint farther from the IR: the LPO shows the right joint."
+  },
+  {
+    "id": "proc-041",
+    "area": "procedures",
+    "topic": "Shoulder",
+    "stem": "To demonstrate acromioclavicular joint separation, AP projections of both joints are taken",
+    "options": [
+      "with and without weights",
+      "with the arms abducted 90 degrees",
+      "with the patient prone",
+      "with the central ray 45 degrees caudad"
+    ],
+    "answer": 0,
+    "explanation": "Weights hung from the wrists pull the shoulders down and show a separation that may not appear without them."
+  },
+  {
+    "id": "proc-042",
+    "area": "procedures",
+    "topic": "Cervical spine",
+    "stem": "When the open-mouth projection does not show the upper odontoid process well, which projection can supplement it?",
+    "options": [
+      "Swimmer's lateral",
+      "AP or PA through the foramen magnum (Fuchs or Judd method)",
+      "AP axial with 15 degrees cephalad",
+      "Lateral in flexion"
+    ],
+    "answer": 1,
+    "explanation": "The Fuchs (AP) and Judd (PA) methods project the odontoid within the foramen magnum."
+  },
+  {
+    "id": "proc-043",
+    "area": "procedures",
+    "topic": "Hand",
+    "stem": "For a PA oblique projection of the hand, the fingers should be",
+    "options": [
+      "flexed onto the IR",
+      "overlapping one another",
+      "parallel to the IR, to open the joints",
+      "curled into a fist"
+    ],
+    "answer": 2,
+    "explanation": "Fingers kept parallel to the IR, often on a sponge, show the interphalangeal joints open without foreshortening."
+  },
+  {
+    "id": "proc-044",
+    "area": "procedures",
+    "topic": "Foot",
+    "stem": "For an AP (dorsoplantar) projection of the foot, the central ray is directed",
+    "options": [
+      "perpendicular to the IR",
+      "10 degrees toward the toes",
+      "25 degrees toward the toes",
+      "10 degrees posteriorly (toward the heel)"
+    ],
+    "answer": 3,
+    "explanation": "Angling the central ray 10 degrees posteriorly puts it perpendicular to the metatarsals and opens the tarsometatarsal joints."
+  },
+  {
+    "id": "proc-045",
+    "area": "procedures",
+    "topic": "Knee",
+    "stem": "A tangential (sunrise) projection of the patella shows the",
+    "options": ["patellofemoral articulation", "intercondyloid fossa", "tibial plateau", "fibular head"],
+    "answer": 0,
+    "explanation": "The tangential projection shows the patella in profile and the joint space between it and the femur."
+  },
+  {
+    "id": "proc-046",
+    "area": "procedures",
+    "topic": "Cervical spine",
+    "stem": "A lateral cervical spine is usually taken at what SID, to reduce magnification from the large OID?",
+    "options": ["40 in", "72 in", "48 in", "30 in"],
+    "answer": 1,
+    "explanation": "The shoulder keeps the spine far from the IR, so a 72-in SID is used to reduce magnification."
+  },
+  {
+    "id": "proc-047",
+    "area": "procedures",
+    "topic": "Cervical spine",
+    "stem": "The routine lateral projection of the cervical spine is also known as the",
+    "options": ["Fuchs method", "Judd method", "Grandy method", "Ottonello method"],
+    "answer": 2,
+    "explanation": "The Grandy method is the routine lateral cervical spine. Fuchs and Judd show the odontoid; Ottonello is the moving-jaw AP."
+  },
+  {
+    "id": "proc-048",
+    "area": "procedures",
+    "topic": "Cervical spine",
+    "stem": "For the AP axial projection of the cervical spine, the central ray is directed",
+    "options": ["perpendicular", "15 to 20 degrees caudad", "35 degrees cephalad", "15 to 20 degrees cephalad"],
+    "answer": 3,
+    "explanation": "A 15- to 20-degree cephalad angle matches the slope of the vertebral bodies and opens the intervertebral disk spaces."
+  },
+  {
+    "id": "proc-049",
+    "area": "procedures",
+    "topic": "Spine",
+    "stem": "Which of the following helps reduce breast exposure during scoliosis examinations?",
+    "options": ["A high-speed imaging system", "A lower kVp", "A shorter SID", "A larger field size"],
+    "answer": 0,
+    "explanation": "Scoliosis patients are often young and imaged repeatedly. A fast imaging system, compensating filters and the PA projection all lower breast dose."
+  },
+  {
+    "id": "proc-050",
+    "area": "procedures",
+    "topic": "Special procedures",
+    "stem": "Hysterosalpingography demonstrates",
+    "options": [
+      "the urinary bladder",
+      "the uterus and the patency of the uterine tubes",
+      "the seminal vesicles",
+      "the biliary ducts"
+    ],
+    "answer": 1,
+    "explanation": "Contrast introduced into the uterus outlines its cavity and shows whether the uterine (fallopian) tubes are open."
+  }
+]

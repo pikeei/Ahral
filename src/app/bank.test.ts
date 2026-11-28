@@ -16,7 +16,7 @@ const entry = {
 
 describe('built-in question bank', () => {
   it('has well-formed questions with unique ids, four options and a valid answer', () => {
-    expect(BUILT_IN_BANK.length).toBeGreaterThanOrEqual(150)
+    expect(BUILT_IN_BANK.length).toBeGreaterThanOrEqual(200)
     expect(new Set(BUILT_IN_BANK.map((q) => q.id)).size).toBe(BUILT_IN_BANK.length)
     for (const q of BUILT_IN_BANK) {
       expect(q.id.startsWith(BANK_PREFIX)).toBe(true)
