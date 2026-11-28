@@ -1,0 +1,177 @@
+[
+  {
+    "id": "care-056",
+    "area": "patient-care",
+    "topic": "Tubes and lines",
+    "stem": "A tracheostomy is",
+    "options": [
+      "a tube from the nose to the stomach",
+      "a surgical opening of the trachea that secures an open airway",
+      "an opening of the colon onto the abdomen",
+      "a drain in the pleural space"
+    ],
+    "answer": 1,
+    "explanation": "A tracheostomy is a surgical opening into the trachea to provide and secure an airway."
+  },
+  {
+    "id": "care-057",
+    "area": "patient-care",
+    "topic": "Legal and ethics",
+    "stem": "Moving a patient roughly, or touching the patient inappropriately, could lead to a charge of",
+    "options": ["libel", "slander", "battery", "false imprisonment"],
+    "answer": 2,
+    "explanation": "Battery is the unlawful laying of hands on a patient, including rough or inappropriate handling or touching without consent."
+  },
+  {
+    "id": "care-058",
+    "area": "patient-care",
+    "topic": "Infection control",
+    "stem": "During mobile radiography of a patient in isolation, the mobile unit should be cleaned with a disinfectant",
+    "options": [
+      "only before entering the room",
+      "once a week",
+      "only if visibly soiled",
+      "on leaving the patient's room"
+    ],
+    "answer": 3,
+    "explanation": "One person stays clean and runs the unit while the other handles the patient, and the unit is disinfected on leaving the room."
+  },
+  {
+    "id": "care-059",
+    "area": "patient-care",
+    "topic": "Medical emergencies",
+    "stem": "Hand hygiene with an alcohol-based sanitizer is acceptable unless",
+    "options": [
+      "the hands are visibly soiled or the patient has C. difficile",
+      "the patient is in droplet isolation",
+      "gloves were worn",
+      "the patient is a child"
+    ],
+    "answer": 0,
+    "explanation": "Visible soiling and C. difficile spores require washing with soap and water."
+  },
+  {
+    "id": "care-060",
+    "area": "patient-care",
+    "topic": "Vital signs",
+    "stem": "A pulse oximeter is used to measure the patient's",
+    "options": ["blood pressure", "pulse rate and oxygen saturation", "temperature", "respiratory rate"],
+    "answer": 1,
+    "explanation": "A pulse oximeter clipped to a finger reads the pulse and the oxygen saturation of arterial blood."
+  },
+  {
+    "id": "care-061",
+    "area": "patient-care",
+    "topic": "Medications",
+    "stem": "Diphenhydramine (Benadryl), often given for mild contrast reactions, is",
+    "options": ["an anticoagulant", "an analgesic", "an antihistamine", "an antiemetic"],
+    "answer": 2,
+    "explanation": "Antihistamines block histamine, relieving hives and itching from allergic-type reactions."
+  },
+  {
+    "id": "care-062",
+    "area": "patient-care",
+    "topic": "Medications",
+    "stem": "Heparin is classified as",
+    "options": ["an antihistamine", "an analgesic", "an antiemetic", "an anticoagulant"],
+    "answer": 3,
+    "explanation": "Heparin prevents blood clotting; it is also used to keep heparin locks open."
+  },
+  {
+    "id": "care-063",
+    "area": "patient-care",
+    "topic": "Medications",
+    "stem": "A drug that relieves pain, such as aspirin, is",
+    "options": ["an analgesic", "an anticoagulant", "an antipyretic only", "a sedative"],
+    "answer": 0,
+    "explanation": "Analgesics relieve pain; aspirin also reduces fever and slows clotting."
+  },
+  {
+    "id": "care-064",
+    "area": "patient-care",
+    "topic": "Medications",
+    "stem": "A diuretic is given to",
+    "options": ["prevent blood clotting", "increase urine output", "relieve pain", "reduce fever"],
+    "answer": 1,
+    "explanation": "Diuretics make the kidneys excrete more water; anticoagulants such as heparin prevent clotting."
+  },
+  {
+    "id": "care-065",
+    "area": "patient-care",
+    "topic": "Infection control",
+    "stem": "When removing personal protective equipment, which item is usually removed first because it is the most contaminated?",
+    "options": ["Mask", "Goggles", "Gloves", "Shoe covers"],
+    "answer": 2,
+    "explanation": "Gloves come off first; the mask or respirator is removed last, outside the room."
+  },
+  {
+    "id": "care-066",
+    "area": "patient-care",
+    "topic": "Infection control",
+    "stem": "Protective (reverse) isolation is used to protect",
+    "options": [
+      "staff from a patient with tuberculosis",
+      "other patients from MRSA",
+      "visitors from influenza",
+      "a patient whose immune system is weakened"
+    ],
+    "answer": 3,
+    "explanation": "Reverse isolation keeps microorganisms away from patients who cannot fight infection, such as some chemotherapy or burn patients."
+  },
+  {
+    "id": "care-067",
+    "area": "patient-care",
+    "topic": "Legal and ethics",
+    "stem": "Honesty, integrity and probity are",
+    "options": [
+      "ethical qualities required of students and health care professionals",
+      "legal doctrines used in malpractice cases",
+      "steps of infection control",
+      "rights listed in HIPAA"
+    ],
+    "answer": 0,
+    "explanation": "These are the ethical qualities expected of students and health care professionals."
+  },
+  {
+    "id": "care-068",
+    "area": "patient-care",
+    "topic": "Legal and ethics",
+    "stem": "To prove negligence, a patient must show a duty, a breach of that duty, an injury and",
+    "options": [
+      "intent to cause harm",
+      "a causal link between the breach and the injury",
+      "a written contract",
+      "two witnesses"
+    ],
+    "answer": 1,
+    "explanation": "Negligence requires duty, breach, injury and causation; intent is not needed."
+  },
+  {
+    "id": "care-069",
+    "area": "patient-care",
+    "topic": "Tubes and lines",
+    "stem": "Which statement about a patient with a tracheostomy is true?",
+    "options": [
+      "The patient can speak normally",
+      "The tube must never be suctioned",
+      "The patient often has difficulty speaking",
+      "The patient cannot receive oxygen"
+    ],
+    "answer": 2,
+    "explanation": "Air bypasses the vocal cords through the tracheostomy, so speaking is difficult; for mobile chest images the tube is rotated out of view."
+  },
+  {
+    "id": "care-070",
+    "area": "patient-care",
+    "topic": "Tubes and lines",
+    "stem": "A colostomy is",
+    "options": [
+      "a tube into the bladder",
+      "an opening into the trachea",
+      "a drain in the chest",
+      "a surgical opening of the colon onto the abdominal wall"
+    ],
+    "answer": 3,
+    "explanation": "A colostomy brings part of the colon to an opening (stoma) on the abdomen; contrast studies may be done through it."
+  }
+]

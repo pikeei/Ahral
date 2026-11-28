@@ -1,8 +1,13 @@
 import imageProduction from '../content/bank/image-production.json'
+import imageProduction2 from '../content/bank/image-production-2.json'
 import patientCare from '../content/bank/patient-care.json'
+import patientCare2 from '../content/bank/patient-care-2.json'
+import patientCare3 from '../content/bank/patient-care-3.json'
 import procedures from '../content/bank/procedures.json'
 import procedures2 from '../content/bank/procedures-2.json'
+import procedures3 from '../content/bank/procedures-3.json'
 import safety from '../content/bank/safety.json'
+import safety2 from '../content/bank/safety-2.json'
 import { CONTENT_AREAS, type ContentArea } from '../core/exam/areas'
 import type { Question } from '../core/generation/types'
 
@@ -59,8 +64,13 @@ export function toQuestion(entry: BankEntry): Question {
 
 export const BUILT_IN_BANK: Question[] = [
   ...patientCare,
+  ...patientCare2,
+  ...patientCare3,
   ...safety,
+  ...safety2,
   ...imageProduction,
+  ...imageProduction2,
   ...procedures,
-  ...procedures2
+  ...procedures2,
+  ...procedures3
 ].map(toQuestion)

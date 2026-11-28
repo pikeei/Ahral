@@ -1,0 +1,377 @@
+[
+  {
+    "id": "proc-101",
+    "area": "procedures",
+    "topic": "Body habitus",
+    "stem": "Which body habitus is the least common, found in about 5% of the population?",
+    "options": ["Hypersthenic", "Sthenic", "Hyposthenic", "Asthenic"],
+    "answer": 0,
+    "explanation": "Hypersthenic (about 5%) and asthenic (about 10%) are the extremes; most people are sthenic or hyposthenic."
+  },
+  {
+    "id": "proc-102",
+    "area": "procedures",
+    "topic": "Body habitus",
+    "stem": "In an asthenic patient, the gallbladder is usually",
+    "options": ["high and lateral", "low and medial", "in the left upper quadrant", "directly over T10"],
+    "answer": 1,
+    "explanation": "The asthenic type has a long thorax, a very low stomach and a low, medial gallbladder; the hypersthenic gallbladder is high and lateral."
+  },
+  {
+    "id": "proc-103",
+    "area": "procedures",
+    "topic": "Chest",
+    "stem": "For a PA chest, rolling the shoulders forward",
+    "options": [
+      "depresses the clavicles",
+      "reduces magnification of the heart",
+      "removes the scapulae from the lung fields",
+      "raises the diaphragm"
+    ],
+    "answer": 2,
+    "explanation": "Rolling the shoulders forward moves the scapulae laterally, out of the lung fields."
+  },
+  {
+    "id": "proc-104",
+    "area": "procedures",
+    "topic": "Chest",
+    "stem": "Adequate inspiration on a PA chest is shown by at least how many posterior ribs above the diaphragm?",
+    "options": ["6", "7", "8", "10"],
+    "answer": 3,
+    "explanation": "Ten posterior ribs visible above the diaphragm show a good inspiration."
+  },
+  {
+    "id": "proc-105",
+    "area": "procedures",
+    "topic": "Chest",
+    "stem": "On a PA chest, rotation is shown by",
+    "options": [
+      "unequal distances between the sternum and the medial ends of the clavicles",
+      "fewer than ten ribs above the diaphragm",
+      "the scapulae projecting into the lungs",
+      "blurred heart borders"
+    ],
+    "answer": 0,
+    "explanation": "Without rotation, the medial ends of the clavicles are the same distance from the sternum and spine."
+  },
+  {
+    "id": "proc-106",
+    "area": "procedures",
+    "topic": "Shoulder",
+    "stem": "The sternoclavicular joints are best demonstrated with the patient",
+    "options": [
+      "AP, with the affected side away from the IR",
+      "PA and slightly oblique, with the affected side next to the IR",
+      "in a lateral position",
+      "AP, with the central ray 30 degrees caudad"
+    ],
+    "answer": 1,
+    "explanation": "A slight PA oblique, affected side adjacent, projects the joint free of the spine."
+  },
+  {
+    "id": "proc-107",
+    "area": "procedures",
+    "topic": "Foot",
+    "stem": "The sesamoid bones of the foot are best shown free of superimposition in which projection?",
+    "options": ["Dorsoplantar", "Lateral", "Tangential", "Medial oblique"],
+    "answer": 2,
+    "explanation": "The tangential projection, usually with the patient prone, separates the sesamoids from the metatarsals and phalanges."
+  },
+  {
+    "id": "proc-108",
+    "area": "procedures",
+    "topic": "Cervical spine",
+    "stem": "Lateral flexion and extension views of the cervical spine are used to show",
+    "options": [
+      "the intervertebral foramina",
+      "the odontoid process",
+      "the zygapophyseal joints",
+      "the degree of anterior and posterior motion"
+    ],
+    "answer": 3,
+    "explanation": "After injuries such as whiplash, flexion and extension views show how far the vertebrae move."
+  },
+  {
+    "id": "proc-109",
+    "area": "procedures",
+    "topic": "Cervical spine",
+    "stem": "In anterior oblique (LAO or RAO) projections of the cervical spine, the intervertebral foramina shown are those",
+    "options": ["closer to the IR", "farther from the IR", "on both sides equally", "of the thoracic spine only"],
+    "answer": 0,
+    "explanation": "Anterior obliques show the foramina nearer the IR; posterior obliques show those farther away."
+  },
+  {
+    "id": "proc-110",
+    "area": "procedures",
+    "topic": "Cervical spine",
+    "stem": "In posterior oblique (LPO or RPO) projections of the cervical spine, the foramina shown are",
+    "options": [
+      "those closer to the IR",
+      "those farther from the IR, with some magnification",
+      "on both sides equally",
+      "not shown at all"
+    ],
+    "answer": 1,
+    "explanation": "The foramina farther from the IR are shown, and their extra OID causes some magnification."
+  },
+  {
+    "id": "proc-111",
+    "area": "procedures",
+    "topic": "Skull",
+    "stem": "The temporomandibular joint is classified as",
+    "options": ["synarthrotic", "amphiarthrotic", "diarthrotic, with hinge and planar movements", "a fibrous suture"],
+    "answer": 2,
+    "explanation": "The TMJ is a freely movable synovial joint that both hinges and glides."
+  },
+  {
+    "id": "proc-112",
+    "area": "procedures",
+    "topic": "Skull",
+    "stem": "For a lateral projection of the sella turcica, the central ray is centered",
+    "options": ["at the EAM", "2 in above the EAM", "at the nasion", "3/4 in anterior and superior to the EAM"],
+    "answer": 3,
+    "explanation": "The sella turcica lies about 3/4 in anterior and superior to the external auditory meatus."
+  },
+  {
+    "id": "proc-113",
+    "area": "procedures",
+    "topic": "Skull",
+    "stem": "The Haas method (PA, central ray 25 degrees cephalad) demonstrates the",
+    "options": ["occipital bone and sella turcica", "frontal sinuses", "mandible", "orbits"],
+    "answer": 0,
+    "explanation": "The Haas method is a PA alternative to the Towne for patients who cannot lie supine."
+  },
+  {
+    "id": "proc-114",
+    "area": "procedures",
+    "topic": "Urinary",
+    "stem": "Nephrotomography, performed after IV contrast, is mainly used to evaluate",
+    "options": [
+      "vesicoureteral reflux",
+      "small intrarenal lesions and renal hypertension",
+      "urethral strictures",
+      "the urinary bladder"
+    ],
+    "answer": 1,
+    "explanation": "Tomographic cuts through the kidneys show small lesions within them."
+  },
+  {
+    "id": "proc-115",
+    "area": "procedures",
+    "topic": "Skull",
+    "stem": "The Stenvers position is used to image the",
+    "options": ["orbits", "sella turcica", "mastoids and petrous portion", "zygomatic arches"],
+    "answer": 2,
+    "explanation": "The Stenvers position shows the petrous portion of the temporal bone and the mastoid."
+  },
+  {
+    "id": "proc-116",
+    "area": "procedures",
+    "topic": "Pathology",
+    "stem": "Intussusception is",
+    "options": [
+      "an inflammatory joint disorder",
+      "a congenital heart defect",
+      "a type of fracture",
+      "an obstructive disorder of the bowel"
+    ],
+    "answer": 3,
+    "explanation": "In intussusception, a segment of bowel telescopes into the next, obstructing it."
+  },
+  {
+    "id": "proc-117",
+    "area": "procedures",
+    "topic": "Shoulder",
+    "stem": "The lateral border of the scapula is also called the",
+    "options": ["axillary border", "vertebral border", "superior border", "glenoid border"],
+    "answer": 0,
+    "explanation": "The lateral border faces the axilla; the medial border faces the spine and is called the vertebral border."
+  },
+  {
+    "id": "proc-118",
+    "area": "procedures",
+    "topic": "Shoulder",
+    "stem": "The glenoid fossa of the scapula articulates with the",
+    "options": ["clavicle", "head of the humerus", "acromion", "coracoid process"],
+    "answer": 1,
+    "explanation": "The glenoid fossa is the articular surface for the humeral head, forming the glenohumeral joint."
+  },
+  {
+    "id": "proc-119",
+    "area": "procedures",
+    "topic": "Knee",
+    "stem": "The knee is classified as which type of joint?",
+    "options": ["Synarthrotic", "Cartilaginous", "Diarthrotic (synovial)", "Fibrous"],
+    "answer": 2,
+    "explanation": "Like the TMJ, the knee is a freely movable synovial joint with a joint capsule."
+  },
+  {
+    "id": "proc-120",
+    "area": "procedures",
+    "topic": "Chest",
+    "stem": "To show the parts of the lungs behind the clavicles with the patient AP, the central ray is directed",
+    "options": ["perpendicular", "15 degrees caudad", "45 degrees cephalad", "15 to 20 degrees cephalad"],
+    "answer": 3,
+    "explanation": "A cephalad angle projects the clavicles above the apices."
+  },
+  {
+    "id": "proc-121",
+    "area": "procedures",
+    "topic": "Chest",
+    "stem": "Chest radiographs are usually taken at a 72-in SID in order to",
+    "options": [
+      "reduce magnification of the heart",
+      "reduce patient dose",
+      "increase contrast",
+      "shorten the exposure time"
+    ],
+    "answer": 0,
+    "explanation": "The long SID reduces magnification, so the heart's size is shown more accurately."
+  },
+  {
+    "id": "proc-122",
+    "area": "procedures",
+    "topic": "Chest",
+    "stem": "For a lateral chest, the patient's arms are",
+    "options": [
+      "at the sides",
+      "raised above the head, out of the lung fields",
+      "crossed over the chest",
+      "behind the back"
+    ],
+    "answer": 1,
+    "explanation": "Raising the arms keeps the soft tissue of the arms from overlapping the lungs."
+  },
+  {
+    "id": "proc-123",
+    "area": "procedures",
+    "topic": "Chest",
+    "stem": "For a PA chest, the chin is raised to",
+    "options": [
+      "reduce patient dose",
+      "show the trachea",
+      "keep it out of the upper lung fields",
+      "straighten the spine"
+    ],
+    "answer": 2,
+    "explanation": "A raised chin stays above the apices instead of overlapping them."
+  },
+  {
+    "id": "proc-124",
+    "area": "procedures",
+    "topic": "Landmarks",
+    "stem": "Which landmark is at about the same level as the pubic symphysis?",
+    "options": ["Iliac crest", "ASIS", "Xiphoid process", "Greater trochanter"],
+    "answer": 3,
+    "explanation": "The top of the greater trochanter is about level with the pubic symphysis."
+  },
+  {
+    "id": "proc-125",
+    "area": "procedures",
+    "topic": "Landmarks",
+    "stem": "The anterior superior iliac spine (ASIS) is at about the level of",
+    "options": ["S1–S2", "L1", "T12", "the coccyx"],
+    "answer": 0,
+    "explanation": "The ASIS lies at about the level of the first and second sacral segments."
+  },
+  {
+    "id": "proc-126",
+    "area": "procedures",
+    "topic": "Landmarks",
+    "stem": "The xiphoid process is at about the level of",
+    "options": ["T5", "T9–T10", "L3", "C7"],
+    "answer": 1,
+    "explanation": "The xiphoid tip lies at about T9–T10."
+  },
+  {
+    "id": "proc-127",
+    "area": "procedures",
+    "topic": "Landmarks",
+    "stem": "The jugular notch is at about the level of",
+    "options": ["C5", "T7", "T2–T3", "L1"],
+    "answer": 2,
+    "explanation": "The jugular (suprasternal) notch lies at about T2–T3."
+  },
+  {
+    "id": "proc-128",
+    "area": "procedures",
+    "topic": "Landmarks",
+    "stem": "The vertebra prominens, the first spinous process felt at the base of the neck, is",
+    "options": ["C1", "C2", "T1", "C7"],
+    "answer": 3,
+    "explanation": "C7 has the long, palpable spinous process called the vertebra prominens."
+  },
+  {
+    "id": "proc-129",
+    "area": "procedures",
+    "topic": "Landmarks",
+    "stem": "The thyroid cartilage is at about the level of",
+    "options": ["C4–C5", "T1", "C1", "T4"],
+    "answer": 0,
+    "explanation": "The thyroid cartilage (Adam's apple) lies at about C4–C5."
+  },
+  {
+    "id": "proc-130",
+    "area": "procedures",
+    "topic": "Landmarks",
+    "stem": "The gonion (angle of the mandible) is at about the level of",
+    "options": ["C1", "C3", "C6", "T1"],
+    "answer": 1,
+    "explanation": "The gonion lies at about C3."
+  },
+  {
+    "id": "proc-131",
+    "area": "procedures",
+    "topic": "Knee",
+    "stem": "For an AP knee on a patient measuring more than 24 cm from ASIS to tabletop, the central ray is directed",
+    "options": ["perpendicular", "5 degrees caudad", "3 to 5 degrees cephalad", "10 degrees caudad"],
+    "answer": 2,
+    "explanation": "Thick thighs tilt the joint; a 3- to 5-degree cephalad angle opens it. Thin patients need a caudad angle, and average ones none."
+  },
+  {
+    "id": "proc-132",
+    "area": "procedures",
+    "topic": "Knee",
+    "stem": "For a lateral knee, the knee is flexed about",
+    "options": ["90 degrees", "5 degrees", "60 degrees", "20 to 30 degrees"],
+    "answer": 3,
+    "explanation": "Slight flexion relaxes the muscles and shows the joint space; more flexion can separate fragments of a fractured patella."
+  },
+  {
+    "id": "proc-133",
+    "area": "procedures",
+    "topic": "Lower extremity",
+    "stem": "Images of a long bone, such as the tibia and fibula, should include",
+    "options": [
+      "both the knee and ankle joints",
+      "only the injured area",
+      "only the joint nearer the injury",
+      "the whole limb from hip to toes"
+    ],
+    "answer": 0,
+    "explanation": "Including both joints shows the whole bone and any related injury at the far end."
+  },
+  {
+    "id": "proc-134",
+    "area": "procedures",
+    "topic": "Foot",
+    "stem": "For an AP projection of the toes, the central ray is often angled",
+    "options": [
+      "perpendicular to the IR",
+      "10 to 15 degrees toward the heel",
+      "25 degrees toward the toes",
+      "45 degrees medially"
+    ],
+    "answer": 1,
+    "explanation": "Angling toward the heel puts the beam perpendicular to the phalanges and opens the joints."
+  },
+  {
+    "id": "proc-135",
+    "area": "procedures",
+    "topic": "Hand",
+    "stem": "The fan lateral projection of the hand spreads the fingers to show the",
+    "options": ["carpals", "metacarpals superimposed", "phalanges without superimposition", "radiocarpal joint"],
+    "answer": 2,
+    "explanation": "Fanning the fingers apart separates the phalanges, which a standard lateral superimposes."
+  }
+]
