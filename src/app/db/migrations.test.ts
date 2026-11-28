@@ -81,6 +81,39 @@ describe('migrate', () => {
     expect(insert).toThrow(/cannot store TEXT value in INTEGER column/)
   })
 
+  it('upgrades a version 2 database without losing exams or attempts (v3: board review)', () => {
+    const d = open()
+    migrate(d, MIGRATIONS.slice(0, 2))
+    d.exec(`
+      INSERT INTO documents (id, sha256, file_name, page_count, pipeline_version, warnings, imported_at, updated_at)
+        VALUES (1, 'abc', 'old.pdf', 3, 1, '[]', '2026-01-01', '2026-01-01');
+      INSERT INTO exams (id, document_id, seed, config, warnings, created_at)
+        VALUES (7, 1, 42, '{"questionCount":1}', '[]', '2026-01-02');
+      INSERT INTO exam_items (exam_id, position, question, option_order) VALUES (7, 0, '{}', NULL);
+      INSERT INTO attempts (id, exam_id, accept_typos, correct, total, started_at, finished_at)
+        VALUES (3, 7, 0, 1, 1, '2026-01-02', '2026-01-02');
+      INSERT INTO attempt_answers (attempt_id, position, question_id, section_label, given, status, correct)
+        VALUES (3, 0, 'q1', 'Chapter 1', 'x', 'correct', 1);
+    `)
+    migrate(d)
+
+    // Rebuilding the exams table must not take its items and attempts with it.
+    const count = (table: string) => (d.prepare(`SELECT COUNT(*) AS n FROM ${table}`).get() as { n: number }).n
+    expect([count('exams'), count('exam_items'), count('attempts'), count('attempt_answers')]).toEqual([1, 1, 1, 1])
+    expect(d.prepare('SELECT mode, document_id FROM exams').get()).toEqual({ mode: 'practice', document_id: 1 })
+    // A study-set exam belongs to no document; foreign keys are enforced again afterwards.
+    d.exec(
+      `INSERT INTO exams (document_id, mode, seed, config, warnings, created_at) VALUES (NULL, 'mock', 1, '{}', '[]', '')`
+    )
+    expect(d.prepare('PRAGMA foreign_keys').get()).toEqual({ foreign_keys: 1 })
+    expect(() => d.exec(`INSERT INTO exam_items (exam_id, position, question) VALUES (999, 0, '{}')`)).toThrow(
+      /FOREIGN KEY/
+    )
+    // And deleting the document still removes its exams, items and attempts.
+    d.exec('DELETE FROM documents')
+    expect([count('exam_items'), count('attempts'), count('attempt_answers')]).toEqual([0, 0, 0])
+  })
+
   it('upgrades a version 1 database without losing its questions (v2: book questions)', () => {
     const d = open()
     migrate(d, MIGRATIONS.slice(0, 1))

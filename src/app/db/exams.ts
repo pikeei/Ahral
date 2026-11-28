@@ -1,3 +1,4 @@
+import type { ContentArea } from '../../core/exam/areas'
 import type { Exam, ExamConfig } from '../../core/exam/assemble'
 import {
   type ExamResult,
@@ -16,30 +17,48 @@ import { transaction } from './sql'
  * (how the user answered them). History across attempts drives weak-topic review.
  */
 
+/** Practice gives feedback after each answer; a mock exam is timed and shows answers at the end. */
+export type ExamMode = 'practice' | 'mock'
+
 export interface StoredExam extends Exam {
   id: number
-  documentId: number
+  /** The document it was drawn from, or null for an exam drawn from the whole study set. */
+  documentId: number | null
+  mode: ExamMode
   createdAt: string
 }
 
-export function saveExam(db: SqlDatabase, documentId: number, exam: Exam): StoredExam {
+export function saveExam(
+  db: SqlDatabase,
+  documentId: number | null,
+  exam: Exam,
+  mode: ExamMode = 'practice'
+): StoredExam {
   return transaction(db, () => {
     const createdAt = new Date().toISOString()
     const { lastInsertRowid } = db
-      .prepare('INSERT INTO exams (document_id, seed, config, warnings, created_at) VALUES (?, ?, ?, ?, ?)')
-      .run(documentId, exam.seed, toJson(exam.config), toJson(exam.warnings), createdAt)
+      .prepare('INSERT INTO exams (document_id, mode, seed, config, warnings, created_at) VALUES (?, ?, ?, ?, ?, ?)')
+      .run(documentId, mode, exam.seed, toJson(exam.config), toJson(exam.warnings), createdAt)
     const id = Number(lastInsertRowid)
     const item = db.prepare('INSERT INTO exam_items (exam_id, position, question, option_order) VALUES (?, ?, ?, ?)')
     exam.items.forEach((it, i) => {
       item.run(id, i, toJson(it.question), it.optionOrder ? toJson(it.optionOrder) : null)
     })
-    return { ...exam, id, documentId, createdAt }
+    return { ...exam, id, documentId, mode, createdAt }
   })
 }
 
 export function loadExam(db: SqlDatabase, id: number): StoredExam | undefined {
   const row = db.prepare('SELECT * FROM exams WHERE id = ?').get(id) as
-    | { id: number; document_id: number; seed: number; config: string; warnings: string; created_at: string }
+    | {
+        id: number
+        document_id: number | null
+        mode: ExamMode
+        seed: number
+        config: string
+        warnings: string
+        created_at: string
+      }
     | undefined
   if (!row) return undefined
   const items = db
@@ -48,6 +67,7 @@ export function loadExam(db: SqlDatabase, id: number): StoredExam | undefined {
   return {
     id: row.id,
     documentId: row.document_id,
+    mode: row.mode,
     seed: row.seed,
     config: fromJson<ExamConfig>(row.config),
     warnings: fromJson<string[]>(row.warnings),
@@ -64,7 +84,7 @@ export interface AttemptInfo {
   startedAt: Date
   finishedAt: Date
   /** The label stored with each answer, e.g. "Imaging Procedures › Answers and Explanations". */
-  sectionLabel: (sectionId: number) => string
+  sectionLabel: (question: Question) => string
 }
 
 export function saveAttempt(db: SqlDatabase, exam: StoredExam, result: ExamResult, info: AttemptInfo): number {
@@ -88,12 +108,21 @@ export function saveAttempt(db: SqlDatabase, exam: StoredExam, result: ExamResul
       )
     const id = Number(lastInsertRowid)
     const answer = db.prepare(
-      `INSERT INTO attempt_answers (attempt_id, position, question_id, section_label, given, status, correct)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`
+      `INSERT INTO attempt_answers (attempt_id, position, question_id, section_label, area, given, status, correct)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
     )
     result.answers.forEach((a, i) => {
-      const sectionId = exam.items[i]?.question.sectionId ?? 0
-      answer.run(id, i, a.questionId, info.sectionLabel(sectionId), a.given, a.status, a.correct ? 1 : 0)
+      const question = exam.items[i]?.question
+      answer.run(
+        id,
+        i,
+        a.questionId,
+        question ? info.sectionLabel(question) : '',
+        question?.area ?? null,
+        a.given,
+        a.status,
+        a.correct ? 1 : 0
+      )
     })
     return id
   })
@@ -166,4 +195,59 @@ export function sectionHistory(db: SqlDatabase, documentId: number): SectionHist
       }
     })
     .sort((a, b) => a.percent - b.percent || a.label.localeCompare(b.label))
+}
+
+export interface AreaHistory extends Tally {
+  area: ContentArea
+}
+
+/** Score per board content area over every attempt in the study set, practice and mock exams alike. */
+export function areaHistory(db: SqlDatabase): AreaHistory[] {
+  const rows = db
+    .prepare(
+      `SELECT area, SUM(correct) AS correct, COUNT(*) AS total
+       FROM attempt_answers WHERE area IS NOT NULL GROUP BY area`
+    )
+    .all() as unknown as { area: ContentArea; correct: number; total: number }[]
+  return rows.map((r) => ({ area: r.area, ...tally(r.correct, r.total) }))
+}
+
+export interface StudyAttempt extends AttemptSummary {
+  mode: ExamMode
+  documentId: number | null
+}
+
+/** Attempts across the whole study set, most recent first. */
+export function listStudyAttempts(db: SqlDatabase, limit = 20): StudyAttempt[] {
+  const rows = db
+    .prepare(
+      `SELECT a.id, a.exam_id, e.seed, e.mode, e.document_id, a.accept_typos, a.correct, a.total,
+              a.started_at, a.finished_at
+       FROM attempts a JOIN exams e ON e.id = a.exam_id
+       ORDER BY a.finished_at DESC, a.id DESC
+       LIMIT ?`
+    )
+    .all(limit) as unknown as {
+    id: number
+    exam_id: number
+    seed: number
+    mode: ExamMode
+    document_id: number | null
+    accept_typos: number
+    correct: number
+    total: number
+    started_at: string
+    finished_at: string
+  }[]
+  return rows.map((r) => ({
+    id: r.id,
+    examId: r.exam_id,
+    seed: r.seed,
+    mode: r.mode,
+    documentId: r.document_id,
+    acceptTypos: r.accept_typos === 1,
+    ...tally(r.correct, r.total),
+    startedAt: r.started_at,
+    finishedAt: r.finished_at
+  }))
 }

@@ -91,6 +91,9 @@ const methods = (s: State): Backend => ({
     sqlite: getSqliteVersion(s.db),
     persistent: s.persistent
   }),
+  getReadiness: (blueprint) => s.service.readiness(blueprint),
+  startStudyExam: (settings) => s.service.startStudyExam(settings),
+  recordAnswer: (examId, position, response) => s.service.record(examId, position, response),
   listDocuments: () => s.service.listDocuments(),
   importPdf: async ({ data, fileName }) => {
     const { fontsUrl, dictionaryUrl } = requireConfig()

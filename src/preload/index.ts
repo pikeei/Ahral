@@ -5,6 +5,10 @@ import { type AhralApi, type ImportProgress, IpcChannels } from '../shared/api'
 // so the UI can only call the operations we explicitly allow.
 const api: AhralApi = {
   getAppInfo: () => ipcRenderer.invoke(IpcChannels.getAppInfo),
+  getReadiness: (blueprint) => ipcRenderer.invoke(IpcChannels.getReadiness, blueprint),
+  startStudyExam: (settings) => ipcRenderer.invoke(IpcChannels.startStudyExam, settings),
+  recordAnswer: (examId, position, response) =>
+    ipcRenderer.invoke(IpcChannels.recordAnswer, examId, position, response),
   listDocuments: () => ipcRenderer.invoke(IpcChannels.listDocuments),
   // The main process opens the system file dialog itself.
   choosesFileInPage: false,

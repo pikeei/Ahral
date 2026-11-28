@@ -1,3 +1,5 @@
+import type { ContentArea } from '../exam/areas'
+
 /** How a question is answered and how it was built. */
 export type QuestionType =
   /** A sentence with one key term blanked out; the answer is typed in. */
@@ -33,6 +35,8 @@ export interface Question {
   termKey: string
   /** 0-1 ranking score; higher means more likely to be a good question. */
   quality: number
+  /** Board exam content area, when it can be told (see core/exam/assign-areas.ts). */
+  area?: ContentArea
 }
 
 /** Where an option comes from: every option is a term defined somewhere in the document. */

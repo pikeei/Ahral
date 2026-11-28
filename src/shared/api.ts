@@ -5,10 +5,14 @@
 // The UI never receives answers before the user has answered: questions are sent
 // without them, and grading happens in the main process.
 
+import type { BlueprintId, ContentArea } from '../core/exam/areas'
 import type { AnswerStatus } from '../core/exam/grade'
 import type { QuestionType } from '../core/generation/types'
 
-export type { AnswerStatus, QuestionType }
+export type { AnswerStatus, BlueprintId, ContentArea, QuestionType }
+
+/** Practice gives feedback after each answer; a mock exam is timed and shows answers at the end. */
+export type ExamMode = 'practice' | 'mock'
 
 export const IpcChannels = {
   getAppInfo: 'app:get-info',
@@ -19,7 +23,10 @@ export const IpcChannels = {
   deleteDocument: 'documents:delete',
   startExam: 'exam:start',
   answerQuestion: 'exam:answer',
-  finishExam: 'exam:finish'
+  finishExam: 'exam:finish',
+  getReadiness: 'study:readiness',
+  startStudyExam: 'study:start',
+  recordAnswer: 'exam:record'
 } as const
 
 export interface AppInfo {
@@ -112,11 +119,17 @@ export interface ExamQuestionView {
   options?: string[]
   page: number
   section: string
+  /** Board content area, when known ("Image Production"). */
+  area?: string
 }
 
 export interface ExamView {
   examId: number
-  documentId: number
+  /** null for an exam drawn from the whole study set. */
+  documentId: number | null
+  mode: ExamMode
+  /** Mock exams only: time allowed, at the real exam's pace. */
+  timeLimitSeconds?: number
   seed: number
   warnings: string[]
   questions: ExamQuestionView[]
@@ -137,7 +150,10 @@ export interface AnswerFeedback {
 
 export interface ExamSummary {
   examId: number
-  documentId: number
+  documentId: number | null
+  mode: ExamMode
+  /** Score per board content area, in the board exam's order. */
+  byArea: SectionScoreView[]
   seed: number
   correct: number
   total: number
@@ -153,6 +169,12 @@ export interface ExamSummary {
 /** The API the preload script exposes to the UI as `window.api`. */
 export interface AhralApi {
   getAppInfo(): Promise<AppInfo>
+  /** Scores by board content area over the whole study set, and what to practise next. */
+  getReadiness(blueprint: BlueprintId): Promise<Readiness>
+  /** Starts a practice session or a mock exam drawn from every imported PDF. */
+  startStudyExam(settings: StudySettings): Promise<ExamView>
+  /** Mock exams: records (or changes) an answer without grading it; grading happens at the end. */
+  recordAnswer(examId: number, position: number, response: ExamResponse): Promise<void>
   listDocuments(): Promise<DocumentSummary[]>
   /**
    * True on the website: the screen shows its own file input and passes the chosen file
@@ -168,4 +190,47 @@ export interface AhralApi {
   startExam(documentId: number, settings: ExamSettings): Promise<ExamView>
   answerQuestion(examId: number, position: number, response: ExamResponse): Promise<AnswerFeedback>
   finishExam(examId: number): Promise<ExamSummary>
+}
+
+/** An exam drawn from every imported PDF together. */
+export interface StudySettings {
+  mode: ExamMode
+  /** Practice only: areas to draw from, all when empty. A mock exam covers all four. */
+  areas: ContentArea[]
+  questionCount: number
+  /** Practice only: question types, all when empty. A mock exam is multiple choice, like the real one. */
+  types: QuestionType[]
+  acceptTypos: boolean
+  /** Which official question counts a mock exam follows. */
+  blueprint: BlueprintId
+  seed?: number
+}
+
+export interface AreaReadiness {
+  area: ContentArea
+  label: string
+  /** Answers given in this area, over all attempts. */
+  correct: number
+  total: number
+  percent: number
+  /** Questions in the study set for this area, and how many of them suit a mock exam. */
+  available: number
+  mockAvailable: number
+  /** Scored questions on the real exam (the chosen blueprint). */
+  onExam: number
+}
+
+export interface StudyAttemptView extends AttemptView {
+  mode: ExamMode
+  /** "Mock exam", "Practice", or the document's name for an exam from one PDF. */
+  label: string
+}
+
+export interface Readiness {
+  areas: AreaReadiness[]
+  /** The area to practise next: the lowest score with enough answers, else the least practised. */
+  weakest: ContentArea | null
+  documentCount: number
+  questionCount: number
+  recent: StudyAttemptView[]
 }

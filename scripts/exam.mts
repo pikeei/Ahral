@@ -119,7 +119,7 @@ async function main(): Promise<void> {
       acceptTypos: gradeOptions.acceptTypos ?? false,
       startedAt,
       finishedAt: new Date(),
-      sectionLabel: labelOf
+      sectionLabel: (q) => labelOf(q.sectionId)
     })
 
     console.log(`\nScore: ${result.correct}/${result.total} (${result.percent}%), answered ${result.answered}`)

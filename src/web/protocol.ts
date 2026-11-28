@@ -1,6 +1,7 @@
 import type {
   AnswerFeedback,
   AppInfo,
+  BlueprintId,
   DocumentDetail,
   DocumentSummary,
   ExamResponse,
@@ -8,7 +9,9 @@ import type {
   ExamSummary,
   ExamView,
   ImportProgress,
-  ImportResponse
+  ImportResponse,
+  Readiness,
+  StudySettings
 } from '../shared/api'
 
 /*
@@ -28,6 +31,9 @@ export interface WorkerConfig {
 /** What the worker can be asked to do: the app's API, with the chosen file passed in. */
 export interface Backend {
   getAppInfo(): AppInfo
+  getReadiness(blueprint: BlueprintId): Readiness
+  startStudyExam(settings: StudySettings): ExamView
+  recordAnswer(examId: number, position: number, response: ExamResponse): void
   listDocuments(): DocumentSummary[]
   importPdf(file: { data: ArrayBuffer; fileName: string }): Promise<ImportResponse>
   getDocument(id: number): DocumentDetail

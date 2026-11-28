@@ -52,6 +52,9 @@ export function createWebApi(config: WorkerConfig): AhralApi {
 
   return {
     getAppInfo: () => call('getAppInfo', []),
+    getReadiness: (blueprint) => call('getReadiness', [blueprint]),
+    startStudyExam: (settings) => call('startStudyExam', [settings]),
+    recordAnswer: (examId, position, response) => call('recordAnswer', [examId, position, response]),
     listDocuments: () => call('listDocuments', []),
     // The library screen shows a real file input (a hidden one opened from code does not
     // open on iPhones, iPads and some Android browsers) and hands the chosen file here.

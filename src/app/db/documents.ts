@@ -1,3 +1,4 @@
+import type { ContentArea } from '../../core/exam/areas'
 import type { GlossaryEntry } from '../../core/exam/grade'
 import type { Option, Question, QuestionType } from '../../core/generation/types'
 import type { Section } from '../../core/pdf/layout-types'
@@ -158,6 +159,7 @@ interface QuestionRow {
   sentence_id: number
   term_key: string
   quality: number
+  area: ContentArea | null
 }
 
 /** In the order the generator produced them. */
@@ -179,7 +181,8 @@ export function loadQuestions(db: SqlDatabase, documentId: number): Question[] {
     sectionId: r.section_id,
     sentenceId: r.sentence_id,
     termKey: r.term_key,
-    quality: r.quality
+    quality: r.quality,
+    ...(r.area === null ? {} : { area: r.area })
   }))
 }
 
@@ -200,8 +203,8 @@ function writeContent(db: SqlDatabase, documentId: number, content: DocumentCont
 
   const question = db.prepare(
     `INSERT INTO questions (document_id, id, position, type, prompt, answer, accepted_answers, options,
-       keep_option_order, explanation, explanation_page, page, section_id, sentence_id, term_key, quality)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+       keep_option_order, explanation, explanation_page, page, section_id, sentence_id, term_key, quality, area)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
   )
   content.questions.forEach((q, i) => {
     question.run(
@@ -220,7 +223,8 @@ function writeContent(db: SqlDatabase, documentId: number, content: DocumentCont
       q.sectionId,
       q.sentenceId,
       q.termKey,
-      q.quality
+      q.quality,
+      q.area ?? null
     )
   })
 }

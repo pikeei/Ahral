@@ -19,7 +19,7 @@ const info = (minute: number) => ({
   acceptTypos: false,
   startedAt: new Date(Date.UTC(2026, 10, 26, 9, minute)),
   finishedAt: new Date(Date.UTC(2026, 10, 26, 9, minute + 5)),
-  sectionLabel: (id: number) => labels.get(id) ?? '?'
+  sectionLabel: (q: { sectionId: number }) => labels.get(q.sectionId) ?? '?'
 })
 
 /** Answers every question right, except those in `wrongSections`. */

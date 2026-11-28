@@ -5,14 +5,17 @@ import type { SqlDatabase } from '../app/db/sql'
 import { getSqliteVersion } from '../app/db/sql'
 import { ExamService } from '../app/exam-service'
 import { importPdf } from '../app/import'
+import { CONTENT_AREAS } from '../core/exam/areas'
 import {
   type AppInfo,
+  type BlueprintId,
   type ExamResponse,
   type ExamSettings,
   type ImportProgress,
   type ImportResponse,
   type ImportStage,
-  IpcChannels
+  IpcChannels,
+  type StudySettings
 } from '../shared/api'
 import { workerPipeline } from './worker-pipeline'
 
@@ -28,6 +31,23 @@ function standardFontDataUrl(): string {
 function id(value: unknown, name = 'id'): number {
   if (typeof value !== 'number' || !Number.isInteger(value) || value < 0) throw new TypeError(`Invalid ${name}`)
   return value
+}
+
+function blueprint(value: unknown): BlueprintId {
+  if (value !== '2022' && value !== '2027') throw new TypeError('Invalid exam version')
+  return value
+}
+
+function study(value: unknown): StudySettings {
+  const s = value as StudySettings
+  if (typeof s !== 'object' || s === null || (s.mode !== 'practice' && s.mode !== 'mock')) {
+    throw new TypeError('Invalid study settings')
+  }
+  id(s.questionCount, 'question count')
+  if (!Array.isArray(s.areas) || !s.areas.every((a) => CONTENT_AREAS.includes(a))) throw new TypeError('Invalid areas')
+  if (!Array.isArray(s.types)) throw new TypeError('Invalid question types')
+  if (s.seed !== undefined) id(s.seed, 'seed')
+  return { ...s, blueprint: blueprint(s.blueprint), acceptTypos: s.acceptTypos === true }
 }
 
 function settings(value: unknown): ExamSettings {
@@ -107,6 +127,13 @@ export function registerIpcHandlers(db: SqlDatabase): void {
 
   ipcMain.handle(IpcChannels.startExam, (_e, documentId: unknown, examSettings: unknown) =>
     service.startExam(id(documentId), settings(examSettings))
+  )
+  ipcMain.handle(IpcChannels.getReadiness, (_e, blueprintId: unknown) => service.readiness(blueprint(blueprintId)))
+  ipcMain.handle(IpcChannels.startStudyExam, (_e, studySettings: unknown) =>
+    service.startStudyExam(study(studySettings))
+  )
+  ipcMain.handle(IpcChannels.recordAnswer, (_e, examId: unknown, position: unknown, answer: unknown) =>
+    service.record(id(examId), id(position, 'position'), response(answer))
   )
   ipcMain.handle(IpcChannels.answerQuestion, (_e, examId: unknown, position: unknown, answer: unknown) =>
     service.answer(id(examId), id(position, 'position'), response(answer))

@@ -1,5 +1,6 @@
 import { analyzeDocument } from '../core/analysis/analyze'
 import { describeQuestionBank, extractQuestionBank, withoutQuestionBank } from '../core/bank/question-bank'
+import { assignAreas } from '../core/exam/assign-areas'
 import { buildGlossary } from '../core/exam/grade'
 import { type ExtractOptions, extractDocument } from '../core/extract'
 import { generateQuestions } from '../core/generation/generate'
@@ -31,6 +32,6 @@ export async function runPipeline(data: Uint8Array, options: PipelineOptions = {
     warnings: bankNote ? [...doc.warnings, bankNote] : doc.warnings,
     sections: doc.sections,
     glossary: buildGlossary(analysis.definitions),
-    questions: [...bank.questions, ...generated.questions]
+    questions: assignAreas(doc, [...bank.questions, ...generated.questions])
   }
 }

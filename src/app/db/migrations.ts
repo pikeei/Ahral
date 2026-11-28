@@ -139,6 +139,32 @@ export const MIGRATIONS: readonly string[] = [
 
   DROP TABLE questions;
   ALTER TABLE questions_v2 RENAME TO questions;
+  `,
+
+  // 3: board review. Questions and answers carry their board content area; an exam has a
+  // mode (practice, or a timed mock exam) and may draw from the whole study set, so it no
+  // longer has to belong to one document. Rebuilt with foreign keys off (see migrate), so
+  // dropping the old exams table doesn't delete the exam items and attempts that point at it.
+  `
+  ALTER TABLE questions ADD COLUMN area TEXT
+    CHECK (area IN ('patient-care', 'safety', 'image-production', 'procedures'));
+  ALTER TABLE attempt_answers ADD COLUMN area TEXT
+    CHECK (area IN ('patient-care', 'safety', 'image-production', 'procedures'));
+
+  CREATE TABLE exams_v3 (
+    id INTEGER PRIMARY KEY,
+    document_id INTEGER REFERENCES documents(id) ON DELETE CASCADE,
+    mode TEXT NOT NULL DEFAULT 'practice' CHECK (mode IN ('practice', 'mock')),
+    seed INTEGER NOT NULL,
+    config TEXT NOT NULL,
+    warnings TEXT NOT NULL,
+    created_at TEXT NOT NULL
+  ) STRICT;
+  INSERT INTO exams_v3 (id, document_id, seed, config, warnings, created_at)
+    SELECT id, document_id, seed, config, warnings, created_at FROM exams;
+  DROP TABLE exams;
+  ALTER TABLE exams_v3 RENAME TO exams;
+  CREATE INDEX exams_by_document ON exams(document_id);
   `
 ]
 
@@ -157,10 +183,20 @@ export function migrate(db: SqlDatabase, migrations: readonly string[] = MIGRATI
       `This database was created by a newer version of Ahral (schema ${current}; this version knows up to ${migrations.length}).`
     )
   }
-  for (let version = current + 1; version <= migrations.length; version++) {
-    transaction(db, () => {
-      db.exec(migrations[version - 1] ?? '')
-      db.exec(`PRAGMA user_version = ${version}`)
-    })
+  if (current === migrations.length) return
+  // SQLite's way to rebuild a table that others refer to: foreign keys off while the steps
+  // run (it can't change inside a transaction), then a check that every reference still holds.
+  db.exec('PRAGMA foreign_keys = OFF')
+  try {
+    for (let version = current + 1; version <= migrations.length; version++) {
+      transaction(db, () => {
+        db.exec(migrations[version - 1] ?? '')
+        db.exec(`PRAGMA user_version = ${version}`)
+      })
+    }
+    const broken = db.prepare('PRAGMA foreign_key_check').all()
+    if (broken.length > 0) throw new Error(`The database upgrade left ${broken.length} broken references`)
+  } finally {
+    db.exec('PRAGMA foreign_keys = ON')
   }
 }
