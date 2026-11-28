@@ -1,0 +1,702 @@
+[
+  {
+    "id": "image-051",
+    "area": "image-production",
+    "topic": "Geometric factors",
+    "stem": "The magnification factor (MF) is calculated as",
+    "options": [
+      "image size divided by object size",
+      "object size divided by image size",
+      "SID multiplied by SOD",
+      "OID divided by SID"
+    ],
+    "answer": 0,
+    "explanation": "MF = image size ÷ object size; it can also be found as SID ÷ SOD."
+  },
+  {
+    "id": "image-052",
+    "area": "image-production",
+    "topic": "Geometric factors",
+    "stem": "A structure measures 15.2 cm on the image, and the magnification factor is 1.3. Its actual size is about",
+    "options": [
+      "19.8 cm",
+      "11.7 cm",
+      "13.9 cm",
+      "9.7 cm"
+    ],
+    "answer": 1,
+    "explanation": "Object size = image size ÷ MF = 15.2 ÷ 1.3 ≈ 11.7 cm."
+  },
+  {
+    "id": "image-053",
+    "area": "image-production",
+    "topic": "Geometric factors",
+    "stem": "An image is made at 40 in SID with an 8-in OID. The magnification factor is",
+    "options": [
+      "0.8",
+      "1.2",
+      "1.25",
+      "5"
+    ],
+    "answer": 2,
+    "explanation": "SOD = 40 − 8 = 32 in, and MF = SID ÷ SOD = 40 ÷ 32 = 1.25."
+  },
+  {
+    "id": "image-054",
+    "area": "image-production",
+    "topic": "Quality control",
+    "stem": "Linearity testing requires that output in mR/mAs be consistent across mA stations to within",
+    "options": [
+      "2%",
+      "4%",
+      "5%",
+      "10%"
+    ],
+    "answer": 3,
+    "explanation": "Linearity tests x-ray output with increasing mAs; mR/mAs must agree to within 10%."
+  },
+  {
+    "id": "image-055",
+    "area": "image-production",
+    "topic": "Quality control",
+    "stem": "Tested with an electronic kV meter, the kilovoltage should be accurate to within",
+    "options": [
+      "±4 kV",
+      "±10 kV",
+      "±1 kV",
+      "±15 kV"
+    ],
+    "answer": 0,
+    "explanation": "Standards call for kV accuracy within ±4 kV of the setting."
+  },
+  {
+    "id": "image-056",
+    "area": "image-production",
+    "topic": "Quality control",
+    "stem": "Reproducibility testing requires that radiation output stay consistent to within",
+    "options": [
+      "±2%",
+      "±5%",
+      "±10%",
+      "±15%"
+    ],
+    "answer": 1,
+    "explanation": "Repeated exposures at the same technique must agree to within ±5%."
+  },
+  {
+    "id": "image-057",
+    "area": "image-production",
+    "topic": "Quality control",
+    "stem": "Collimator accuracy on radiographic equipment should be inspected and verified",
+    "options": [
+      "daily",
+      "weekly",
+      "semiannually (twice a year)",
+      "every five years"
+    ],
+    "answer": 2,
+    "explanation": "Collimators are checked twice a year, and must be accurate to within 2% of the SID."
+  },
+  {
+    "id": "image-058",
+    "area": "image-production",
+    "topic": "Fluoroscopy",
+    "stem": "The input phosphor of an image intensifier is usually made of",
+    "options": [
+      "zinc cadmium sulfide",
+      "barium fluorohalide",
+      "calcium tungstate",
+      "cesium iodide"
+    ],
+    "answer": 3,
+    "explanation": "Cesium iodide absorbs the remnant x-rays efficiently and emits many light photons for each one absorbed."
+  },
+  {
+    "id": "image-059",
+    "area": "image-production",
+    "topic": "Fluoroscopy",
+    "stem": "The gain in brightness that results from the output phosphor being much smaller than the input phosphor is called",
+    "options": [
+      "minification gain",
+      "flux gain",
+      "conversion factor",
+      "automatic brightness control"
+    ],
+    "answer": 0,
+    "explanation": "Concentrating the electron image onto a small output phosphor makes it brighter: minification gain."
+  },
+  {
+    "id": "image-060",
+    "area": "image-production",
+    "topic": "Fluoroscopy",
+    "stem": "The total brightness gain of an image intensifier is",
+    "options": [
+      "minification gain plus flux gain",
+      "minification gain multiplied by flux gain",
+      "flux gain divided by minification gain",
+      "the kVp multiplied by the mA"
+    ],
+    "answer": 1,
+    "explanation": "Brightness gain is the product of minification gain and flux gain."
+  },
+  {
+    "id": "image-061",
+    "area": "image-production",
+    "topic": "Fluoroscopy",
+    "stem": "Switching an image intensifier to magnification mode",
+    "options": [
+      "decreases patient dose",
+      "has no effect on patient dose",
+      "increases patient dose, because the mA is raised automatically",
+      "lowers spatial resolution"
+    ],
+    "answer": 2,
+    "explanation": "Less minification makes the image dimmer, so the mA rises to compensate, and entrance skin exposure can increase sharply."
+  },
+  {
+    "id": "image-062",
+    "area": "image-production",
+    "topic": "Fluoroscopy",
+    "stem": "In magnification mode, the electron focal point inside the image intensifier moves",
+    "options": [
+      "onto the input phosphor",
+      "closer to the output phosphor",
+      "to the anode",
+      "farther from the output phosphor"
+    ],
+    "answer": 3,
+    "explanation": "Higher voltage on the focusing lenses moves the focal point farther from the output phosphor, so the output image is magnified."
+  },
+  {
+    "id": "image-063",
+    "area": "image-production",
+    "topic": "Fluoroscopy",
+    "stem": "Moving the image intensifier closer to the patient during fluoroscopy",
+    "options": [
+      "decreases patient dose and magnification",
+      "increases patient dose",
+      "increases the OID",
+      "has no effect"
+    ],
+    "answer": 0,
+    "explanation": "More photons reach the input phosphor, so the automatic brightness control lowers the mA; the shorter OID also reduces magnification."
+  },
+  {
+    "id": "image-064",
+    "area": "image-production",
+    "topic": "Fluoroscopy",
+    "stem": "The automatic brightness control (ABC) in fluoroscopy",
+    "options": [
+      "collimates the beam",
+      "keeps image brightness constant by adjusting the exposure factors",
+      "measures the patient's skin dose",
+      "sounds an alarm after 5 minutes"
+    ],
+    "answer": 1,
+    "explanation": "As patient thickness changes, the ABC adjusts the mA (and kVp) so the image brightness stays the same."
+  },
+  {
+    "id": "image-065",
+    "area": "image-production",
+    "topic": "Image quality",
+    "stem": "Spatial resolution is measured in",
+    "options": [
+      "mR/mAs",
+      "heat units",
+      "line pairs per millimeter",
+      "kVp"
+    ],
+    "answer": 2,
+    "explanation": "Spatial resolution is expressed in line pairs per millimeter (lp/mm), or by the line-spread or modulation transfer function."
+  },
+  {
+    "id": "image-066",
+    "area": "image-production",
+    "topic": "Image quality",
+    "stem": "Which is desirable in a medical image?",
+    "options": [
+      "A low signal-to-noise ratio",
+      "More noise",
+      "Fewer photons",
+      "A high signal-to-noise ratio"
+    ],
+    "answer": 3,
+    "explanation": "Noise impairs the image, so a high SNR (more signal, less noise) is desirable."
+  },
+  {
+    "id": "image-067",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "In digital imaging, a histogram illustrates the",
+    "options": [
+      "distribution of pixel values",
+      "patient dose",
+      "kVp used",
+      "number of line pairs"
+    ],
+    "answer": 0,
+    "explanation": "The histogram plots how many pixels have each value; the system compares it with a default histogram for each body part."
+  },
+  {
+    "id": "image-068",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "Selecting the wrong body part on a digital system before processing can cause",
+    "options": [
+      "x-ray tube overload",
+      "incorrect histogram analysis and a poorly displayed image",
+      "grid cutoff",
+      "a shorter exposure"
+    ],
+    "answer": 1,
+    "explanation": "Each body part has its own default histogram; the wrong one makes the computer rescale the image incorrectly."
+  },
+  {
+    "id": "image-069",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "In computed radiography, an aliasing (moiré) artifact can occur when",
+    "options": [
+      "the patient moves",
+      "the anode heel effect is strong",
+      "a stationary grid's strip frequency matches the reader's scanning pattern",
+      "a focused grid is upside down"
+    ],
+    "answer": 2,
+    "explanation": "Wavy lines appear when the grid's lead-strip pattern lines up with the sampling pattern of the reader."
+  },
+  {
+    "id": "image-070",
+    "area": "image-production",
+    "topic": "Grids",
+    "stem": "Grid frequency is the",
+    "options": [
+      "height of the strips divided by the interspace",
+      "focusing distance of the grid",
+      "kVp the grid is used with",
+      "number of lead strips per inch (or per centimeter)"
+    ],
+    "answer": 3,
+    "explanation": "Grid frequency counts the lead strips per inch or centimeter; grid ratio is strip height divided by interspace width."
+  },
+  {
+    "id": "image-071",
+    "area": "image-production",
+    "topic": "Grids",
+    "stem": "The focusing distance (grid radius) of a focused grid is",
+    "options": [
+      "the range of SIDs at which the grid can be used",
+      "the height of the lead strips",
+      "the number of strips per inch",
+      "the width of the interspaces"
+    ],
+    "answer": 0,
+    "explanation": "A focused grid works only within a range of distances, where its angled strips line up with the divergent beam."
+  },
+  {
+    "id": "image-072",
+    "area": "image-production",
+    "topic": "Grids",
+    "stem": "With a linear focused grid, centering the central ray off-center lengthwise, along the strips, causes",
+    "options": [
+      "severe cutoff",
+      "no ill effect",
+      "a moiré pattern",
+      "double the patient dose"
+    ],
+    "answer": 1,
+    "explanation": "Off-centering along the strips causes no cutoff; off-centering side to side makes the strips no longer match the beam and causes a loss of exposure."
+  },
+  {
+    "id": "image-073",
+    "area": "image-production",
+    "topic": "Grids",
+    "stem": "With a linear grid, the central ray can be angled without cutoff",
+    "options": [
+      "across the lead strips",
+      "only caudally",
+      "along the length of the lead strips",
+      "in no direction"
+    ],
+    "answer": 2,
+    "explanation": "Angling in the direction of the strips keeps the beam parallel to them; angling across them causes cutoff."
+  },
+  {
+    "id": "image-074",
+    "area": "image-production",
+    "topic": "Scatter control",
+    "stem": "An air gap between the part and the image receptor",
+    "options": [
+      "increases scatter reaching the IR",
+      "works as added filtration",
+      "is a type of AEC",
+      "acts like a grid, because much of the scatter misses the IR"
+    ],
+    "answer": 3,
+    "explanation": "Diverging scatter leaving the body often bypasses the receptor across the gap, an effect similar to a grid."
+  },
+  {
+    "id": "image-075",
+    "area": "image-production",
+    "topic": "Scatter control",
+    "stem": "A chest radiograph with a 6-in air gap is usually made at what SID, to offset magnification?",
+    "options": [
+      "10 ft",
+      "40 in",
+      "72 in",
+      "20 ft"
+    ],
+    "answer": 0,
+    "explanation": "The longer 10-ft SID reduces the magnification that the air gap's added OID would cause."
+  },
+  {
+    "id": "image-076",
+    "area": "image-production",
+    "topic": "X-ray tube",
+    "stem": "The anode heel effect is most noticeable with",
+    "options": [
+      "large target angles",
+      "steep (small) target angles, large IRs and short SIDs",
+      "long SIDs",
+      "small image receptors"
+    ],
+    "answer": 1,
+    "explanation": "Steep anode angles, large fields and short SIDs use more of the beam on the anode side, where the heel absorbs it."
+  },
+  {
+    "id": "image-077",
+    "area": "image-production",
+    "topic": "Beam filtration",
+    "stem": "A compensating (wedge or trough) filter is used to",
+    "options": [
+      "increase image contrast",
+      "absorb scatter leaving the patient",
+      "even out receptor exposure across a part of unequal thickness",
+      "measure the half-value layer"
+    ],
+    "answer": 2,
+    "explanation": "The filter is thicker over the thinner part of the body, such as the toes of the foot, giving uniform exposure."
+  },
+  {
+    "id": "image-078",
+    "area": "image-production",
+    "topic": "X-ray tube",
+    "stem": "As an x-ray tube ages, vaporized tungsten is deposited on the port window and",
+    "options": [
+      "increases tube output",
+      "sharpens the image",
+      "raises the kVp",
+      "acts as a filter, decreasing tube output"
+    ],
+    "answer": 3,
+    "explanation": "The tungsten coating adds filtration, so less radiation leaves the tube."
+  },
+  {
+    "id": "image-079",
+    "area": "image-production",
+    "topic": "Automatic exposure control",
+    "stem": "Using AEC with a field much larger than the part can cause",
+    "options": [
+      "premature termination of the exposure and an underexposed image",
+      "an overexposed image",
+      "grid cutoff",
+      "x-ray tube overload"
+    ],
+    "answer": 0,
+    "explanation": "Excess scatter from the body or tabletop reaches the chamber, which ends the exposure too soon."
+  },
+  {
+    "id": "image-080",
+    "area": "image-production",
+    "topic": "Automatic exposure control",
+    "stem": "If the exposure needed is shorter than the AEC's minimum response time, the image will be",
+    "options": [
+      "underexposed",
+      "overexposed",
+      "unaffected",
+      "blurred by motion"
+    ],
+    "answer": 1,
+    "explanation": "The AEC cannot end the exposure faster than its minimum response time, so a part needing less exposure is overexposed, for example with very high mA."
+  },
+  {
+    "id": "image-081",
+    "area": "image-production",
+    "topic": "Beam filtration",
+    "stem": "Which factors influence the half-value layer of an x-ray beam?",
+    "options": [
+      "mAs and exposure time",
+      "SID and OID",
+      "kV, total filtration and the type of rectification",
+      "focal spot size and grid ratio"
+    ],
+    "answer": 2,
+    "explanation": "Beam quality, and so the HVL, depends on kV, filtration and rectification; mAs changes only the quantity of photons."
+  },
+  {
+    "id": "image-082",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "In the CR reader, the latent image stored on the photostimulable phosphor plate is released by",
+    "options": [
+      "heat",
+      "chemical processing",
+      "an electric charge",
+      "a scanning laser beam"
+    ],
+    "answer": 3,
+    "explanation": "The laser stimulates the phosphor to give off the stored energy as light, which is collected and digitized."
+  },
+  {
+    "id": "image-083",
+    "area": "image-production",
+    "topic": "X-ray tube",
+    "stem": "Applying a large exposure to a cold anode can cause",
+    "options": [
+      "cracking of the anode",
+      "increased tube output",
+      "a smaller focal spot",
+      "a weaker heel effect"
+    ],
+    "answer": 0,
+    "explanation": "Sudden heating of a cold anode can crack it; warming the tube up first prevents this."
+  },
+  {
+    "id": "image-084",
+    "area": "image-production",
+    "topic": "Exposure factors",
+    "stem": "Which combination produces 20 mAs?",
+    "options": [
+      "100 mA at 0.1 s",
+      "200 mA at 0.1 s",
+      "400 mA at 0.25 s",
+      "50 mA at 0.2 s"
+    ],
+    "answer": 1,
+    "explanation": "mAs = mA × time: 200 × 0.1 = 20. The others give 10, 100 and 10 mAs."
+  },
+  {
+    "id": "image-085",
+    "area": "image-production",
+    "topic": "Exposure factors",
+    "stem": "To double the exposure reaching the image receptor without changing kVp, the mAs should be",
+    "options": [
+      "halved",
+      "increased by 15%",
+      "doubled",
+      "quadrupled"
+    ],
+    "answer": 2,
+    "explanation": "Receptor exposure is directly proportional to mAs."
+  },
+  {
+    "id": "image-086",
+    "area": "image-production",
+    "topic": "Technique conversion",
+    "stem": "Changing the SID from 40 in to 72 in requires the mAs to be multiplied by about",
+    "options": [
+      "1.8",
+      "2",
+      "2.5",
+      "3.2"
+    ],
+    "answer": 3,
+    "explanation": "By the direct square law, (72 ÷ 40)² = 1.8² ≈ 3.24."
+  },
+  {
+    "id": "image-087",
+    "area": "image-production",
+    "topic": "Scatter control",
+    "stem": "Raising the kVp, with all else unchanged, generally",
+    "options": [
+      "increases the share of scattered radiation",
+      "decreases scattered radiation",
+      "removes scattered radiation",
+      "has no effect on scatter"
+    ],
+    "answer": 0,
+    "explanation": "Higher-energy photons undergo more Compton scatter relative to photoelectric absorption."
+  },
+  {
+    "id": "image-088",
+    "area": "image-production",
+    "topic": "Scatter control",
+    "stem": "Which situation produces the most scattered radiation?",
+    "options": [
+      "A small field on a thin part",
+      "A large field on a thick part",
+      "Low kVp on a hand",
+      "Tight collimation on a finger"
+    ],
+    "answer": 1,
+    "explanation": "Scatter increases with the volume of tissue irradiated: large fields and thick parts."
+  },
+  {
+    "id": "image-089",
+    "area": "image-production",
+    "topic": "Geometric factors",
+    "stem": "Geometric unsharpness (penumbra) increases with",
+    "options": [
+      "a small focal spot",
+      "a long SID",
+      "a long OID",
+      "a short OID"
+    ],
+    "answer": 2,
+    "explanation": "A large focal spot, a long OID and a short SID all widen the penumbra."
+  },
+  {
+    "id": "image-090",
+    "area": "image-production",
+    "topic": "Geometric factors",
+    "stem": "Angling the central ray along the long axis of a part produces",
+    "options": [
+      "magnification only",
+      "no distortion",
+      "foreshortening",
+      "elongation"
+    ],
+    "answer": 3,
+    "explanation": "Angling the tube elongates the part's image; tilting the part away from the IR foreshortens it."
+  },
+  {
+    "id": "image-091",
+    "area": "image-production",
+    "topic": "Geometric factors",
+    "stem": "Foreshortening of a part on the image occurs when the",
+    "options": [
+      "part is not parallel to the IR",
+      "tube is angled along the part",
+      "SID is long",
+      "focal spot is small"
+    ],
+    "answer": 0,
+    "explanation": "A part tilted relative to the IR is projected shorter than it really is."
+  },
+  {
+    "id": "image-092",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "Widening the window width on a digital display",
+    "options": [
+      "increases contrast",
+      "decreases contrast (more shades of gray)",
+      "makes the image brighter",
+      "reduces noise"
+    ],
+    "answer": 1,
+    "explanation": "A wider window spreads more gray values across the display, giving lower contrast; window level controls brightness."
+  },
+  {
+    "id": "image-093",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "As the bit depth of a digital system increases, it can display",
+    "options": [
+      "fewer shades of gray",
+      "larger pixels",
+      "more shades of gray",
+      "a higher kVp"
+    ],
+    "answer": 2,
+    "explanation": "Gray-scale range is measured in bits; the greater the number of bits, the more shades of gray."
+  },
+  {
+    "id": "image-094",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "In a flat-panel detector, the signal for each pixel is collected by a",
+    "options": [
+      "photomultiplier tube",
+      "photostimulable phosphor plate",
+      "scanning laser",
+      "detector element (DEL) with a thin-film transistor"
+    ],
+    "answer": 3,
+    "explanation": "Each detector element has its own thin-film transistor that sends its charge to be read out."
+  },
+  {
+    "id": "image-095",
+    "area": "image-production",
+    "topic": "Digital imaging",
+    "stem": "A charge-coupled device (CCD) converts",
+    "options": [
+      "light into an electric signal",
+      "x-rays into heat",
+      "electrons into x-rays",
+      "an electric signal into film density"
+    ],
+    "answer": 0,
+    "explanation": "CCDs read the light from a scintillator or output phosphor and turn it into an electric signal."
+  },
+  {
+    "id": "image-096",
+    "area": "image-production",
+    "topic": "Grids",
+    "stem": "Compared with a low-ratio grid, a high-ratio grid",
+    "options": [
+      "allows more positioning latitude",
+      "requires more accurate centering and leveling",
+      "removes less scatter",
+      "needs less exposure"
+    ],
+    "answer": 1,
+    "explanation": "Taller strips cut off the beam more easily, so centering, leveling and distance must be more exact."
+  },
+  {
+    "id": "image-097",
+    "area": "image-production",
+    "topic": "Grids",
+    "stem": "A parallel (nonfocused) grid used at a short SID causes",
+    "options": [
+      "a moiré pattern",
+      "cutoff in the center",
+      "cutoff toward the edges",
+      "no effect"
+    ],
+    "answer": 2,
+    "explanation": "Divergent rays at the edges strike the parallel strips at an angle and are absorbed."
+  },
+  {
+    "id": "image-098",
+    "area": "image-production",
+    "topic": "Grids",
+    "stem": "A reciprocating (moving) grid is used to",
+    "options": [
+      "remove more scatter than a stationary grid",
+      "lower the patient dose",
+      "allow angulation across the strips",
+      "blur the grid lines so they do not show on the image"
+    ],
+    "answer": 3,
+    "explanation": "Moving the grid during the exposure blurs out the lead-strip lines."
+  },
+  {
+    "id": "image-099",
+    "area": "image-production",
+    "topic": "Scatter control",
+    "stem": "The lead foil on the back of an image receptor prevents",
+    "options": [
+      "backscatter from fogging the image",
+      "grid cutoff",
+      "quantum mottle",
+      "the heel effect"
+    ],
+    "answer": 0,
+    "explanation": "Radiation scattered back from the table or wall behind the receptor is absorbed by the lead backing."
+  },
+  {
+    "id": "image-100",
+    "area": "image-production",
+    "topic": "Contrast",
+    "stem": "Barium and iodine contrast agents absorb more x-rays than soft tissue, so they appear",
+    "options": [
+      "dark (radiolucent)",
+      "light (radiopaque)",
+      "the same as soft tissue",
+      "only on digital images"
+    ],
+    "answer": 1,
+    "explanation": "Their high atomic numbers make them radiopaque, so the structures they fill appear light."
+  }
+]
