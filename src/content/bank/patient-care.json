@@ -1,0 +1,547 @@
+[
+  {
+    "id": "care-001",
+    "area": "patient-care",
+    "topic": "Legal and ethics",
+    "stem": "Before an invasive procedure, valid informed consent requires that the patient be",
+    "options": [
+      "of legal age and mentally competent",
+      "accompanied by a family member",
+      "sedated before signing",
+      "examined by two physicians"
+    ],
+    "answer": 0,
+    "explanation": "Only a patient who is of legal age and mentally competent can give informed consent, and only after the procedure, its risks and its alternatives are explained."
+  },
+  {
+    "id": "care-002",
+    "area": "patient-care",
+    "topic": "Legal and ethics",
+    "stem": "The legal doctrine meaning \"the thing speaks for itself\" is",
+    "options": ["respondeat superior", "res ipsa loquitur", "primum non nocere", "res judicata"],
+    "answer": 1,
+    "explanation": "Under res ipsa loquitur the injury itself shows negligence, for example a burn from equipment, so the defendant must prove there was none."
+  },
+  {
+    "id": "care-003",
+    "area": "patient-care",
+    "topic": "Legal and ethics",
+    "stem": "The doctrine that holds an employer responsible for the negligent acts of an employee is",
+    "options": ["res ipsa loquitur", "corporate negligence", "respondeat superior", "informed consent"],
+    "answer": 2,
+    "explanation": "Respondeat superior, \"let the master answer\", makes the employer liable for what employees do in the course of their work."
+  },
+  {
+    "id": "care-004",
+    "area": "patient-care",
+    "topic": "Legal and ethics",
+    "stem": "Touching a patient without consent, such as radiographing the wrong patient, may be charged as",
+    "options": ["libel", "slander", "assault", "battery"],
+    "answer": 3,
+    "explanation": "Battery is unlawful touching of a person without consent. Assault is the threat of harm that makes the person fear it."
+  },
+  {
+    "id": "care-005",
+    "area": "patient-care",
+    "topic": "Legal and ethics",
+    "stem": "Threatening a patient so that the patient fears being harmed is",
+    "options": ["assault", "battery", "false imprisonment", "invasion of privacy"],
+    "answer": 0,
+    "explanation": "Assault is the threat of touching in a harmful way; actual touching without consent is battery."
+  },
+  {
+    "id": "care-006",
+    "area": "patient-care",
+    "topic": "Legal and ethics",
+    "stem": "Keeping a competent patient from leaving, or restraining the patient without need, can be charged as",
+    "options": ["battery", "false imprisonment", "defamation", "negligence"],
+    "answer": 1,
+    "explanation": "Unjustified restraint or confinement of a patient is false imprisonment."
+  },
+  {
+    "id": "care-007",
+    "area": "patient-care",
+    "topic": "Legal and ethics",
+    "stem": "The federal law that protects the privacy of a patient's health information is",
+    "options": ["OSHA", "the Patient Self-Determination Act", "HIPAA", "the Americans with Disabilities Act"],
+    "answer": 2,
+    "explanation": "HIPAA, the Health Insurance Portability and Accountability Act, protects the confidentiality of patient health information."
+  },
+  {
+    "id": "care-008",
+    "area": "patient-care",
+    "topic": "Legal and ethics",
+    "stem": "A written document in which a patient states which treatments to give or refuse if the patient can no longer decide is a",
+    "options": ["consent form", "incident report", "requisition", "advance directive"],
+    "answer": 3,
+    "explanation": "Advance directives such as a living will or a health care power of attorney record the patient's wishes in advance."
+  },
+  {
+    "id": "care-009",
+    "area": "patient-care",
+    "topic": "Infection control",
+    "stem": "In aseptic technique, the most important precaution is",
+    "options": ["handwashing", "wearing a mask", "isolating every patient", "using sterile gloves for all patients"],
+    "answer": 0,
+    "explanation": "Washing the hands thoroughly after each patient breaks the chain of infection more than any other measure."
+  },
+  {
+    "id": "care-010",
+    "area": "patient-care",
+    "topic": "Infection control",
+    "stem": "After caring for a patient with Clostridium difficile, the radiographer should clean the hands with",
+    "options": ["an alcohol-based hand sanitizer", "soap and water", "a dry towel", "an antiseptic wipe only"],
+    "answer": 1,
+    "explanation": "Alcohol-based sanitizers do not destroy C. difficile spores; hands must be washed with soap and water."
+  },
+  {
+    "id": "care-011",
+    "area": "patient-care",
+    "topic": "Infection control",
+    "stem": "Patients with MRSA or Clostridium difficile need which type of transmission-based precautions?",
+    "options": ["Airborne", "Droplet", "Contact", "Reverse (protective)"],
+    "answer": 2,
+    "explanation": "Diseases spread by direct or close contact, such as MRSA and C. difficile, require contact precautions with gloves and gown."
+  },
+  {
+    "id": "care-012",
+    "area": "patient-care",
+    "topic": "Infection control",
+    "stem": "A patient with active tuberculosis requires airborne precautions, including",
+    "options": [
+      "gloves only",
+      "a surgical mask for the radiographer only",
+      "a gown and gloves only",
+      "a respirator mask and a negative-pressure room"
+    ],
+    "answer": 3,
+    "explanation": "Tuberculosis spreads through airborne droplet nuclei, so staff wear an N95 respirator and the patient is kept in a negative-pressure room."
+  },
+  {
+    "id": "care-013",
+    "area": "patient-care",
+    "topic": "Infection control",
+    "stem": "Influenza and mumps spread through large particles in coughs and sneezes. They require",
+    "options": ["droplet precautions", "airborne precautions", "contact precautions", "no precautions"],
+    "answer": 0,
+    "explanation": "Diseases spread by large droplets require droplet precautions: a mask when working close to the patient."
+  },
+  {
+    "id": "care-014",
+    "area": "patient-care",
+    "topic": "Infection control",
+    "stem": "An infection acquired while a patient is in the hospital is called",
+    "options": ["iatrogenic", "nosocomial", "endemic", "opportunistic"],
+    "answer": 1,
+    "explanation": "A nosocomial, or health care-associated, infection is one the patient acquires in the health care facility."
+  },
+  {
+    "id": "care-015",
+    "area": "patient-care",
+    "topic": "Infection control",
+    "stem": "Standard precautions are taken to avoid contact with",
+    "options": [
+      "only the blood of patients known to be infected",
+      "airborne particles only",
+      "any blood or body fluids",
+      "only urine and feces"
+    ],
+    "answer": 2,
+    "explanation": "Standard precautions treat the blood and body fluids of every patient as potentially infectious, whatever the diagnosis."
+  },
+  {
+    "id": "care-016",
+    "area": "patient-care",
+    "topic": "Infection control",
+    "stem": "After an injection, a used needle should be",
+    "options": [
+      "recapped with both hands",
+      "bent before disposal",
+      "placed in the regular trash",
+      "discarded uncapped in a sharps container"
+    ],
+    "answer": 3,
+    "explanation": "Needles are never recapped by hand; they go straight into a puncture-resistant sharps container to prevent needlestick injuries."
+  },
+  {
+    "id": "care-017",
+    "area": "patient-care",
+    "topic": "Aseptic technique",
+    "stem": "On a sterile field, which part of a sterile gown is considered sterile?",
+    "options": [
+      "The front from the chest to the waist, and the sleeves",
+      "The back of the gown",
+      "The entire gown",
+      "The area below the waist"
+    ],
+    "answer": 0,
+    "explanation": "Only the front of the gown from chest to waist level and the sleeves are considered sterile; the back and anything below the waist are not."
+  },
+  {
+    "id": "care-018",
+    "area": "patient-care",
+    "topic": "Aseptic technique",
+    "stem": "Medical asepsis aims to",
+    "options": [
+      "destroy all microorganisms and spores",
+      "reduce the number and spread of microorganisms",
+      "keep an area free of all microorganisms",
+      "sterilize equipment with steam"
+    ],
+    "answer": 1,
+    "explanation": "Medical asepsis (clean technique) reduces microorganisms and their spread. Surgical asepsis keeps an area completely free of them."
+  },
+  {
+    "id": "care-019",
+    "area": "patient-care",
+    "topic": "Vital signs",
+    "stem": "An adult respiratory rate greater than 20 breaths per minute is called",
+    "options": ["bradypnea", "apnea", "tachypnea", "orthopnea"],
+    "answer": 2,
+    "explanation": "Tachypnea is an abnormally fast breathing rate, above about 20 breaths per minute in an adult."
+  },
+  {
+    "id": "care-020",
+    "area": "patient-care",
+    "topic": "Vital signs",
+    "stem": "The normal resting pulse rate for an adult is",
+    "options": [
+      "40 to 60 beats per minute",
+      "100 to 140 beats per minute",
+      "120 to 160 beats per minute",
+      "60 to 100 beats per minute"
+    ],
+    "answer": 3,
+    "explanation": "A normal adult pulse is 60 to 100 beats per minute; above 100 is tachycardia and below 60 is bradycardia."
+  },
+  {
+    "id": "care-021",
+    "area": "patient-care",
+    "topic": "Vital signs",
+    "stem": "The pulse most often taken at the wrist is the",
+    "options": ["radial pulse", "carotid pulse", "femoral pulse", "apical pulse"],
+    "answer": 0,
+    "explanation": "The radial artery at the wrist is the usual site for taking a pulse."
+  },
+  {
+    "id": "care-022",
+    "area": "patient-care",
+    "topic": "Vital signs",
+    "stem": "In a blood pressure reading, the systolic pressure is the pressure",
+    "options": ["while the heart relaxes", "while the ventricles contract", "in the veins", "in the lungs"],
+    "answer": 1,
+    "explanation": "Systolic pressure is the peak pressure during ventricular contraction; diastolic is the pressure while the heart relaxes."
+  },
+  {
+    "id": "care-023",
+    "area": "patient-care",
+    "topic": "Vital signs",
+    "stem": "The pulse taken with a stethoscope at the apex of the heart, and considered the most accurate, is the",
+    "options": ["radial pulse", "carotid pulse", "apical pulse", "popliteal pulse"],
+    "answer": 2,
+    "explanation": "The apical pulse is heard at the apex of the heart with a stethoscope and is the most accurate. The radial pulse is used most often."
+  },
+  {
+    "id": "care-024",
+    "area": "patient-care",
+    "topic": "Vital signs",
+    "stem": "A bluish color of the skin and lips that shows a lack of oxygen is",
+    "options": ["jaundice", "erythema", "pallor", "cyanosis"],
+    "answer": 3,
+    "explanation": "Cyanosis is a bluish discoloration caused by poorly oxygenated blood."
+  },
+  {
+    "id": "care-025",
+    "area": "patient-care",
+    "topic": "Vital signs",
+    "stem": "Difficult or labored breathing is called",
+    "options": ["dyspnea", "apnea", "eupnea", "hypopnea"],
+    "answer": 0,
+    "explanation": "Dyspnea means difficult breathing; apnea is the absence of breathing and eupnea is normal breathing."
+  },
+  {
+    "id": "care-026",
+    "area": "patient-care",
+    "topic": "Contrast media",
+    "stem": "Which blood tests should be checked before injecting an iodinated contrast agent to assess kidney function?",
+    "options": [
+      "Hemoglobin and hematocrit",
+      "BUN and creatinine",
+      "Glucose and potassium",
+      "Platelets and prothrombin time"
+    ],
+    "answer": 1,
+    "explanation": "Raised BUN or creatinine warns of a higher risk of contrast-induced kidney effects and poor visualization."
+  },
+  {
+    "id": "care-027",
+    "area": "patient-care",
+    "topic": "Contrast media",
+    "stem": "The normal range for blood creatinine is",
+    "options": ["8 to 25 mg/dL", "70 to 110 mg/dL", "0.6 to 1.5 mg/dL", "3.5 to 5.0 mg/dL"],
+    "answer": 2,
+    "explanation": "Normal creatinine is about 0.6 to 1.5 mg/dL; higher values point to reduced kidney function."
+  },
+  {
+    "id": "care-028",
+    "area": "patient-care",
+    "topic": "Contrast media",
+    "stem": "A patient taking metformin for type 2 diabetes receives intravascular iodinated contrast. Metformin is usually withheld after the exam for",
+    "options": ["2 hours", "6 hours", "1 week", "48 hours"],
+    "answer": 3,
+    "explanation": "Iodinated contrast can impair kidney function and, with metformin, cause lactic acidosis; the drug is withheld for 48 hours afterward."
+  },
+  {
+    "id": "care-029",
+    "area": "patient-care",
+    "topic": "Contrast media",
+    "stem": "Compared with ionic contrast agents, nonionic iodinated contrast agents",
+    "options": [
+      "have lower osmolality and cause fewer reactions",
+      "have higher osmolality and cause more reactions",
+      "contain no iodine",
+      "cannot be injected intravenously"
+    ],
+    "answer": 0,
+    "explanation": "Nonionic agents do not dissociate into ions, so their osmolality is lower and adverse reactions are less frequent."
+  },
+  {
+    "id": "care-030",
+    "area": "patient-care",
+    "topic": "Contrast media",
+    "stem": "If a bowel perforation is suspected, the contrast agent of choice for the GI tract is",
+    "options": ["barium sulfate", "water-soluble iodinated contrast", "air alone", "oil-based iodinated contrast"],
+    "answer": 1,
+    "explanation": "Barium leaking into the peritoneal cavity can have serious consequences, so a water-soluble iodinated agent is used instead."
+  },
+  {
+    "id": "care-031",
+    "area": "patient-care",
+    "topic": "Contrast media",
+    "stem": "A vascular reaction with dilated capillaries and edema that makes the patient break out in hives is",
+    "options": ["epistaxis", "erythema", "urticaria", "syncope"],
+    "answer": 2,
+    "explanation": "Urticaria is the medical term for hives. It can be part of an allergic reaction to contrast, so the patient must be watched closely."
+  },
+  {
+    "id": "care-032",
+    "area": "patient-care",
+    "topic": "Contrast media",
+    "stem": "Contrast agent leaking from a vein into the surrounding tissue is called",
+    "options": ["infiltration of the artery", "embolism", "phlebitis", "extravasation"],
+    "answer": 3,
+    "explanation": "Extravasation is leakage of the injected agent into the tissues around the vein; the injection is stopped."
+  },
+  {
+    "id": "care-033",
+    "area": "patient-care",
+    "topic": "Medical emergencies",
+    "stem": "The drug used first to treat anaphylaxis is",
+    "options": ["epinephrine", "insulin", "atropine", "heparin"],
+    "answer": 0,
+    "explanation": "Epinephrine reverses the bronchospasm and vasodilation of anaphylaxis."
+  },
+  {
+    "id": "care-034",
+    "area": "patient-care",
+    "topic": "Medical emergencies",
+    "stem": "Shock caused by a severe loss of blood or body fluids is",
+    "options": ["cardiogenic shock", "hypovolemic shock", "septic shock", "neurogenic shock"],
+    "answer": 1,
+    "explanation": "Hypovolemic shock results from reduced blood volume, for example after hemorrhage."
+  },
+  {
+    "id": "care-035",
+    "area": "patient-care",
+    "topic": "Medical emergencies",
+    "stem": "Which group of signs suggests a patient is going into shock?",
+    "options": [
+      "Flushed skin, slow strong pulse, high blood pressure",
+      "Fever, slow breathing, high blood pressure",
+      "Pale cool skin, rapid weak pulse, falling blood pressure",
+      "Warm dry skin, normal pulse, normal blood pressure"
+    ],
+    "answer": 2,
+    "explanation": "Shock reduces blood flow to tissues, giving pallor, clammy skin, a rapid weak pulse and a drop in blood pressure."
+  },
+  {
+    "id": "care-036",
+    "area": "patient-care",
+    "topic": "Medical emergencies",
+    "stem": "A diabetic patient who has not eaten becomes shaky, sweaty and confused. This suggests hypoglycemia, which is treated by",
+    "options": [
+      "giving insulin",
+      "laying the patient flat and giving nothing",
+      "giving oxygen only",
+      "giving a source of sugar, such as orange juice"
+    ],
+    "answer": 3,
+    "explanation": "Low blood sugar (an insulin reaction) is corrected with a fast source of sugar if the patient can swallow."
+  },
+  {
+    "id": "care-037",
+    "area": "patient-care",
+    "topic": "Medical emergencies",
+    "stem": "During a seizure, the radiographer should",
+    "options": [
+      "protect the patient from injury and not restrain the patient",
+      "put a tongue blade in the patient's mouth",
+      "hold the patient's limbs still",
+      "give the patient water"
+    ],
+    "answer": 0,
+    "explanation": "Keep the patient from injury, do not force anything into the mouth and do not restrain the movements."
+  },
+  {
+    "id": "care-038",
+    "area": "patient-care",
+    "topic": "Medical emergencies",
+    "stem": "Adult CPR begins with how many external chest compressions before the airway is opened?",
+    "options": ["5", "30", "50", "100"],
+    "answer": 1,
+    "explanation": "Adult CPR begins with 30 chest compressions; then the airway is opened with the head-tilt, chin-lift maneuver."
+  },
+  {
+    "id": "care-039",
+    "area": "patient-care",
+    "topic": "Medical emergencies",
+    "stem": "The most commonly used method of low-flow oxygen delivery is the",
+    "options": ["non-rebreathing mask", "ventilator", "nasal cannula", "oxygen tent"],
+    "answer": 2,
+    "explanation": "The nasal cannula delivers low-flow oxygen and lets the patient eat and talk, which a mask does not."
+  },
+  {
+    "id": "care-040",
+    "area": "patient-care",
+    "topic": "Medical emergencies",
+    "stem": "A patient with emphysema receiving oxygen is usually given",
+    "options": ["a very high flow rate", "pure oxygen by mask", "no oxygen at all", "a very slow flow rate"],
+    "answer": 3,
+    "explanation": "Breathing in emphysema patients is driven by the level of carbon dioxide in the blood, so oxygen is given at a low flow rate."
+  },
+  {
+    "id": "care-041",
+    "area": "patient-care",
+    "topic": "Patient transfer",
+    "stem": "Before moving a patient from a wheelchair to the x-ray table, the radiographer should first",
+    "options": [
+      "lock the wheelchair's wheels",
+      "raise the footrests last",
+      "remove the patient's shoes",
+      "lower the table to the floor"
+    ],
+    "answer": 0,
+    "explanation": "Locking the wheels keeps the chair from rolling during the transfer."
+  },
+  {
+    "id": "care-042",
+    "area": "patient-care",
+    "topic": "Patient transfer",
+    "stem": "When a patient with weakness on one side moves from a wheelchair to the table, the patient should",
+    "options": [
+      "lead with the weaker side",
+      "lead with the stronger side",
+      "be lifted by one person",
+      "stand without support"
+    ],
+    "answer": 1,
+    "explanation": "Moving toward the stronger side lets the patient bear weight on the strong leg and helps keep the patient steady."
+  },
+  {
+    "id": "care-043",
+    "area": "patient-care",
+    "topic": "Body mechanics",
+    "stem": "Good body mechanics when lifting a heavy object include",
+    "options": [
+      "bending at the waist with straight legs",
+      "holding the object at arm's length",
+      "a wide base of support and bent knees, with the object held close",
+      "twisting while lifting"
+    ],
+    "answer": 2,
+    "explanation": "A wide base, bent knees and holding the load close to the body use the strong leg muscles and protect the back."
+  },
+  {
+    "id": "care-044",
+    "area": "patient-care",
+    "topic": "Patient positioning",
+    "stem": "In the Trendelenburg position, the patient lies",
+    "options": [
+      "with the head raised",
+      "on the left side",
+      "prone with the feet raised",
+      "supine with the head lower than the feet"
+    ],
+    "answer": 3,
+    "explanation": "In Trendelenburg the table is tilted so the head is lower than the feet."
+  },
+  {
+    "id": "care-045",
+    "area": "patient-care",
+    "topic": "Patient positioning",
+    "stem": "A supine patient whose head end is raised is in",
+    "options": ["Fowler position", "Trendelenburg position", "lithotomy position", "prone position"],
+    "answer": 0,
+    "explanation": "In Fowler position the head end of the table or bed is raised."
+  },
+  {
+    "id": "care-046",
+    "area": "patient-care",
+    "topic": "Tubes and lines",
+    "stem": "A chest tube's drainage collection unit should be kept",
+    "options": [
+      "above the level of the chest",
+      "below the level of the chest",
+      "on the patient's abdomen",
+      "clamped during the exam"
+    ],
+    "answer": 1,
+    "explanation": "Keeping the unit below the chest prevents fluid from flowing back into the pleural space."
+  },
+  {
+    "id": "care-047",
+    "area": "patient-care",
+    "topic": "Tubes and lines",
+    "stem": "A urinary drainage bag should be positioned",
+    "options": [
+      "on the patient's abdomen",
+      "at shoulder level",
+      "below the level of the bladder",
+      "above the level of the bladder"
+    ],
+    "answer": 2,
+    "explanation": "The bag is kept below the bladder so urine cannot flow back and cause infection."
+  },
+  {
+    "id": "care-048",
+    "area": "patient-care",
+    "topic": "Medications",
+    "stem": "Giving a drug by injection rather than through the digestive tract is called the",
+    "options": ["enteral route", "oral route", "sublingual route", "parenteral route"],
+    "answer": 3,
+    "explanation": "Parenteral routes bypass the digestive tract: intravenous, intramuscular, subcutaneous and intradermal."
+  },
+  {
+    "id": "care-049",
+    "area": "patient-care",
+    "topic": "Medications",
+    "stem": "The vein most often used for venipuncture to inject contrast is in the",
+    "options": ["antecubital fossa", "popliteal fossa", "neck", "foot"],
+    "answer": 0,
+    "explanation": "Veins of the antecubital fossa, at the bend of the elbow, are large and easy to reach."
+  },
+  {
+    "id": "care-050",
+    "area": "patient-care",
+    "topic": "Vital signs",
+    "stem": "The normal respiratory rate for a resting adult is",
+    "options": [
+      "8 to 12 breaths per minute",
+      "12 to 20 breaths per minute",
+      "20 to 30 breaths per minute",
+      "30 to 40 breaths per minute"
+    ],
+    "answer": 1,
+    "explanation": "A resting adult normally breathes 12 to 20 times a minute; faster than 20 is tachypnea."
+  }
+]
